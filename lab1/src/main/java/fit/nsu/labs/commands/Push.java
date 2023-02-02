@@ -17,7 +17,6 @@ public class Push extends Command {
 
     @Override
     public void execute(Context context) throws InvalidCommandArgument {
-        System.out.println(getCommandName());
 
         if (getArgs().length != 1) {
             throw new InvalidCommandArgument(this.getClass().getName(), "size");
@@ -25,7 +24,7 @@ public class Push extends Command {
 
         var arg = getArgs()[0];
         try {
-            context.getStack().add(Integer.parseInt(arg));
+            context.getStack().push(Integer.parseInt(arg));
         } catch (NumberFormatException e) {
             if (!context.getDefines().containsKey(arg)) {
                 throw new InvalidCommandArgument(this.getClass().getName());

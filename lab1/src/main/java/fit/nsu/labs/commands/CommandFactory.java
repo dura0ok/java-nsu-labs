@@ -22,6 +22,9 @@ public class CommandFactory {
 
     private void fillCommandsSources(BufferedReader dataReader) throws IOException {
         for (String line = dataReader.readLine(); line != null; line = dataReader.readLine()) {
+            if (line.chars().filter(ch -> ch == '@').count() != 1) {
+                throw new RuntimeException("Invalid Config");
+            }
             String[] tokens = line.split("@");
             String name = tokens[0];
             String commandPath = tokens[1];

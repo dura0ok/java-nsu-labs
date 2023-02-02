@@ -19,4 +19,6 @@ public abstract class Command {
     }
 
     abstract public void execute(Context context) throws InvalidCommandArgument;
+
+
 }

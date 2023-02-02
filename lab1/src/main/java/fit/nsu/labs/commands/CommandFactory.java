@@ -1,12 +1,12 @@
 package fit.nsu.labs.commands;
 
-import fit.nsu.labs.Main;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class CommandFactory {
 
@@ -31,10 +31,10 @@ public class CommandFactory {
 
     public Command createCommand(String name, String[] args) throws ClassNotFoundException, NoSuchMethodException,
             InvocationTargetException, InstantiationException, IllegalAccessException {
-        try{
+        try {
             Class<?> c = Class.forName(commandsSources.get(name));
             return (Command) c.getConstructor(String[].class).newInstance((Object) args);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             throw new RuntimeException("can`t find class by name " + name);
         }
     }

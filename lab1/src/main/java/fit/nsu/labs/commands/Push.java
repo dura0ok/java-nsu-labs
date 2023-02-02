@@ -3,12 +3,7 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.Context;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-public class Push extends Command{
-
-    @Override
-    public String getCommandName() {
-        return "push";
-    }
+public class Push extends Command {
 
     public Push(String[] inputArgs) {
         super(inputArgs);
@@ -16,18 +11,23 @@ public class Push extends Command{
     }
 
     @Override
+    public String getCommandName() {
+        return "push";
+    }
+
+    @Override
     public void execute(Context context) throws InvalidCommandArgument {
         System.out.println(getCommandName());
 
-        if(getArgs().length != 1){
+        if (getArgs().length != 1) {
             throw new InvalidCommandArgument(this.getClass().getName(), "size");
         }
 
         var arg = getArgs()[0];
-        try{
+        try {
             context.getStack().add(Integer.parseInt(arg));
-        }catch (NumberFormatException e){
-            if(!context.getDefines().containsKey(arg)){
+        } catch (NumberFormatException e) {
+            if (!context.getDefines().containsKey(arg)) {
                 throw new InvalidCommandArgument(this.getClass().getName());
             }
 

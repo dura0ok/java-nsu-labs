@@ -1,7 +1,9 @@
 package fit.nsu.labs;
+
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
+
 public class Context {
 
 
@@ -10,7 +12,7 @@ public class Context {
 
     private final Map<String, Integer> defines;
 
-    Context(){
+    Context() {
         defines = new HashMap<>();
         stack = new ArrayDeque<>();
     }
@@ -22,9 +24,6 @@ public class Context {
     public Map<String, Integer> getDefines() {
         return defines;
     }
-
-
-
 
 
 }

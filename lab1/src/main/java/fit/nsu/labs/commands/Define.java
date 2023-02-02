@@ -3,12 +3,7 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.Context;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-public class Define extends Command{
-
-    @Override
-    public String getCommandName() {
-        return "define";
-    }
+public class Define extends Command {
 
     public Define(String[] inputArgs) {
         super(inputArgs);
@@ -16,9 +11,14 @@ public class Define extends Command{
     }
 
     @Override
+    public String getCommandName() {
+        return "define";
+    }
+
+    @Override
     public void execute(Context context) throws InvalidCommandArgument {
 
-        if(getArgs().length != 2){
+        if (getArgs().length != 2) {
             throw new InvalidCommandArgument(this.getClass().getName(), "size");
         }
 

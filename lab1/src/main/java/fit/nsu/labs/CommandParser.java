@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 public class CommandParser {
     BufferedReader in;
+
     public CommandParser(InputStream input) {
         in = new BufferedReader(new InputStreamReader(input));
 
@@ -25,7 +26,7 @@ public class CommandParser {
 
         for (String line = in.readLine(); line != null; line = in.readLine()) {
             line = line.trim();
-            if(line.startsWith("#") || line.isEmpty()){
+            if (line.startsWith("#") || line.isEmpty()) {
                 continue;
             }
             String[] tokens = line.split("\\s+");

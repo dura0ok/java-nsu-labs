@@ -1,26 +1,25 @@
 package fit.nsu.labs;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
-        try{
+        try {
             InputStream input = System.in;
-            if(args.length > 1){
+            if (args.length > 1) {
                 throw new RuntimeException(
                         "you can add only 1 file to read from or you can not choose file and use stdin"
                 );
             }
 
-            if (args.length == 1){
+            if (args.length == 1) {
                 input = Files.newInputStream(Paths.get(args[0]));
             }
 
             CalcEvaluator calc = new CalcEvaluator(input);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

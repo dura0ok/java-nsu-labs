@@ -6,10 +6,9 @@ import fit.nsu.labs.exceptions.InvalidCommandArgument;
 public abstract class Command {
     final private String[] args;
 
-    Command(String[] inputArgs){
+    Command(String[] inputArgs) {
         args = inputArgs;
     }
-
 
 
     abstract public String getCommandName();
@@ -19,5 +18,5 @@ public abstract class Command {
         return args;
     }
 
-    abstract public  void execute(Context context) throws InvalidCommandArgument;
+    abstract public void execute(Context context) throws InvalidCommandArgument;
 }

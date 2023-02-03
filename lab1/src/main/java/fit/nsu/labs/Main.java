@@ -19,6 +19,7 @@ public class Main {
             }
 
             CalcEvaluator calc = new CalcEvaluator(input);
+            calc.calculate();
         } catch (Exception e) {
             e.printStackTrace();
         }

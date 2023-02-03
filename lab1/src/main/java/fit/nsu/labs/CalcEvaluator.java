@@ -9,15 +9,17 @@ import java.lang.reflect.InvocationTargetException;
 public class CalcEvaluator {
     private final CommandParser parser;
 
-    CalcEvaluator(InputStream input) throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvalidCommandArgument {
+    CalcEvaluator(InputStream input) {
         parser = new CommandParser(input);
+    }
+
+    public void calculate() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvalidCommandArgument {
         var context = new Context();
 
         var commands = parser.parseCommands();
         for (var command : commands) {
             command.execute(context);
         }
-        System.out.println("asd");
     }
 
 

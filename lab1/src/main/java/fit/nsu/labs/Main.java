@@ -16,7 +16,7 @@ public class Main {
         }
     }
 
-    private static InputStream selectInputStreamFromArgs(String[] args) throws IOException {
+    private static InputStream selectInputStreamFromArgs(String[] args) throws IOException, RuntimeException {
         InputStream input = System.in;
 
         if (args.length > 1) {

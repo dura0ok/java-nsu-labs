@@ -17,7 +17,6 @@ public class CommandParser {
 
     public CommandParser(InputStream input) {
         in = new BufferedReader(new InputStreamReader(input));
-
     }
 
     public ArrayList<Command> parseCommands() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

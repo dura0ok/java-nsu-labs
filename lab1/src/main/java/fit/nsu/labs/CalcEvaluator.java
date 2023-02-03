@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 public class CalcEvaluator {
     private final CommandParser parser;
 
-    CalcEvaluator(InputStream input) {
+    public CalcEvaluator(InputStream input) {
         parser = new CommandParser(input);
     }
 

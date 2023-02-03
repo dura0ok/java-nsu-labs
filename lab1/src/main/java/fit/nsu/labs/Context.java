@@ -12,9 +12,14 @@ public class Context {
 
     private final Map<String, Double> defines;
 
-    Context() {
+    public Context() {
         defines = new HashMap<>();
         stack = new ArrayDeque<>();
+    }
+
+    public Context(ArrayDeque<Double> inputStack, HashMap<String, Double> inputDefines) {
+        defines = inputDefines;
+        stack = inputStack;
     }
 
     public ArrayDeque<Double> getStack() {

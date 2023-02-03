@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         try {
             InputStream input = selectInputStreamFromArgs(args);
-
             CalcEvaluator calc = new CalcEvaluator(input);
             calc.calculate();
         } catch (Exception e) {

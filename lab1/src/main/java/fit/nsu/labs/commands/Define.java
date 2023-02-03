@@ -25,7 +25,7 @@ public class Define extends Command {
         var key = getArgs()[0];
         var value = getArgs()[1];
 
-        context.getDefines().put(key, Integer.valueOf(value));
+        context.getDefines().put(key, Double.valueOf(value));
 
 
     }

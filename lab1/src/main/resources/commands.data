@@ -5,3 +5,4 @@ print@fit.nsu.labs.commands.Print
 -@fit.nsu.labs.commands.Subtract
 *@fit.nsu.labs.commands.Multiply
 /@fit.nsu.labs.commands.Divide
+sqrt@fit.nsu.labs.commands.Sqrt

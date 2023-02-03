@@ -24,7 +24,7 @@ public class Push extends Command {
 
         var arg = getArgs()[0];
         try {
-            context.getStack().push(Integer.parseInt(arg));
+            context.getStack().push(Double.valueOf(arg));
         } catch (NumberFormatException e) {
             if (!context.getDefines().containsKey(arg)) {
                 throw new InvalidCommandArgument(this.getClass().getName());

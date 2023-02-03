@@ -3,16 +3,16 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.Context;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-public class Divide extends Command {
+public class Sqrt extends Command {
 
-    public Divide(String[] inputArgs) {
+    public Sqrt(String[] inputArgs) {
         super(inputArgs);
 
     }
 
     @Override
     public String getCommandName() {
-        return "divide";
+        return "sqrt";
     }
 
     @Override
@@ -22,13 +22,8 @@ public class Divide extends Command {
             throw new InvalidCommandArgument(this.getClass().getName(), "size");
         }
 
-        var secondNum = context.getStack().pop();
-        var firstNum = context.getStack().pop();
-        if (secondNum == 0) {
-            throw new InvalidCommandArgument(this.getClass().getName(), "second arg in stack(division by zero)");
-        }
-        context.getStack().push(firstNum / secondNum);
-
+        var num = context.getStack().pop();
+        context.getStack().push(Math.sqrt(num));
     }
 
 

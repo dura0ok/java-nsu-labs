@@ -7,21 +7,21 @@ import java.util.Map;
 public class Context {
 
 
-    private final ArrayDeque<Integer> stack;
+    private final ArrayDeque<Double> stack;
 
 
-    private final Map<String, Integer> defines;
+    private final Map<String, Double> defines;
 
     Context() {
         defines = new HashMap<>();
         stack = new ArrayDeque<>();
     }
 
-    public ArrayDeque<Integer> getStack() {
+    public ArrayDeque<Double> getStack() {
         return stack;
     }
 
-    public Map<String, Integer> getDefines() {
+    public Map<String, Double> getDefines() {
         return defines;
     }
 

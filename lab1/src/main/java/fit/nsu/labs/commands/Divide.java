@@ -19,13 +19,13 @@ public class Divide extends Command {
     public void execute(Context context) throws InvalidCommandArgument {
 
         if (getArgs().length != 0) {
-            throw new InvalidCommandArgument(this.getClass().getName(), "size");
+            throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
         var secondNum = context.getStack().pop();
         var firstNum = context.getStack().pop();
         if (secondNum == 0) {
-            throw new InvalidCommandArgument(this.getClass().getName(), "second arg in stack(division by zero)");
+            throw new InvalidCommandArgument(getCommandName(), "second arg in stack(division by zero)");
         }
         context.getStack().push(firstNum / secondNum);
 

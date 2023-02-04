@@ -19,7 +19,7 @@ public class Push extends Command {
     public void execute(Context context) throws InvalidCommandArgument {
 
         if (getArgs().length != 1) {
-            throw new InvalidCommandArgument(this.getClass().getName(), "size");
+            throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
         var arg = getArgs()[0];
@@ -28,7 +28,7 @@ public class Push extends Command {
         } catch (NumberFormatException e) {
             if (!context.getDefines().containsKey(arg)) {
                 throw new InvalidCommandArgument(
-                        this.getClass().getName(), "push argument must be number or defined value"
+                        getCommandName(), "push argument must be number or defined value"
                 );
             }
 

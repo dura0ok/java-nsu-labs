@@ -1,6 +1,7 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.Context;
+import fit.nsu.labs.exceptions.EmptyStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
 /**
@@ -21,7 +22,7 @@ public abstract class Command {
         return args;
     }
 
-    public abstract void execute(Context context) throws InvalidCommandArgument;
+    public abstract void execute(Context context) throws InvalidCommandArgument, EmptyStack;
 
 
 }

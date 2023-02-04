@@ -19,7 +19,7 @@ public class Add extends Command {
     public void execute(Context context) throws InvalidCommandArgument {
 
         if (getArgs().length != 0) {
-            throw new InvalidCommandArgument(this.getClass().getName(), "size");
+            throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
         var firstNum = context.getStack().pop();

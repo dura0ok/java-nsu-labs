@@ -2,6 +2,7 @@ package fit.nsu.labs.commands;
 
 import fit.nsu.labs.Context;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 
 public class Divide extends Command {
 
@@ -16,10 +17,14 @@ public class Divide extends Command {
     }
 
     @Override
-    public void execute(Context context) throws InvalidCommandArgument {
+    public void execute(Context context) throws InvalidCommandArgument, NotEnoughtArgumentsInStack {
 
         if (getArgs().length != 0) {
             throw new InvalidCommandArgument(getCommandName(), "size");
+        }
+
+        if (context.getStack().size() < 2) {
+            throw new NotEnoughtArgumentsInStack(getCommandName(), "what to divide");
         }
 
         var secondNum = context.getStack().pop();

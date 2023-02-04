@@ -1,11 +1,11 @@
 package fit.nsu.labs.exceptions;
 
-public class EmptyStack extends Exception {
-    public EmptyStack(String commandName) {
+public class NotEnoughtArgumentsInStack extends Exception {
+    public NotEnoughtArgumentsInStack(String commandName) {
         super("Empty Stack when trying to get arguments in command: " + commandName);
     }
 
-    public EmptyStack(String commandName, String argName) {
+    public NotEnoughtArgumentsInStack(String commandName, String argName) {
         super(String.format("Empty Stack when trying to get argument %s in command %s", argName, commandName));
     }
 }

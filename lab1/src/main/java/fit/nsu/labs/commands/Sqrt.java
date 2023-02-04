@@ -1,7 +1,7 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.Context;
-import fit.nsu.labs.exceptions.EmptyStack;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
 public class Sqrt extends Command {
@@ -17,14 +17,14 @@ public class Sqrt extends Command {
     }
 
     @Override
-    public void execute(Context context) throws InvalidCommandArgument, EmptyStack {
+    public void execute(Context context) throws InvalidCommandArgument, NotEnoughtArgumentsInStack {
 
         if (getArgs().length != 0) {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
         if (context.getStack().isEmpty()) {
-            throw new EmptyStack(getCommandName(), "what to print");
+            throw new NotEnoughtArgumentsInStack(getCommandName(), "what to print");
         }
 
         double num = context.getStack().pop();

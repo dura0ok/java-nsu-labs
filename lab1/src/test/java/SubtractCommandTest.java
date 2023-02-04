@@ -1,10 +1,13 @@
 import fit.nsu.labs.Context;
+import fit.nsu.labs.commands.Add;
 import fit.nsu.labs.commands.Subtract;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -98,6 +101,21 @@ public class SubtractCommandTest {
             fail();
         }
 
+    }
+
+    @Test
+    void EmptyStack() {
+        var stack = new ArrayDeque<Double>();
+        var subtractCommand = new Subtract(new String[]{});
+        assertThrows(NotEnoughtArgumentsInStack.class, () ->  subtractCommand.execute(new Context(stack, new HashMap<>())));
+    }
+
+    @Test
+    void NotEnoughStack() {
+        var stack = new ArrayDeque<Double>();
+        stack.push(-1.25);
+        var subtractCommand = new Subtract(new String[]{});
+        assertThrows(NotEnoughtArgumentsInStack.class, () ->  subtractCommand.execute(new Context(stack, new HashMap<>())));
     }
 
 

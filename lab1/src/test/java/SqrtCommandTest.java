@@ -1,6 +1,6 @@
 import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Sqrt;
-import fit.nsu.labs.exceptions.EmptyStack;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +54,6 @@ public class SqrtCommandTest {
     void emptyStackError() {
         var stack = new ArrayDeque<Double>();
         var sqrtCommand = new Sqrt(new String[]{});
-        assertThrows(EmptyStack.class, () -> sqrtCommand.execute(new Context(stack, new HashMap<>())));
-
+        assertThrows(NotEnoughtArgumentsInStack.class, () -> sqrtCommand.execute(new Context(stack, new HashMap<>())));
     }
 }

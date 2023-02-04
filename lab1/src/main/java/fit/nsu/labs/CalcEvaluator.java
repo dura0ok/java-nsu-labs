@@ -1,6 +1,6 @@
 package fit.nsu.labs;
 
-import fit.nsu.labs.exceptions.EmptyStack;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class CalcEvaluator {
         parser = new CommandParser(input);
     }
 
-    public void calculate() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvalidCommandArgument, EmptyStack {
+    public void calculate() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvalidCommandArgument, NotEnoughtArgumentsInStack {
         var context = new Context();
 
         var commands = parser.parseCommands();

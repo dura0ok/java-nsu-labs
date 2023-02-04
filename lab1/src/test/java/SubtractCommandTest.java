@@ -90,9 +90,9 @@ public class SubtractCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         stack.push(-1.75);
-        var addCommand = new Subtract(new String[]{});
+        var subtractCommand = new Subtract(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            subtractCommand.execute(new Context(stack, new HashMap<>()));
             assertEquals(0.5, stack.pop());
         } catch (Exception ignored) {
             fail();

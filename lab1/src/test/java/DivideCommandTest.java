@@ -14,9 +14,9 @@ public class DivideCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(8.0);
         stack.push(2.0);
-        var addCommand = new Divide(new String[]{});
+        var divideCommand = new Divide(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            divideCommand.execute(new Context(stack, new HashMap<>()));
             assertEquals(4.0, stack.pop());
         } catch (Exception ignored) {
             fail();

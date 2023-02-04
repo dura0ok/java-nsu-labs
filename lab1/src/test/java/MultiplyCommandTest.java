@@ -89,9 +89,9 @@ public class MultiplyCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         stack.push(-1.75);
-        var addCommand = new Multiply(new String[]{});
+        var multiplyCommand = new Multiply(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            multiplyCommand.execute(new Context(stack, new HashMap<>()));
             assertEquals(2.1875, stack.pop());
         } catch (Exception ignored) {
             fail();

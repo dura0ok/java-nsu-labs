@@ -23,7 +23,7 @@ public class Print extends Command {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
-        if(context.getStack().isEmpty()){
+        if (context.getStack().isEmpty()) {
             throw new EmptyStack(getCommandName(), "what to print");
         }
         System.out.println(context.getStack().peek());

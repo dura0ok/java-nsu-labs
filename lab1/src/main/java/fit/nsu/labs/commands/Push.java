@@ -33,7 +33,7 @@ public class Push extends Command {
             }
 
             var value = context.getDefines().get(arg);
-            context.getStack().add(value);
+            context.getStack().push(value);
         }
 
     }

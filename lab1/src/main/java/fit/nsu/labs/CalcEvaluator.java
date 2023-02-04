@@ -1,7 +1,7 @@
 package fit.nsu.labs;
 
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 
 import java.io.IOException;
 import java.io.InputStream;

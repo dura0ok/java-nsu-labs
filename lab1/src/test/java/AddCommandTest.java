@@ -107,7 +107,7 @@ public class AddCommandTest {
     void EmptyStack() {
         var stack = new ArrayDeque<Double>();
         var addCommand = new Add(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () ->  addCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughtArgumentsInStack.class, () -> addCommand.execute(new Context(stack, new HashMap<>())));
     }
 
     @Test
@@ -115,6 +115,6 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var addCommand = new Add(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () ->  addCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughtArgumentsInStack.class, () -> addCommand.execute(new Context(stack, new HashMap<>())));
     }
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +17,7 @@ public class PushCommandTest {
     void pushEmptyError() {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Add(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () ->  pushCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughtArgumentsInStack.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));
     }
 
     @Test
@@ -53,6 +52,6 @@ public class PushCommandTest {
     void tryToPushNotDefined() throws InvalidCommandArgument {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Push(new String[]{"a"});
-        assertThrows(InvalidCommandArgument.class, () ->  pushCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(InvalidCommandArgument.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));
     }
 }

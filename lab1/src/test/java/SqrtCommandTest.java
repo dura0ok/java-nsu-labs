@@ -1,7 +1,7 @@
 import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Sqrt;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;

@@ -1,8 +1,8 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.Context;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
+import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
 
 public class Sqrt extends Command {
 

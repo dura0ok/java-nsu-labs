@@ -1,7 +1,7 @@
 import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Print;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -13,21 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class PrintCommandTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
+    private final PrintStream standardOut = System.out;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
-    @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @After
-    public void restoreStreams() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
+    @AfterEach
+    public void tearDown() {
+        System.setOut(standardOut);
     }
 
 
@@ -38,7 +35,7 @@ public class PrintCommandTest {
         var printCommand = new Print(new String[]{});
         try {
             printCommand.execute(new Context(stack, new HashMap<>()));
-            assertEquals(String.valueOf(8.0), outContent.toString());
+            assertEquals(String.valueOf(8.0), outputStreamCaptor.toString().trim());
         } catch (Exception ignored) {
             fail();
         }

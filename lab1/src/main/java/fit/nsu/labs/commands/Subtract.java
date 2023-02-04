@@ -22,8 +22,8 @@ public class Subtract extends Command {
             throw new InvalidCommandArgument(this.getClass().getName(), "size");
         }
 
-        var firstNum = context.getStack().pop();
         var secondNum = context.getStack().pop();
+        var firstNum = context.getStack().pop();
         context.getStack().push(firstNum - secondNum);
 
     }

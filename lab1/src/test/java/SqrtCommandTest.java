@@ -46,7 +46,7 @@ public class SqrtCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.0);
         var sqrtCommand = new Sqrt(new String[]{});
-        assertThrows(InvalidCommandArgument.class, () ->  sqrtCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(InvalidCommandArgument.class, () -> sqrtCommand.execute(new Context(stack, new HashMap<>())));
 
     }
 
@@ -54,7 +54,7 @@ public class SqrtCommandTest {
     void emptyStackError() {
         var stack = new ArrayDeque<Double>();
         var sqrtCommand = new Sqrt(new String[]{});
-        assertThrows(EmptyStack.class, () ->  sqrtCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(EmptyStack.class, () -> sqrtCommand.execute(new Context(stack, new HashMap<>())));
 
     }
 }

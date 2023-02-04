@@ -29,7 +29,7 @@ public class Sqrt extends Command {
 
         double num = context.getStack().pop();
 
-        if(num < 0){
+        if (num < 0) {
             throw new InvalidCommandArgument(getCommandName(), "num must be >= 0");
         }
 

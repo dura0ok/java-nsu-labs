@@ -1,5 +1,7 @@
 package fit.nsu.labs;
 
+import fit.nsu.labs.exceptions.CalcException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -11,7 +13,9 @@ public class Main {
             InputStream input = selectInputStreamFromArgs(args);
             CalcEvaluator calc = new CalcEvaluator(input);
             calc.calculate();
-        } catch (Exception e) {
+        } catch (CalcException e) {
+            System.err.println(e.getMessage());
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

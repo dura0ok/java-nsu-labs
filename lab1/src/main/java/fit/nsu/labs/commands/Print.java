@@ -26,9 +26,9 @@ public class Print extends Command {
         if (context.isStackEmpty()) {
             throw new NotEnoughtArgumentsInStack(getCommandName(), "what to print");
         }
-        try{
+        try {
             System.out.println(context.peekStack());
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             throw new NotEnoughtArgumentsInStack(
                     getCommandName(),
                     "what to print which need be in stack, but stack empty :C"

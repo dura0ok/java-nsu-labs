@@ -23,16 +23,16 @@ public class Divide extends Command {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
-        if (context.getStack().size() < 2) {
+        if (context.getStackSize() < 2) {
             throw new NotEnoughtArgumentsInStack(getCommandName(), "what to divide");
         }
 
-        var secondNum = context.getStack().pop();
-        var firstNum = context.getStack().pop();
+        var secondNum = context.popStack();
+        var firstNum = context.popStack();
         if (secondNum == 0) {
             throw new InvalidCommandArgument(getCommandName(), "second arg in stack(division by zero)");
         }
-        context.getStack().push(firstNum / secondNum);
+        context.pushStack(firstNum / secondNum);
 
     }
 

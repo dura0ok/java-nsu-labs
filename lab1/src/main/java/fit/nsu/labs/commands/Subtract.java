@@ -23,14 +23,14 @@ public class Subtract extends Command {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
-        if (context.getStack().size() < 2) {
+        if (context.getStackSize() < 2) {
             throw new NotEnoughtArgumentsInStack(getCommandName(), "what to subtract");
         }
 
 
-        var secondNum = context.getStack().pop();
-        var firstNum = context.getStack().pop();
-        context.getStack().push(firstNum - secondNum);
+        var secondNum = context.popStack();
+        var firstNum = context.popStack();
+        context.pushStack(firstNum - secondNum);
 
     }
 

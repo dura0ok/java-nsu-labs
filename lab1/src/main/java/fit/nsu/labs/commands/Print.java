@@ -23,10 +23,18 @@ public class Print extends Command {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
-        if (context.getStack().isEmpty()) {
+        if (context.isStackEmpty()) {
             throw new NotEnoughtArgumentsInStack(getCommandName(), "what to print");
         }
-        System.out.println(context.getStack().peek());
+        try{
+            System.out.println(context.peekStack());
+        }catch (NullPointerException e){
+            throw new NotEnoughtArgumentsInStack(
+                    getCommandName(),
+                    "what to print which need be in stack, but stack empty :C"
+            );
+        }
+
 
     }
 

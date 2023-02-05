@@ -24,16 +24,16 @@ public class Push extends Command {
 
         var arg = getArgs()[0];
         try {
-            context.getStack().push(Double.valueOf(arg));
+            context.pushStack(Double.parseDouble(arg));
         } catch (NumberFormatException e) {
-            if (!context.getDefines().containsKey(arg)) {
+            if (!context.isDefined(arg)) {
                 throw new InvalidCommandArgument(
                         getCommandName(), "push argument must be number or defined value"
                 );
             }
 
-            var value = context.getDefines().get(arg);
-            context.getStack().push(value);
+            var value = context.getDefinedByKey(arg);
+            context.pushStack(value);
         }
 
     }

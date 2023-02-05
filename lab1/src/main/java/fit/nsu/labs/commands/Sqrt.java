@@ -23,17 +23,17 @@ public class Sqrt extends Command {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
-        if (context.getStack().isEmpty()) {
+        if (context.isStackEmpty()) {
             throw new NotEnoughtArgumentsInStack(getCommandName(), "what to print");
         }
 
-        double num = context.getStack().pop();
+        double num = context.popStack();
 
         if (num < 0) {
             throw new InvalidCommandArgument(getCommandName(), "num must be >= 0");
         }
 
-        context.getStack().push(Math.sqrt(num));
+        context.pushStack(Math.sqrt(num));
     }
 
 

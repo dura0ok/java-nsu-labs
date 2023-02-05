@@ -23,13 +23,13 @@ public class Add extends Command {
             throw new InvalidCommandArgument(getCommandName(), "size");
         }
 
-        if (context.getStack().size() < 2) {
+        if (context.getStackSize() < 2) {
             throw new NotEnoughtArgumentsInStack(getCommandName(), "what to add");
         }
 
-        var firstNum = context.getStack().pop();
-        var secondNum = context.getStack().pop();
-        context.getStack().push(firstNum + secondNum);
+        var firstNum = context.popStack();
+        var secondNum = context.popStack();
+        context.pushStack(firstNum + secondNum);
 
     }
 

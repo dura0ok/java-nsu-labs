@@ -1,15 +1,18 @@
 package fit.nsu.labs.commands;
 
+import fit.nsu.labs.CalcLogger;
 import fit.nsu.labs.Context;
 import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
+import java.io.IOException;
+import java.util.logging.Level;
+
 public class Push extends Command {
 
     public Push(String[] inputArgs) {
         super(inputArgs);
-
     }
 
     @Override
@@ -18,9 +21,10 @@ public class Push extends Command {
     }
 
     @Override
-    public void execute(Context context) throws CalcException {
+    public void execute(Context context) throws CalcException, IOException {
 
         if (getArgs().length != 1) {
+            CalcLogger.getLogger(this.getClass()).log(Level.WARNING, "Bad number of arguments Exception");
             throw new BadNumberOfArguments(getCommandName(), 0, getArgs().length);
         }
 
@@ -29,6 +33,8 @@ public class Push extends Command {
             context.pushStack(Double.parseDouble(arg));
         } catch (NumberFormatException e) {
             if (!context.isDefined(arg)) {
+                CalcLogger.getLogger(this.getClass()).log(Level.WARNING,
+                        "Exception: InvalidCommandArgument. Push argument must be number or defined value");
                 throw new InvalidCommandArgument(
                         getCommandName(), "push argument must be number or defined value"
                 );

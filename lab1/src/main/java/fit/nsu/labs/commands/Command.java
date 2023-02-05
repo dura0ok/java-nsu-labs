@@ -3,6 +3,8 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.Context;
 import fit.nsu.labs.exceptions.CalcException;
 
+import java.io.IOException;
+
 /**
  * Abstract class Command which describes interface to commands and set arg fields
  */
@@ -21,7 +23,7 @@ public abstract class Command {
         return args;
     }
 
-    public abstract void execute(Context context) throws CalcException;
+    public abstract void execute(Context context) throws CalcException, IOException;
 
 
 }

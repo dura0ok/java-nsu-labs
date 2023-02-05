@@ -1,6 +1,6 @@
 package fit.nsu.labs.exceptions;
 
-public class InvalidCommandArgument extends Exception {
+public class InvalidCommandArgument extends CalcException {
     public InvalidCommandArgument(String commandName) {
         super("Invalid argument in command: " + commandName);
     }

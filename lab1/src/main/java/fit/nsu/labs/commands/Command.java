@@ -1,8 +1,7 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.Context;
-import fit.nsu.labs.exceptions.InvalidCommandArgument;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
+import fit.nsu.labs.exceptions.CalcException;
 
 /**
  * Abstract class Command which describes interface to commands and set arg fields
@@ -22,7 +21,7 @@ public abstract class Command {
         return args;
     }
 
-    public abstract void execute(Context context) throws InvalidCommandArgument, NotEnoughtArgumentsInStack;
+    public abstract void execute(Context context) throws CalcException;
 
 
 }

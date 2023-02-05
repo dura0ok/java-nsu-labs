@@ -1,8 +1,9 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.Context;
-import fit.nsu.labs.exceptions.InvalidCommandArgument;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
+import fit.nsu.labs.exceptions.BadNumberOfArguments;
+import fit.nsu.labs.exceptions.CalcException;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 
 public class Print extends Command {
 
@@ -17,19 +18,19 @@ public class Print extends Command {
     }
 
     @Override
-    public void execute(Context context) throws InvalidCommandArgument, NotEnoughtArgumentsInStack {
+    public void execute(Context context) throws CalcException {
 
         if (getArgs().length != 0) {
-            throw new InvalidCommandArgument(getCommandName(), "size");
+            throw new BadNumberOfArguments(getCommandName(), 0, getArgs().length);
         }
 
         if (context.isStackEmpty()) {
-            throw new NotEnoughtArgumentsInStack(getCommandName(), "what to print");
+            throw new NotEnoughArgumentsInStack(getCommandName(), "what to print");
         }
         try {
             System.out.println(context.peekStack());
         } catch (NullPointerException e) {
-            throw new NotEnoughtArgumentsInStack(
+            throw new NotEnoughArgumentsInStack(
                     getCommandName(),
                     "what to print which need be in stack, but stack empty :C"
             );

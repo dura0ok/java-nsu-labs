@@ -1,6 +1,6 @@
 import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Divide;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
@@ -105,7 +105,7 @@ public class DivideCommandTest {
     void EmptyStack() {
         var stack = new ArrayDeque<Double>();
         var divideCommand = new Divide(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () -> divideCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> divideCommand.execute(new Context(stack, new HashMap<>())));
     }
 
     @Test
@@ -113,6 +113,6 @@ public class DivideCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var divideCommand = new Divide(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () -> divideCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> divideCommand.execute(new Context(stack, new HashMap<>())));
     }
 }

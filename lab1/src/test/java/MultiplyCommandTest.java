@@ -1,6 +1,6 @@
 import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Multiply;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
@@ -105,7 +105,7 @@ public class MultiplyCommandTest {
     void EmptyStack() {
         var stack = new ArrayDeque<Double>();
         var multiplyCommand = new Multiply(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () -> multiplyCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> multiplyCommand.execute(new Context(stack, new HashMap<>())));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class MultiplyCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var multiplyCommand = new Multiply(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () -> multiplyCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> multiplyCommand.execute(new Context(stack, new HashMap<>())));
     }
 
 }

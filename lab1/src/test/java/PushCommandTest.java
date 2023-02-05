@@ -2,7 +2,7 @@ import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Add;
 import fit.nsu.labs.commands.Push;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
@@ -17,7 +17,7 @@ public class PushCommandTest {
     void pushEmptyError() {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Add(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class PushCommandTest {
     }
 
     @Test
-    void tryToPushNotDefined() throws InvalidCommandArgument {
+    void tryToPushNotDefined() {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Push(new String[]{"a"});
         assertThrows(InvalidCommandArgument.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));

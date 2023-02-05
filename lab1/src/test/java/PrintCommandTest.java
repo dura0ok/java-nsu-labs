@@ -1,6 +1,6 @@
 import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Print;
-import fit.nsu.labs.exceptions.NotEnoughtArgumentsInStack;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +48,6 @@ public class PrintCommandTest {
     void printEmptyElementInStack() {
         var stack = new ArrayDeque<Double>();
         var printCommand = new Print(new String[]{});
-        assertThrows(NotEnoughtArgumentsInStack.class, () -> printCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> printCommand.execute(new Context(stack, new HashMap<>())));
     }
 }

@@ -1,22 +1,22 @@
 package fit.nsu.labs;
+
 import fit.nsu.labs.exceptions.CalcException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         try {
             InputStream input = selectInputStreamFromArgs(args);
             CalcEvaluator calc = new CalcEvaluator(input);
             calc.calculate();
         } catch (CalcException e) {
             System.err.println(e.getMessage());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

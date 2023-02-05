@@ -19,9 +19,9 @@ public class CalcEvaluator {
         CalcLogger.getLogger(this.getClass()).log(Level.INFO, "end parsing commands");
         for (var command : commands) {
             CalcLogger.getLogger(this.getClass()).log(Level.INFO, "Start execute: " + command.getCommandName());
-            try{
+            try {
                 command.execute(context);
-            }catch (CalcException e){
+            } catch (CalcException e) {
                 System.err.println(e.getMessage());
             }
 

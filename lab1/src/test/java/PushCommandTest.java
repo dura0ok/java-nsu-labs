@@ -1,5 +1,5 @@
-import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Add;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Push;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
@@ -17,7 +17,7 @@ public class PushCommandTest {
     void pushEmptyError() {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Add(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> pushCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
     @Test
@@ -25,7 +25,7 @@ public class PushCommandTest {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Push(new String[]{"10"});
         try {
-            pushCommand.execute(new Context(stack, new HashMap<>()));
+            pushCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(10.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -38,7 +38,7 @@ public class PushCommandTest {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Push(new String[]{"a"});
         try {
-            pushCommand.execute(new Context(stack, new HashMap<>() {{
+            pushCommand.execute(new MemoryContext(stack, new HashMap<>() {{
                 put("a", 4.0);
             }}));
             assertEquals(4, stack.pop());
@@ -52,6 +52,6 @@ public class PushCommandTest {
     void tryToPushNotDefined() {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Push(new String[]{"a"});
-        assertThrows(InvalidCommandArgument.class, () -> pushCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(InvalidCommandArgument.class, () -> pushCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 }

@@ -1,12 +1,8 @@
 package fit.nsu.labs.commands;
 
-import fit.nsu.labs.CalcLogger;
-import fit.nsu.labs.Context;
-import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 public class Define extends Command {
 
@@ -21,13 +17,9 @@ public class Define extends Command {
     }
 
     @Override
-    public void execute(Context context) throws CalcException, IOException {
+    public void execute(MemoryContext context) throws CalcException, IOException {
 
-        if (getArgs().length != 2) {
-            CalcLogger.getLogger(this.getClass()).log(Level.WARNING, "Bad number of arguments Exception");
-            throw new BadNumberOfArguments(getCommandName(), 2, getArgs().length);
-        }
-
+        validateNumberOfArgs(2);
         var key = getArgs()[0];
         var value = getArgs()[1];
 

@@ -1,4 +1,4 @@
-import fit.nsu.labs.Context;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Subtract;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class SubtractCommandTest {
         stack.push(2.0);
         var addCommand = new Subtract(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(6.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -34,7 +34,7 @@ public class SubtractCommandTest {
         stack.push(-8.0);
         var addCommand = new Subtract(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(6.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -49,7 +49,7 @@ public class SubtractCommandTest {
         stack.push(7.0);
         var addCommand = new Subtract(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(-14.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -64,7 +64,7 @@ public class SubtractCommandTest {
         stack.push(100.0);
         var addCommand = new Subtract(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(-107.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -79,7 +79,7 @@ public class SubtractCommandTest {
         stack.push(1.25);
         var addCommand = new Subtract(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(0.5, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -94,7 +94,7 @@ public class SubtractCommandTest {
         stack.push(-1.75);
         var subtractCommand = new Subtract(new String[]{});
         try {
-            subtractCommand.execute(new Context(stack, new HashMap<>()));
+            subtractCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(0.5, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -106,7 +106,7 @@ public class SubtractCommandTest {
     void EmptyStack() {
         var stack = new ArrayDeque<Double>();
         var subtractCommand = new Subtract(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class SubtractCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var subtractCommand = new Subtract(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
 

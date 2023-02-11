@@ -1,4 +1,4 @@
-import fit.nsu.labs.Context;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Print;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.AfterEach;
@@ -36,7 +36,7 @@ public class PrintCommandTest {
         stack.push(8.0);
         var printCommand = new Print(new String[]{});
         try {
-            printCommand.execute(new Context(stack, new HashMap<>()));
+            printCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(String.valueOf(8.0), outputStreamCaptor.toString().trim());
         } catch (Exception ignored) {
             fail();
@@ -48,6 +48,6 @@ public class PrintCommandTest {
     void printEmptyElementInStack() {
         var stack = new ArrayDeque<Double>();
         var printCommand = new Print(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> printCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> printCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 }

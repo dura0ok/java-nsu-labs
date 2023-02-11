@@ -1,8 +1,6 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.CalcLogger;
-import fit.nsu.labs.Context;
-import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
@@ -21,12 +19,9 @@ public class Push extends Command {
     }
 
     @Override
-    public void execute(Context context) throws CalcException, IOException {
+    public void execute(MemoryContext context) throws CalcException, IOException {
 
-        if (getArgs().length != 1) {
-            CalcLogger.getLogger(this.getClass()).log(Level.WARNING, "Bad number of arguments Exception");
-            throw new BadNumberOfArguments(getCommandName(), 0, getArgs().length);
-        }
+        validateNumberOfArgs(1);
 
         var arg = getArgs()[0];
         try {

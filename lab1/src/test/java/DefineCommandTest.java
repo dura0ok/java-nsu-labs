@@ -1,5 +1,5 @@
-import fit.nsu.labs.Context;
 import fit.nsu.labs.commands.Define;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class DefineCommandTest {
         var defines = new HashMap<String, Double>();
         var defineCommand = new Define(new String[]{"a", "4.0"});
         try {
-            defineCommand.execute(new Context(new ArrayDeque<>(), defines));
+            defineCommand.execute(new MemoryContext(new ArrayDeque<>(), defines));
             assertTrue(defines.containsKey("a"));
             assertEquals(4.0, defines.get("a"));
         } catch (Exception ignored) {
@@ -27,14 +27,14 @@ public class DefineCommandTest {
     void TryToDefineWithoutArgs() {
         var defines = new HashMap<String, Double>();
         var defineCommand = new Define(new String[]{});
-        assertThrows(BadNumberOfArguments.class, () -> defineCommand.execute(new Context(new ArrayDeque<>(), defines)));
+        assertThrows(BadNumberOfArguments.class, () -> defineCommand.execute(new MemoryContext(new ArrayDeque<>(), defines)));
     }
 
     @Test
     void TryToDefineWithoutValue() {
         var defines = new HashMap<String, Double>();
         var defineCommand = new Define(new String[]{"a"});
-        assertThrows(BadNumberOfArguments.class, () -> defineCommand.execute(new Context(new ArrayDeque<>(), defines)));
+        assertThrows(BadNumberOfArguments.class, () -> defineCommand.execute(new MemoryContext(new ArrayDeque<>(), defines)));
     }
 
 

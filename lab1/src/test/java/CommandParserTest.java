@@ -1,5 +1,5 @@
 import fit.nsu.labs.CommandParser;
-import fit.nsu.labs.Context;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Subtract;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
@@ -98,7 +98,7 @@ class CommandParserTest {
     void EmptyStack() {
         var stack = new ArrayDeque<Double>();
         var subtractCommand = new Subtract(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
     @Test
@@ -106,6 +106,6 @@ class CommandParserTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var subtractCommand = new Subtract(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> subtractCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 }

@@ -1,5 +1,6 @@
 package fit.nsu.labs;
 
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.exceptions.CalcException;
 
 import java.io.InputStream;
@@ -13,7 +14,7 @@ public class CalcEvaluator {
     }
 
     public void calculate() throws Exception {
-        var context = new Context();
+        var context = new MemoryContext();
         CalcLogger.getLogger(this.getClass()).log(Level.INFO, "start parsing commands");
         var commands = parser.parseCommands();
         CalcLogger.getLogger(this.getClass()).log(Level.INFO, "end parsing commands");

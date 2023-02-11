@@ -1,4 +1,4 @@
-import fit.nsu.labs.Context;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Sqrt;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
@@ -19,7 +19,7 @@ public class SqrtCommandTest {
         stack.push(16.0);
         var addCommand = new Sqrt(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(4, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -33,7 +33,7 @@ public class SqrtCommandTest {
         stack.push(2.25);
         var addCommand = new Sqrt(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(1.5, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -46,7 +46,7 @@ public class SqrtCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.0);
         var sqrtCommand = new Sqrt(new String[]{});
-        assertThrows(InvalidCommandArgument.class, () -> sqrtCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(InvalidCommandArgument.class, () -> sqrtCommand.execute(new MemoryContext(stack, new HashMap<>())));
 
     }
 
@@ -54,6 +54,6 @@ public class SqrtCommandTest {
     void emptyStackError() {
         var stack = new ArrayDeque<Double>();
         var sqrtCommand = new Sqrt(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> sqrtCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> sqrtCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 }

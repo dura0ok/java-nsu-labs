@@ -1,4 +1,4 @@
-import fit.nsu.labs.Context;
+import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Multiply;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ public class MultiplyCommandTest {
         stack.push(2.0);
         var addCommand = new Multiply(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(16.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -33,7 +33,7 @@ public class MultiplyCommandTest {
         stack.push(-8.0);
         var addCommand = new Multiply(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(16.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -48,7 +48,7 @@ public class MultiplyCommandTest {
         stack.push(7.0);
         var addCommand = new Multiply(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(-49.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -63,7 +63,7 @@ public class MultiplyCommandTest {
         stack.push(100.0);
         var addCommand = new Multiply(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(-700.0, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -78,7 +78,7 @@ public class MultiplyCommandTest {
         stack.push(1.25);
         var addCommand = new Multiply(new String[]{});
         try {
-            addCommand.execute(new Context(stack, new HashMap<>()));
+            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(2.1875, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -93,7 +93,7 @@ public class MultiplyCommandTest {
         stack.push(-1.75);
         var multiplyCommand = new Multiply(new String[]{});
         try {
-            multiplyCommand.execute(new Context(stack, new HashMap<>()));
+            multiplyCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(2.1875, stack.pop());
         } catch (Exception ignored) {
             fail();
@@ -105,7 +105,7 @@ public class MultiplyCommandTest {
     void EmptyStack() {
         var stack = new ArrayDeque<Double>();
         var multiplyCommand = new Multiply(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> multiplyCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> multiplyCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class MultiplyCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var multiplyCommand = new Multiply(new String[]{});
-        assertThrows(NotEnoughArgumentsInStack.class, () -> multiplyCommand.execute(new Context(stack, new HashMap<>())));
+        assertThrows(NotEnoughArgumentsInStack.class, () -> multiplyCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
 }

@@ -1,10 +1,10 @@
-package fit.nsu.labs;
+package fit.nsu.labs.commands;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Context {
+public class MemoryContext implements Context {
 
 
     private final ArrayDeque<Double> stack;
@@ -12,12 +12,12 @@ public class Context {
 
     private final Map<String, Double> defines;
 
-    public Context() {
+    public MemoryContext() {
         defines = new HashMap<>();
         stack = new ArrayDeque<>();
     }
 
-    public Context(ArrayDeque<Double> inputStack, HashMap<String, Double> inputDefines) {
+    public MemoryContext(ArrayDeque<Double> inputStack, HashMap<String, Double> inputDefines) {
         defines = inputDefines;
         stack = inputStack;
     }

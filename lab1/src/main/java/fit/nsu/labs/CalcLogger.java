@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 
 public class CalcLogger {
     public static Logger getLogger(Class<?> InputClass) throws CalcException {
-        try{
+        try {
             InputStream stream = ClassLoader.getSystemResourceAsStream("logging.properties");
             java.util.logging.LogManager.getLogManager().readConfiguration(stream);
             return Logger.getLogger(InputClass.getSimpleName());
-        }catch (IOException exception){
-               throw new LogConfigNotFound();
+        } catch (IOException exception) {
+            throw new LogConfigNotFound();
         }
     }
 }

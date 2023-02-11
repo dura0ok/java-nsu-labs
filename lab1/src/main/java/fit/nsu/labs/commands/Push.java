@@ -1,6 +1,5 @@
 package fit.nsu.labs.commands;
 
-import fit.nsu.labs.CalcLogger;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
@@ -28,7 +27,7 @@ public class Push extends Command {
             context.pushStack(Double.parseDouble(arg));
         } catch (NumberFormatException e) {
             if (!context.isDefined(arg)) {
-                CalcLogger.getLogger(this.getClass()).log(Level.WARNING,
+                logger.log(Level.INFO,
                         "Exception: InvalidCommandArgument. Push argument must be number or defined value");
                 throw new InvalidCommandArgument(
                         getCommandName(), "push argument must be number or defined value"

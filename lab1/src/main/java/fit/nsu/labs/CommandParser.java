@@ -2,12 +2,12 @@ package fit.nsu.labs;
 
 import fit.nsu.labs.commands.Command;
 import fit.nsu.labs.commands.CommandFactory;
+import fit.nsu.labs.exceptions.CalcException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,7 +19,7 @@ public class CommandParser {
         in = new BufferedReader(new InputStreamReader(input));
     }
 
-    public ArrayList<Command> parseCommands() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public ArrayList<Command> parseCommands() throws CalcException, IOException {
         var factory = new CommandFactory();
         var commands = new ArrayList<Command>();
 

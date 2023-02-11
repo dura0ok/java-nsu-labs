@@ -20,7 +20,7 @@ public class Print extends Command {
     public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(0);
-        validateMiniumNeededStackSize(context, 1);
+        validateMinimumNeededStackSize(context, 1);
 
         try {
             System.out.println(context.peekStack());

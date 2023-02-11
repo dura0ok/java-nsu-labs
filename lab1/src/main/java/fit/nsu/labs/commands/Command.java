@@ -38,7 +38,7 @@ public abstract class Command {
         }
     }
 
-    public void validateMiniumNeededStackSize(Context context, int numberNeededElements) throws NotEnoughArgumentsInStack {
+    public void validateMinimumNeededStackSize(Context context, int numberNeededElements) throws NotEnoughArgumentsInStack {
         if (context.getStackSize() < numberNeededElements) {
             throw new NotEnoughArgumentsInStack(getCommandName(), numberNeededElements, context.getStackSize());
         }

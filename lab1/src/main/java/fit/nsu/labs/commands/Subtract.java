@@ -19,7 +19,7 @@ public class Subtract extends Command {
     public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(0);
-        validateMiniumNeededStackSize(context, 2);
+        validateMinimumNeededStackSize(context, 2);
 
         var secondNum = context.popStack();
         var firstNum = context.popStack();

@@ -17,7 +17,7 @@ public class Multiply extends Command {
     public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);
-        validateMiniumNeededStackSize(context, 2);
+        validateMinimumNeededStackSize(context, 2);
 
         var firstNum = context.popStack();
         var secondNum = context.popStack();

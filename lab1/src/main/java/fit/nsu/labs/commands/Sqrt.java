@@ -18,7 +18,7 @@ public class Sqrt extends Command {
     public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);
-        validateMiniumNeededStackSize(context, 1);
+        validateMinimumNeededStackSize(context, 1);
 
         double num = context.popStack();
 

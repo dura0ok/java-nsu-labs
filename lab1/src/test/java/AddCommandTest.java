@@ -1,5 +1,6 @@
 import fit.nsu.labs.commands.Add;
 import fit.nsu.labs.commands.MemoryContext;
+import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +18,8 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(2.0);
         stack.push(8.0);
-        var addCommand = new Add(new String[]{});
         try {
+            var addCommand = new Add(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(10.0, stack.pop());
         } catch (Exception ignored) {
@@ -32,8 +33,8 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-2.0);
         stack.push(-8.0);
-        var addCommand = new Add(new String[]{});
         try {
+            var addCommand = new Add(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(-10.0, stack.pop());
         } catch (Exception ignored) {
@@ -47,8 +48,8 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-7.0);
         stack.push(7.0);
-        var addCommand = new Add(new String[]{});
         try {
+            var addCommand = new Add(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(0, stack.pop());
         } catch (Exception ignored) {
@@ -62,8 +63,8 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-7.0);
         stack.push(100.0);
-        var addCommand = new Add(new String[]{});
         try {
+            var addCommand = new Add(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(93.0, stack.pop());
         } catch (Exception ignored) {
@@ -77,8 +78,8 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(1.25);
         stack.push(1.75);
-        var addCommand = new Add(new String[]{});
         try {
+            var addCommand = new Add(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(3.0, stack.pop());
         } catch (Exception ignored) {
@@ -92,8 +93,8 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         stack.push(1.75);
-        var addCommand = new Add(new String[]{});
         try {
+            var addCommand = new Add(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(0.5, stack.pop());
         } catch (Exception ignored) {
@@ -104,14 +105,14 @@ public class AddCommandTest {
 
 
     @Test
-    void EmptyStack() {
+    void EmptyStack() throws CalcException {
         var stack = new ArrayDeque<Double>();
         var addCommand = new Add(new String[]{});
         assertThrows(NotEnoughArgumentsInStack.class, () -> addCommand.execute(new MemoryContext(stack, new HashMap<>())));
     }
 
     @Test
-    void NotEnoughStack() {
+    void NotEnoughStack() throws CalcException {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.25);
         var addCommand = new Add(new String[]{});

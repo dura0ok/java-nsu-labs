@@ -1,10 +1,13 @@
 package fit.nsu.labs.commands;
 
+import fit.nsu.labs.CalcLogger;
 import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
-
 import java.io.IOException;
+import java.util.logging.Logger;
+
+
 
 /**
  * Abstract class Command which describes interface to commands and set arg fields
@@ -12,8 +15,12 @@ import java.io.IOException;
 public abstract class Command {
     private final String[] args;
 
-    Command(String[] inputArgs) {
+    public final Logger logger;
+
+
+    Command(String[] inputArgs) throws CalcException {
         args = inputArgs;
+        logger = CalcLogger.getLogger(this.getClass());
     }
 
 

@@ -1,6 +1,7 @@
 import fit.nsu.labs.commands.Add;
 import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Push;
+import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class PushCommandTest {
     @Test
-    void pushEmptyError() {
+    void pushEmptyError() throws CalcException {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Add(new String[]{});
         assertThrows(NotEnoughArgumentsInStack.class, () -> pushCommand.execute(new MemoryContext(stack, new HashMap<>())));
@@ -23,8 +24,8 @@ public class PushCommandTest {
     @Test
     void addNaturalNums() {
         var stack = new ArrayDeque<Double>();
-        var pushCommand = new Push(new String[]{"10"});
         try {
+            var pushCommand = new Push(new String[]{"10"});
             pushCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(10.0, stack.pop());
         } catch (Exception ignored) {
@@ -36,8 +37,8 @@ public class PushCommandTest {
     @Test
     void pushDefined() {
         var stack = new ArrayDeque<Double>();
-        var pushCommand = new Push(new String[]{"a"});
         try {
+            var pushCommand = new Push(new String[]{"a"});
             pushCommand.execute(new MemoryContext(stack, new HashMap<>() {{
                 put("a", 4.0);
             }}));
@@ -49,7 +50,7 @@ public class PushCommandTest {
     }
 
     @Test
-    void tryToPushNotDefined() {
+    void tryToPushNotDefined() throws CalcException {
         var stack = new ArrayDeque<Double>();
         var pushCommand = new Push(new String[]{"a"});
         assertThrows(InvalidCommandArgument.class, () -> pushCommand.execute(new MemoryContext(stack, new HashMap<>())));

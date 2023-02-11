@@ -2,13 +2,10 @@ package fit.nsu.labs.commands;
 
 import fit.nsu.labs.exceptions.CalcException;
 
-import java.io.IOException;
-
 public class Multiply extends Command {
 
-    public Multiply(String[] inputArgs) {
+    public Multiply(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override
@@ -17,7 +14,7 @@ public class Multiply extends Command {
     }
 
     @Override
-    public void execute(Context context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);
         validateMiniumNeededStackSize(context, 2);

@@ -3,13 +3,10 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-import java.io.IOException;
-
 public class Divide extends Command {
 
-    public Divide(String[] inputArgs) {
+    public Divide(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override
@@ -18,7 +15,7 @@ public class Divide extends Command {
     }
 
     @Override
-    public void execute(Context context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);
         validateMiniumNeededStackSize(context, 2);

@@ -1,5 +1,6 @@
 import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Sqrt;
+import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,8 @@ public class SqrtCommandTest {
     void sqrtNaturalSquare() {
         var stack = new ArrayDeque<Double>();
         stack.push(16.0);
-        var addCommand = new Sqrt(new String[]{});
         try {
+            var addCommand = new Sqrt(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(4, stack.pop());
         } catch (Exception ignored) {
@@ -31,8 +32,8 @@ public class SqrtCommandTest {
     void sqrtRealNumber() {
         var stack = new ArrayDeque<Double>();
         stack.push(2.25);
-        var addCommand = new Sqrt(new String[]{});
         try {
+            var addCommand = new Sqrt(new String[]{});
             addCommand.execute(new MemoryContext(stack, new HashMap<>()));
             assertEquals(1.5, stack.pop());
         } catch (Exception ignored) {
@@ -42,7 +43,7 @@ public class SqrtCommandTest {
     }
 
     @Test
-    void sqrtNegativeNumber() {
+    void sqrtNegativeNumber() throws CalcException {
         var stack = new ArrayDeque<Double>();
         stack.push(-1.0);
         var sqrtCommand = new Sqrt(new String[]{});
@@ -51,7 +52,7 @@ public class SqrtCommandTest {
     }
 
     @Test
-    void emptyStackError() {
+    void emptyStackError() throws CalcException {
         var stack = new ArrayDeque<Double>();
         var sqrtCommand = new Sqrt(new String[]{});
         assertThrows(NotEnoughArgumentsInStack.class, () -> sqrtCommand.execute(new MemoryContext(stack, new HashMap<>())));

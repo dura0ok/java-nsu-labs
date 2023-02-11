@@ -1,16 +1,13 @@
 package fit.nsu.labs.commands;
 
-import fit.nsu.labs.CalcLogger;
 import fit.nsu.labs.exceptions.CalcException;
-
 import java.io.IOException;
 import java.util.logging.Level;
 
 public class Add extends Command {
 
-    public Add(String[] inputArgs) {
+    public Add(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override
@@ -27,7 +24,7 @@ public class Add extends Command {
         var firstNum = context.popStack();
         var secondNum = context.popStack();
         context.pushStack(firstNum + secondNum);
-        CalcLogger.getLogger(this.getClass()).log(Level.INFO, "success sum two numbers");
+        logger.log(Level.INFO, "success sum two numbers");
     }
 
 

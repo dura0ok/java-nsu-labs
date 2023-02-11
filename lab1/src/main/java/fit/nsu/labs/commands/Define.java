@@ -6,9 +6,8 @@ import java.io.IOException;
 
 public class Define extends Command {
 
-    public Define(String[] inputArgs) {
+    public Define(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override

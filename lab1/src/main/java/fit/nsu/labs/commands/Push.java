@@ -9,7 +9,7 @@ import java.util.logging.Level;
 
 public class Push extends Command {
 
-    public Push(String[] inputArgs) {
+    public Push(String[] inputArgs) throws CalcException {
         super(inputArgs);
     }
 

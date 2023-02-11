@@ -6,9 +6,8 @@ import java.io.IOException;
 
 public class Subtract extends Command {
 
-    public Subtract(String[] inputArgs) {
+    public Subtract(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override

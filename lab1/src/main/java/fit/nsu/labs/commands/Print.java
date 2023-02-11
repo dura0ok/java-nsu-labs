@@ -7,9 +7,8 @@ import java.io.IOException;
 
 public class Print extends Command {
 
-    public Print(String[] inputArgs) {
+    public Print(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override

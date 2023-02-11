@@ -1,17 +1,12 @@
 package fit.nsu.labs.commands;
 
-import fit.nsu.labs.CalcLogger;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-import java.io.IOException;
-import java.util.logging.Level;
-
 public class Sqrt extends Command {
 
-    public Sqrt(String[] inputArgs) {
+    public Sqrt(String[] inputArgs) throws CalcException {
         super(inputArgs);
-
     }
 
     @Override
@@ -20,7 +15,7 @@ public class Sqrt extends Command {
     }
 
     @Override
-    public void execute(Context context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);
         validateMiniumNeededStackSize(context, 1);
@@ -28,7 +23,6 @@ public class Sqrt extends Command {
         double num = context.popStack();
 
         if (num < 0) {
-            CalcLogger.getLogger(this.getClass()).log(Level.WARNING, "InvalidCommandArgument. Num must be >= 0");
             throw new InvalidCommandArgument(getCommandName(), "num must be >= 0");
         }
 

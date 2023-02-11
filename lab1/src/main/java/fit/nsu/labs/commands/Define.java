@@ -17,7 +17,7 @@ public class Define extends Command {
     }
 
     @Override
-    public void execute(MemoryContext context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(2);
         var key = getArgs()[0];

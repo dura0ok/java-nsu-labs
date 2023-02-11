@@ -24,7 +24,7 @@ public abstract class Command {
         return args;
     }
 
-    public abstract void execute(MemoryContext context) throws CalcException, IOException;
+    public abstract void execute(Context context) throws CalcException, IOException;
 
     public void validateNumberOfArgs(int numberNeededArgs) throws BadNumberOfArguments {
         if (getArgs().length != numberNeededArgs) {

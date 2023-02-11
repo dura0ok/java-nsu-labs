@@ -18,7 +18,7 @@ public class Print extends Command {
     }
 
     @Override
-    public void execute(MemoryContext context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(0);
         validateMiniumNeededStackSize(context, 1);

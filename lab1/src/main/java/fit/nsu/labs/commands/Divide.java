@@ -18,11 +18,11 @@ public class Divide extends Command {
     }
 
     @Override
-    public void execute(MemoryContext context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(0);
         validateMiniumNeededStackSize(context, 2);
-        
+
         var secondNum = context.popStack();
         var firstNum = context.popStack();
         if (secondNum == 0) {

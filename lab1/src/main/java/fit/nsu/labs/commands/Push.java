@@ -19,7 +19,7 @@ public class Push extends Command {
     }
 
     @Override
-    public void execute(MemoryContext context) throws CalcException, IOException {
+    public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(1);
 

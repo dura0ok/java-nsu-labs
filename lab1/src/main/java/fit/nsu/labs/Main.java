@@ -1,5 +1,6 @@
 package fit.nsu.labs;
 
+import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
 
 import java.nio.file.Files;
@@ -24,8 +25,8 @@ public class Main {
                 return;
             }
 
-            throw new RuntimeException(
-                    "you can add only 1 file to read from or you can not choose file and use stdin"
+            throw new BadNumberOfArguments(
+                    "You can add only 1 file to read from or stdin can be used by default"
             );
 
         } catch (CalcException e) {

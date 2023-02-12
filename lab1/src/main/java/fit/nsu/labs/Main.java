@@ -11,14 +11,14 @@ public class Main {
     public static void main(String[] args) {
         try {
             if (args.length == 0) {
-                CalcEvaluator calc = new CalcEvaluator(System.in);
+                CalcExecutor calc = new CalcExecutor(System.in);
                 calc.calculate();
                 return;
             }
 
             if (args.length == 1) {
                 try (var input = Files.newInputStream(Paths.get(args[0]))) {
-                    CalcEvaluator calc = new CalcEvaluator(input);
+                    CalcExecutor calc = new CalcExecutor(input);
                     calc.calculate();
                 }
 

@@ -6,10 +6,10 @@ import fit.nsu.labs.exceptions.CalcException;
 import java.io.InputStream;
 import java.util.logging.Level;
 
-public class CalcEvaluator {
+public class CalcExecutor {
     private final CommandParser parser;
 
-    public CalcEvaluator(InputStream input) {
+    public CalcExecutor(InputStream input) {
         parser = new CommandParser(input);
     }
 

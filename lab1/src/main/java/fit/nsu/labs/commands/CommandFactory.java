@@ -46,5 +46,6 @@ public class CommandFactory {
         } catch (NullPointerException ignored) {
             throw new FactoryException("Can`t find this command: " + name + " in commands config file");
         }
+        
     }
 }

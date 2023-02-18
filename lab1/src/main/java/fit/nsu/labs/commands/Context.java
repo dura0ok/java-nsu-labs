@@ -16,5 +16,5 @@ public interface Context {
 
     public boolean isDefined(String key);
 
-    public double getDefinedByKey(String key);
+    public double getDefinedByKey(String key) throws NullPointerException;
 }

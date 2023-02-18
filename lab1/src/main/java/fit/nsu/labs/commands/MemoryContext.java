@@ -57,6 +57,9 @@ public class MemoryContext implements Context {
     }
 
     public double getDefinedByKey(String key) {
+        if (!defines.containsKey(key)) {
+            throw new NullPointerException();
+        }
         return defines.get(key);
     }
 

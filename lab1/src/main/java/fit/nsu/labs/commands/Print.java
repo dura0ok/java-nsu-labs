@@ -27,7 +27,7 @@ public class Print extends Command {
         } catch (NullPointerException e) {
             throw new NotEnoughArgumentsInStack(
                     getCommandName(),
-                    "what to print which need be in stack, but stack empty :C"
+                    "Nothing to print. Stack empty."
             );
         }
 

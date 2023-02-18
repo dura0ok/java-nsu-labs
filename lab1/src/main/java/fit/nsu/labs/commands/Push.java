@@ -2,8 +2,10 @@ package fit.nsu.labs.commands;
 
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 
 import java.io.IOException;
+import java.util.EmptyStackException;
 import java.util.logging.Level;
 
 public class Push extends Command {
@@ -34,8 +36,15 @@ public class Push extends Command {
                 );
             }
 
-            var value = context.getDefinedByKey(arg);
-            context.pushStack(value);
+            try{
+                var value = context.getDefinedByKey(arg);
+                context.pushStack(value);
+            }catch (NullPointerException exception){
+                throw new InvalidCommandArgument(getCommandName(), "what to define");
+            }
+
+
+
         }
 
     }

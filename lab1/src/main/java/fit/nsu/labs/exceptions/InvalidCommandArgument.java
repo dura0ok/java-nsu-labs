@@ -6,6 +6,6 @@ public class InvalidCommandArgument extends CalcException {
     }
 
     public InvalidCommandArgument(String commandName, String argName) {
-        super(String.format("Invalid argument(%s) in command %s", argName, commandName));
+        super(String.format("Invalid argument in command %s. Problem with %s", commandName, argName));
     }
 }

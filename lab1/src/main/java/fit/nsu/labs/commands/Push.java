@@ -2,10 +2,8 @@ package fit.nsu.labs.commands;
 
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
-import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 
 import java.io.IOException;
-import java.util.EmptyStackException;
 import java.util.logging.Level;
 
 public class Push extends Command {
@@ -14,10 +12,6 @@ public class Push extends Command {
         super(inputArgs);
     }
 
-    @Override
-    public String getCommandName() {
-        return "push";
-    }
 
     @Override
     public void execute(Context context) throws CalcException, IOException {
@@ -29,20 +23,19 @@ public class Push extends Command {
             context.pushStack(Double.parseDouble(arg));
         } catch (NumberFormatException e) {
             if (!context.isDefined(arg)) {
-                logger.log(Level.INFO,
+                logger.log(Level.WARNING,
                         "Exception: InvalidCommandArgument. Push argument must be number or defined value");
                 throw new InvalidCommandArgument(
                         getCommandName(), "push argument must be number or defined value"
                 );
             }
 
-            try{
+            try {
                 var value = context.getDefinedByKey(arg);
                 context.pushStack(value);
-            }catch (NullPointerException exception){
+            } catch (NullPointerException exception) {
                 throw new InvalidCommandArgument(getCommandName(), "what to define");
             }
-
 
 
         }

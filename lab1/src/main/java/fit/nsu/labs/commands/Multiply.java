@@ -9,11 +9,6 @@ public class Multiply extends Command {
     }
 
     @Override
-    public String getCommandName() {
-        return "multiply";
-    }
-
-    @Override
     public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);

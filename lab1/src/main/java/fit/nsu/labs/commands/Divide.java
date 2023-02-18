@@ -10,11 +10,6 @@ public class Divide extends Command {
     }
 
     @Override
-    public String getCommandName() {
-        return "divide";
-    }
-
-    @Override
     public void execute(Context context) throws CalcException {
 
         validateNumberOfArgs(0);
@@ -22,7 +17,7 @@ public class Divide extends Command {
 
         var secondNum = context.popStack();
         var firstNum = context.popStack();
-        if (secondNum == 0) {
+        if (Double.compare(secondNum, 0) == 0) {
             throw new InvalidCommandArgument(getCommandName(), "second arg in stack(division by zero)");
         }
         context.pushStack(firstNum / secondNum);

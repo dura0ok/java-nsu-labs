@@ -9,10 +9,6 @@ public class Sqrt extends Command {
         super(inputArgs);
     }
 
-    @Override
-    public String getCommandName() {
-        return "sqrt";
-    }
 
     @Override
     public void execute(Context context) throws CalcException {

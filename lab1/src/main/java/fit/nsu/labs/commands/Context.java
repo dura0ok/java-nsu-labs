@@ -1,20 +1,18 @@
 package fit.nsu.labs.commands;
 
 public interface Context {
-    public Double popStack();
+    double popStack();
 
-    public int getStackSize();
+    int getStackSize();
 
-    public void pushStack(double input);
+    void pushStack(double input);
 
-    public boolean isStackEmpty();
-
-    public double peekStack() throws NullPointerException;
+    double peekStack() throws NullPointerException;
 
 
-    public void defineNumber(String key, double value);
+    void defineNumber(String key, double value);
 
-    public boolean isDefined(String key);
+    boolean isDefined(String key);
 
-    public double getDefinedByKey(String key) throws NullPointerException;
+    double getDefinedByKey(String key) throws NullPointerException;
 }

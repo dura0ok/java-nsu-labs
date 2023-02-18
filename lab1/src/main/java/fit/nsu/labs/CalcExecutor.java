@@ -5,29 +5,33 @@ import fit.nsu.labs.exceptions.CalcException;
 
 import java.io.InputStream;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CalcExecutor {
+    public final Logger logger;
     private final CommandParser parser;
 
-    public CalcExecutor(InputStream input) {
+
+    public CalcExecutor(InputStream input) throws CalcException {
         parser = new CommandParser(input);
+        logger = CalcLogger.getLogger(this.getClass());
     }
 
     public void calculate() throws Exception {
         var context = new MemoryContext();
-        CalcLogger.getLogger(this.getClass()).log(Level.INFO, "start parsing commands");
+        logger.log(Level.INFO, "start parsing commands");
         var commands = parser.parseCommands();
-        CalcLogger.getLogger(this.getClass()).log(Level.INFO, "end parsing commands");
+        logger.log(Level.INFO, "end parsing commands");
         for (var command : commands) {
-            CalcLogger.getLogger(this.getClass()).log(Level.INFO, "Start execute: " + command.getCommandName());
+            logger.log(Level.INFO, "Start execute: " + command.getCommandName());
             try {
                 command.execute(context);
             } catch (CalcException e) {
-                System.err.println(e.getMessage());
+                logger.warning(e.getMessage());
             }
 
         }
-        CalcLogger.getLogger(this.getClass()).log(Level.INFO, "Execute all commands. Finish");
+        logger.log(Level.INFO, "Execute all commands. Finish");
     }
 
 

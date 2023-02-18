@@ -11,11 +11,6 @@ public class Subtract extends Command {
     }
 
     @Override
-    public String getCommandName() {
-        return "subtract";
-    }
-
-    @Override
     public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(0);

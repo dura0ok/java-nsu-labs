@@ -23,7 +23,9 @@ public abstract class Command {
     }
 
 
-    public abstract String getCommandName();
+    public String getCommandName() {
+        return this.getClass().getName();
+    }
 
 
     public String[] getArgs() {

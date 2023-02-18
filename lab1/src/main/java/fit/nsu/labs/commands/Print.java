@@ -12,11 +12,6 @@ public class Print extends Command {
     }
 
     @Override
-    public String getCommandName() {
-        return "print";
-    }
-
-    @Override
     public void execute(Context context) throws CalcException, IOException {
 
         validateNumberOfArgs(0);

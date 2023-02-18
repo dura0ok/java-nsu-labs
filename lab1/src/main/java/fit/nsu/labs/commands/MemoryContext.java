@@ -1,13 +1,14 @@
 package fit.nsu.labs.commands;
 
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryContext implements Context {
 
 
-    private final ArrayDeque<Double> stack;
+    private final Deque<Double> stack;
 
 
     private final Map<String, Double> defines;
@@ -23,7 +24,7 @@ public class MemoryContext implements Context {
     }
 
 
-    public Double popStack() {
+    public double popStack() {
         return stack.pop();
     }
 
@@ -35,14 +36,10 @@ public class MemoryContext implements Context {
         stack.push(input);
     }
 
-    public boolean isStackEmpty() {
-        return stack.isEmpty();
-    }
-
     public double peekStack() throws NullPointerException {
         var retValue = stack.peek();
         if (retValue == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Stack empty");
         }
         return retValue;
     }
@@ -58,7 +55,7 @@ public class MemoryContext implements Context {
 
     public double getDefinedByKey(String key) {
         if (!defines.containsKey(key)) {
-            throw new NullPointerException();
+            throw new NullPointerException("can`t find defined value");
         }
         return defines.get(key);
     }

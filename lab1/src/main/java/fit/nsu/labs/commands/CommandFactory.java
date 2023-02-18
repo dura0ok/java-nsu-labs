@@ -1,6 +1,7 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.exceptions.CalcException;
+import fit.nsu.labs.exceptions.ConfigurationException;
 import fit.nsu.labs.exceptions.FactoryException;
 
 import java.io.BufferedReader;
@@ -33,7 +34,7 @@ public class CommandFactory {
         for (String line = dataReader.readLine(); line != null; line = dataReader.readLine()) {
             String[] tokens = line.split("@");
 
-            if(tokens.length != 2){
+            if (tokens.length != 2) {
                 throw new FactoryException("Invalid Config");
             }
 
@@ -46,16 +47,16 @@ public class CommandFactory {
     public Command createCommand(String name, String[] args) throws CalcException {
         try {
             var classPath = commandsSources.get(name);
-            if(classPath == null){
-                throw new AssertionError("class path " + name + " not found");
+            if (classPath == null) {
+                throw new ConfigurationException("class path " + name + " not found in config");
             }
             Class<?> c = Class.forName(classPath);
             return (Command) c.getConstructor(String[].class).newInstance((Object) args);
+        } catch (ClassNotFoundException e) {
+            throw new FactoryException("Can`t find this command with name " + name + " in available commands");
         } catch (ReflectiveOperationException e) {
-            throw new FactoryException("Can`t create command. Error: " + e.getMessage());
-        } catch (NullPointerException ignored) {
-            throw new FactoryException("Can`t find this command with name " + name + " in commands config file");
+            throw new FactoryException("Unknown error when trying to create command. " + e.getMessage());
         }
-        
+
     }
 }

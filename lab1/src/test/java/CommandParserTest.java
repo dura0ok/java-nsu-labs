@@ -2,6 +2,7 @@ import fit.nsu.labs.CommandParser;
 import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.commands.Subtract;
 import fit.nsu.labs.exceptions.CalcException;
+import fit.nsu.labs.exceptions.ConfigurationException;
 import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import org.junit.jupiter.api.Test;
 
@@ -47,14 +48,8 @@ class CommandParserTest {
 
     @Test
     void singleIncorrectCommandName() {
-        try {
-            var parser = generateParser("sqrt1 arg1 arg2");
-            parser.parseCommands();
-            fail();
-        } catch (Exception ignored) {
-
-        }
-
+        var parser = generateParser("sqrt1 arg1 arg2");
+        assertThrows(ConfigurationException.class, parser::parseCommands);
     }
 
     @Test

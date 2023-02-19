@@ -22,6 +22,7 @@ public class Define extends Command {
         var key = getArgs()[0];
         var value = getArgs()[1];
 
+        // todo: 2 problems
         context.defineNumber(key, Double.parseDouble(value));
     }
 

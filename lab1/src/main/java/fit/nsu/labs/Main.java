@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
+        // todo: what should user do after the program is started?
         try {
 
             switch (args.length) {

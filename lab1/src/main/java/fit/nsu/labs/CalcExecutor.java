@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CalcExecutor {
+    // todo: problem
     public final Logger logger;
     private final CommandParser parser;
 

@@ -18,6 +18,7 @@ public class MemoryContext implements Context {
         stack = new ArrayDeque<>();
     }
 
+    // todo: problem
     public MemoryContext(ArrayDeque<Double> inputStack, HashMap<String, Double> inputDefines) {
         defines = inputDefines;
         stack = inputStack;
@@ -39,6 +40,7 @@ public class MemoryContext implements Context {
     public double peekStack() throws NullPointerException {
         var retValue = stack.peek();
         if (retValue == null) {
+            // todo: problem
             throw new NullPointerException("Stack empty");
         }
         return retValue;
@@ -55,6 +57,7 @@ public class MemoryContext implements Context {
 
     public double getDefinedByKey(String key) {
         if (!defines.containsKey(key)) {
+            // todo: problem
             throw new NullPointerException("can`t find defined value");
         }
         return defines.get(key);

@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 
+// todo: problem, no interface for Command
 /**
  * Abstract class Command which describes interface to commands and set arg fields
  */
 public abstract class Command {
+    // todo: problem
     public final Logger logger;
     private final String[] args;
 
@@ -34,12 +36,14 @@ public abstract class Command {
 
     public abstract void execute(Context context) throws CalcException, IOException;
 
+    // todo: problem
     public void validateNumberOfArgs(int numberNeededArgs) throws BadNumberOfArguments {
         if (getArgs().length != numberNeededArgs) {
             throw new BadNumberOfArguments(getCommandName(), 0, getArgs().length);
         }
     }
 
+    // todo: problem
     public void validateMinimumNeededStackSize(Context context, int numberNeededElements) throws NotEnoughArgumentsInStack {
         if (context.getStackSize() < numberNeededElements) {
             throw new NotEnoughArgumentsInStack(getCommandName(), numberNeededElements, context.getStackSize());

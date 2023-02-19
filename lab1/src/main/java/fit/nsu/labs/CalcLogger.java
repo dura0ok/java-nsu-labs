@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
+// todo: problem
 public class CalcLogger {
     public static Logger getLogger(Class<?> InputClass) throws CalcException {
         try {
@@ -15,6 +16,7 @@ public class CalcLogger {
                 return Logger.getLogger(InputClass.getSimpleName());
             }
         } catch (IOException exception) {
+            // todo: problem: the original exception and its stack trace is lost
             throw new ConfigurationException("can`t open/find log file");
         }
     }

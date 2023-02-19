@@ -13,12 +13,14 @@ import java.util.Arrays;
 
 
 public class CommandParser {
+    // todo: problem
     BufferedReader in;
 
     public CommandParser(InputStream input) {
         in = new BufferedReader(new InputStreamReader(input));
     }
 
+    // todo: problem
     public ArrayList<Command> parseCommands() throws CalcException, IOException {
         var factory = new CommandFactory();
         var commands = new ArrayList<Command>();

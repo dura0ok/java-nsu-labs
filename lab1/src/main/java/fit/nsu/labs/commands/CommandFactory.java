@@ -46,7 +46,7 @@ public class CommandFactory {
 
     public Command createCommand(String name, String[] args) throws CalcException {
         try {
-            var classPath = commandsSources.get(name);
+            var classPath = commandsSources.get(name.toLowerCase());
             if (classPath == null) {
                 throw new ConfigurationException("class path " + name + " not found in config");
             }

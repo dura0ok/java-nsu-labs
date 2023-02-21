@@ -3,10 +3,15 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-public class Sqrt extends Command {
+public class Sqrt extends AbstractCommand {
 
     public Sqrt(String[] inputArgs) throws CalcException {
         super(inputArgs);
+    }
+
+    @Override
+    public String getCommandDescription() {
+        return "sqrt two numbers";
     }
 
 

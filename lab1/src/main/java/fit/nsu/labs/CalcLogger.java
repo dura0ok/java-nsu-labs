@@ -17,6 +17,7 @@ public class CalcLogger {
             }
         } catch (IOException exception) {
             // todo: problem: the original exception and its stack trace is lost
+            exception.printStackTrace();
             throw new ConfigurationException("can`t open/find log file");
         }
     }

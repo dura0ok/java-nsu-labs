@@ -1,5 +1,6 @@
 package fit.nsu.labs;
 
+import fit.nsu.labs.commands.CommandFactory;
 import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
 
@@ -10,15 +11,21 @@ import java.nio.file.Paths;
 public class Main {
     public static void main(String[] args) {
         // todo: what should user do after the program is started?
-        try {
 
+        try {
+            var factory = new CommandFactory();
+            factory.printAvailableCommandsInfo();
             switch (args.length) {
                 case 0 -> {
+                    System.out.println("Вводите команды свои прямо в терминал.");
+                    System.out.println("Далее нажмите ctrl-d на Linux или ctrl-z чтобы он посчитал");
+
                     CalcExecutor calc = new CalcExecutor(System.in);
                     calc.calculate();
                 }
 
                 case 1 -> {
+                    System.out.println("I read your commands now from file and calculate");
                     try (var input = Files.newInputStream(Paths.get(args[0]))) {
                         CalcExecutor calc = new CalcExecutor(input);
                         calc.calculate();

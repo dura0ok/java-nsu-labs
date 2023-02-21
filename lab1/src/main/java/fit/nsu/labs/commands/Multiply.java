@@ -2,10 +2,15 @@ package fit.nsu.labs.commands;
 
 import fit.nsu.labs.exceptions.CalcException;
 
-public class Multiply extends Command {
+public class Multiply extends AbstractCommand {
 
     public Multiply(String[] inputArgs) throws CalcException {
         super(inputArgs);
+    }
+
+    @Override
+    public String getCommandDescription() {
+        return "multiply two numbers";
     }
 
     @Override

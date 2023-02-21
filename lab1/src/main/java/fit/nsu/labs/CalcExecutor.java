@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class CalcExecutor {
     // todo: problem
-    public final Logger logger;
+    private final Logger logger;
     private final CommandParser parser;
 
 

@@ -5,10 +5,15 @@ import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 
 import java.io.IOException;
 
-public class Print extends Command {
+public class Print extends AbstractCommand {
 
     public Print(String[] inputArgs) throws CalcException {
         super(inputArgs);
+    }
+
+    @Override
+    public String getCommandDescription() {
+        return "print two numbers";
     }
 
     @Override

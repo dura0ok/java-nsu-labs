@@ -4,10 +4,15 @@ import fit.nsu.labs.exceptions.CalcException;
 
 import java.io.IOException;
 
-public class Subtract extends Command {
+public class Subtract extends AbstractCommand {
 
     public Subtract(String[] inputArgs) throws CalcException {
         super(inputArgs);
+    }
+
+    @Override
+    public String getCommandDescription() {
+        return "subtract two numbers";
     }
 
     @Override

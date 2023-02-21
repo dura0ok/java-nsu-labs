@@ -44,19 +44,28 @@ public class CommandFactory {
         }
     }
 
-    public Command createCommand(String name, String[] args) throws CalcException {
+    public AbstractCommand createCommand(String name, String[] args) throws CalcException {
         try {
             var classPath = commandsSources.get(name.toLowerCase());
             if (classPath == null) {
                 throw new ConfigurationException("class path " + name + " not found in config");
             }
             Class<?> c = Class.forName(classPath);
-            return (Command) c.getConstructor(String[].class).newInstance((Object) args);
+            return (AbstractCommand) c.getConstructor(String[].class).newInstance((Object) args);
         } catch (ClassNotFoundException e) {
             throw new FactoryException("Can`t find this command with name " + name + " in available commands");
         } catch (ReflectiveOperationException e) {
             throw new FactoryException("Unknown error when trying to create command. " + e.getMessage());
         }
 
+    }
+
+    public void printAvailableCommandsInfo() throws CalcException {
+        System.out.println("Доступные комманды:");
+        System.out.println("--------------------");
+        for (var command : commandsSources.keySet()) {
+            System.out.println(command + " " + createCommand(command, null).getCommandDescription());
+        }
+        System.out.println("--------------------");
     }
 }

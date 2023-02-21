@@ -3,11 +3,17 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
-public class Divide extends Command {
+public class Divide extends AbstractCommand {
 
     public Divide(String[] inputArgs) throws CalcException {
         super(inputArgs);
     }
+
+    @Override
+    public String getCommandDescription() {
+        return "divide two numbers";
+    }
+
 
     @Override
     public void execute(Context context) throws CalcException {

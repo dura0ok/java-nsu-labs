@@ -6,10 +6,15 @@ import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import java.io.IOException;
 import java.util.logging.Level;
 
-public class Push extends Command {
+public class Push extends AbstractCommand {
 
     public Push(String[] inputArgs) throws CalcException {
         super(inputArgs);
+    }
+
+    @Override
+    public String getCommandDescription() {
+        return "push two numbers";
     }
 
 

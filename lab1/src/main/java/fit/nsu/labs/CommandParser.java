@@ -14,27 +14,33 @@ import java.util.Arrays;
 
 public class CommandParser {
     // todo: problem
-    BufferedReader in;
+    private final BufferedReader in;
 
     public CommandParser(InputStream input) {
         in = new BufferedReader(new InputStreamReader(input));
     }
 
     // todo: problem
-    public ArrayList<Command> parseCommands() throws CalcException, IOException {
+    public ArrayList<Command> parseCommands() throws CalcException {
         var factory = new CommandFactory();
         var commands = new ArrayList<Command>();
 
-        for (String line = in.readLine(); line != null; line = in.readLine()) {
-            line = line.trim();
-            if (line.startsWith("#") || line.isEmpty()) {
-                continue;
-            }
-            String[] tokens = line.split("\\s+");
-            String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);
-            commands.add(factory.createCommand(tokens[0], args));
+        try {
+            for (String line = in.readLine(); line != null; line = in.readLine()) {
+                line = line.trim();
+                if (line.startsWith("#") || line.isEmpty()) {
+                    continue;
+                }
+                String[] tokens = line.split("\\s+");
+                String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);
+                commands.add(factory.createCommand(tokens[0], args));
 
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CalcException("Error when parse commands " + e.getMessage());
         }
+
 
         return commands;
     }

@@ -17,8 +17,8 @@ public class Main {
             factory.printAvailableCommandsInfo();
             switch (args.length) {
                 case 0 -> {
-                    System.out.println("Вводите команды свои прямо в терминал.");
-                    System.out.println("Далее нажмите ctrl-d на Linux или ctrl-z чтобы он посчитал");
+                    System.out.println("Enter your commands directly into the terminal.");
+                    System.out.println("Next press ctrl-d on Linux or ctrl-z to make it count");
 
                     CalcExecutor calc = new CalcExecutor(System.in);
                     calc.calculate();

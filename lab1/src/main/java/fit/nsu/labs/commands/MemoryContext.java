@@ -1,15 +1,16 @@
 package fit.nsu.labs.commands;
 
+import fit.nsu.labs.exceptions.CalcException;
+import fit.nsu.labs.exceptions.InvalidCommandArgument;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryContext implements Context {
-
-
     private final Deque<Double> stack;
-
 
     private final Map<String, Double> defines;
 
@@ -19,11 +20,11 @@ public class MemoryContext implements Context {
     }
 
     // todo: problem
-    public MemoryContext(ArrayDeque<Double> inputStack, HashMap<String, Double> inputDefines) {
+    // fix as: More general replace(Deque, Map)
+    public MemoryContext(Deque<Double> inputStack, Map<String, Double> inputDefines) {
         defines = inputDefines;
         stack = inputStack;
     }
-
 
     public double popStack() {
         return stack.pop();
@@ -37,15 +38,15 @@ public class MemoryContext implements Context {
         stack.push(input);
     }
 
-    public double peekStack() throws NullPointerException {
+    public double peekStack() throws CalcException {
         var retValue = stack.peek();
         if (retValue == null) {
             // todo: problem
-            throw new NullPointerException("Stack empty");
+            // fixed as throws calc exception
+            throw new NotEnoughArgumentsInStack("Stack empty");
         }
         return retValue;
     }
-
 
     public void defineNumber(String key, double value) {
         defines.put(key, value);
@@ -55,13 +56,11 @@ public class MemoryContext implements Context {
         return defines.containsKey(key);
     }
 
-    public double getDefinedByKey(String key) {
+    public double getDefinedByKey(String key) throws CalcException {
         if (!defines.containsKey(key)) {
             // todo: problem
-            throw new NullPointerException("can`t find defined value");
+            throw new InvalidCommandArgument("can`t find in defined variables this key: " + key);
         }
         return defines.get(key);
     }
-
-
 }

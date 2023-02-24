@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 public class CalcExecutor {
     // todo: problem
+    // fixed add private
     private final Logger logger;
     private final CommandParser parser;
-
 
     public CalcExecutor(InputStream input) throws CalcException {
         parser = new CommandParser(input);
@@ -34,6 +34,4 @@ public class CalcExecutor {
         }
         logger.log(Level.INFO, "Execute all commands. Finish");
     }
-
-
 }

@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class Main {
     public static void main(String[] args) {
         // todo: what should user do after the program is started?
-
+        // solved ass print printAvailableCommandsInfo
         try {
             var factory = new CommandFactory();
             factory.printAvailableCommandsInfo();
@@ -35,8 +35,6 @@ public class Main {
                         "You can add only 1 file to read from or stdin can be used by default"
                 );
             }
-
-
         } catch (CalcException e) {
             System.err.println(e.getMessage());
         } catch (Exception e) {

@@ -1,12 +1,12 @@
 package fit.nsu.labs.exceptions;
 
 public class NotEnoughArgumentsInStack extends CalcException {
-    public NotEnoughArgumentsInStack(String commandName) {
-        super("Empty Stack when trying to get arguments in command: " + commandName);
+    public NotEnoughArgumentsInStack(String message) {
+        super(message);
     }
 
     public NotEnoughArgumentsInStack(String commandName, String argName) {
-        super(String.format("Empty Stack when trying to get argument %s in command %s", argName, commandName));
+        super(String.format("Empty Stack in command %s when trying to get argument %s", argName, commandName));
     }
 
     public NotEnoughArgumentsInStack(String commandName, int expectedSize, int realitySize) {
@@ -15,6 +15,4 @@ public class NotEnoughArgumentsInStack extends CalcException {
                 commandName, expectedSize, realitySize)
         );
     }
-
-
 }

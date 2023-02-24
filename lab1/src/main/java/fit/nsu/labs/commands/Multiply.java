@@ -3,19 +3,17 @@ package fit.nsu.labs.commands;
 import fit.nsu.labs.exceptions.CalcException;
 
 public class Multiply extends AbstractCommand {
-
     public Multiply(String[] inputArgs) throws CalcException {
         super(inputArgs);
     }
 
     @Override
     public String getCommandDescription() {
-        return "multiply two numbers";
+        return "multiply two numbers from stack. Result put in stack.";
     }
 
     @Override
     public void execute(Context context) throws CalcException {
-
         validateNumberOfArgs(0);
         validateMinimumNeededStackSize(context, 2);
 
@@ -24,6 +22,4 @@ public class Multiply extends AbstractCommand {
         context.pushStack(firstNum * secondNum);
 
     }
-
-
 }

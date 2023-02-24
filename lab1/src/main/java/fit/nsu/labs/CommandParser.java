@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 public class CommandParser {
     // todo: problem
+    // Solved as private final
     private final BufferedReader in;
 
     public CommandParser(InputStream input) {
@@ -21,10 +22,10 @@ public class CommandParser {
     }
 
     // todo: problem
+    // Solved as: remove IOException
     public ArrayList<Command> parseCommands() throws CalcException {
         var factory = new CommandFactory();
         var commands = new ArrayList<Command>();
-
         try {
             for (String line = in.readLine(); line != null; line = in.readLine()) {
                 line = line.trim();
@@ -40,8 +41,6 @@ public class CommandParser {
             e.printStackTrace();
             throw new CalcException("Error when parse commands " + e.getMessage());
         }
-
-
         return commands;
     }
 }

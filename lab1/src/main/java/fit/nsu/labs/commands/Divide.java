@@ -4,20 +4,17 @@ import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
 public class Divide extends AbstractCommand {
-
     public Divide(String[] inputArgs) throws CalcException {
         super(inputArgs);
     }
 
     @Override
     public String getCommandDescription() {
-        return "divide two numbers";
+        return "Divide two numbers from stack. Result put in stack.";
     }
-
 
     @Override
     public void execute(Context context) throws CalcException {
-
         validateNumberOfArgs(0);
         validateMinimumNeededStackSize(context, 2);
 
@@ -26,9 +23,7 @@ public class Divide extends AbstractCommand {
         if (Double.compare(secondNum, 0) == 0) {
             throw new InvalidCommandArgument(getCommandName(), "second arg in stack(division by zero)");
         }
+
         context.pushStack(firstNum / secondNum);
-
     }
-
-
 }

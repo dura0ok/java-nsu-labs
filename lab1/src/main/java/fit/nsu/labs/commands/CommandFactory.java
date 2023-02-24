@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CommandFactory {
-
     private final Map<String, String> commandsSources = new HashMap<>();
 
     public CommandFactory() throws CalcException {
@@ -57,11 +56,10 @@ public class CommandFactory {
         } catch (ReflectiveOperationException e) {
             throw new FactoryException("Unknown error when trying to create command. " + e.getMessage());
         }
-
     }
 
     public void printAvailableCommandsInfo() throws CalcException {
-        System.out.println("Доступные комманды:");
+        System.out.println("Available commands:");
         System.out.println("--------------------");
         for (var command : commandsSources.keySet()) {
             System.out.println(command + " " + createCommand(command, null).getCommandDescription());

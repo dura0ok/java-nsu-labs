@@ -6,38 +6,35 @@ import fit.nsu.labs.exceptions.InvalidCommandArgument;
 import java.util.logging.Level;
 
 public class Define extends AbstractCommand {
-
     public Define(String[] inputArgs) throws CalcException {
         super(inputArgs);
     }
 
     @Override
-    public String getCommandName() {
-        return "define";
-    }
-
-    @Override
     public String getCommandDescription() {
-        return "define";
+        return "Define num to letter. Example: define a 4; push a === push 4";
     }
 
     @Override
     public void execute(Context context) throws CalcException {
-
         validateNumberOfArgs(2);
         var key = getArgs()[0];
         var value = getArgs()[1];
 
-        try {
-            double numberDefine = Double.parseDouble(value);
-            if (context.isDefined(key)) {
-                throw new InvalidCommandArgument("this variable already defined " + key);
-            }
-            context.defineNumber(key, numberDefine);
-        } catch (NumberFormatException exception) {
-            logger.log(Level.WARNING, exception.getMessage());
+        if (context.isDefined(key)) {
+            throw new InvalidCommandArgument(getCommandName(), "this variable already defined " + key);
         }
+
+        if (isNotDouble(value)) {
+            logger.log(Level.WARNING, "this is not a number! You can define only numbers");
+            return;
+        }
+
+        double numberDefine = Double.parseDouble(value);
+        context.defineNumber(key, numberDefine);
+
     }
 
 
 }
+

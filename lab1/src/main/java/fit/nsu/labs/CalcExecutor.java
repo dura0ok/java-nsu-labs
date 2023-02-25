@@ -1,5 +1,6 @@
 package fit.nsu.labs;
 
+import fit.nsu.labs.commands.Command;
 import fit.nsu.labs.commands.MemoryContext;
 import fit.nsu.labs.exceptions.CalcException;
 
@@ -21,12 +22,8 @@ public class CalcExecutor {
     public void calculate() throws Exception {
         var context = new MemoryContext();
         logger.log(Level.INFO, "start execute commands");
-        while (true) {
-            var command = parser.parseCommand();
-            if(command == null){
-                break;
-            }
-
+        Command command;
+        while ((command = parser.parseCommand()) != null) {
             logger.log(Level.INFO, "Start execute: " + command.getCommandName() + "\n");
             try {
                 command.execute(context);

@@ -21,9 +21,13 @@ public class CalcExecutor {
     public void calculate() throws Exception {
         var context = new MemoryContext();
         logger.log(Level.INFO, "start parsing commands");
-        var commands = parser.parseCommands();
         logger.log(Level.INFO, "end parsing commands");
-        for (var command : commands) {
+        while (true) {
+            var command = parser.parseCommand();
+            if(command == null){
+                break;
+            }
+
             logger.log(Level.INFO, "Start execute: " + command.getCommandName());
             try {
                 command.execute(context);

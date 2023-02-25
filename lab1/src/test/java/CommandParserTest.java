@@ -26,8 +26,8 @@ class CommandParserTest {
     void emptyCommands() {
         try {
             var parser = generateParser("");
-            var commands = parser.parseCommands();
-            assertTrue(commands.isEmpty());
+            var command = parser.parseCommand();
+            assertNull(command);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -37,9 +37,8 @@ class CommandParserTest {
     void singleCorrectCommand() {
         try {
             var parser = generateParser("sqrt arg1 arg2");
-            var commands = parser.parseCommands();
-            assertEquals(1, commands.size());
-            assertArrayEquals(commands.get(0).getArgs(), new String[]{"arg1", "arg2"});
+            var command = parser.parseCommand();
+            assertArrayEquals(command.getArgs(), new String[]{"arg1", "arg2"});
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -49,17 +48,17 @@ class CommandParserTest {
     @Test
     void singleIncorrectCommandName() {
         var parser = generateParser("sqrt1 arg1 arg2");
-        assertThrows(ConfigurationException.class, parser::parseCommands);
+        assertThrows(ConfigurationException.class, parser::parseCommand);
     }
 
     @Test
     void CorrectCommandWithComment() {
         try {
             var parser = generateParser("sqrt arg1\n # comment line \n print");
-            var commands = parser.parseCommands();
-            assertEquals(2, commands.size());
-            assertArrayEquals(commands.get(0).getArgs(), new String[]{"arg1"});
-            assertEquals(0, commands.get(1).getArgs().length);
+            var sqrtCommand = parser.parseCommand();
+            assertArrayEquals(sqrtCommand.getArgs(), new String[]{"arg1"});
+            var printCommand = parser.parseCommand();
+            assertEquals(0, printCommand.getArgs().length);
         } catch (Exception ignored) {
             fail();
         }
@@ -70,10 +69,10 @@ class CommandParserTest {
     void CorrectCommandWithMultipleComment() {
         try {
             var parser = generateParser("sqrt arg1\n # comment line \n \n #multiple_comments \n print");
-            var commands = parser.parseCommands();
-            assertEquals(2, commands.size());
-            assertArrayEquals(commands.get(0).getArgs(), new String[]{"arg1"});
-            assertEquals(0, commands.get(1).getArgs().length);
+            var sqrtCommand = parser.parseCommand();
+            assertArrayEquals(sqrtCommand.getArgs(), new String[]{"arg1"});
+            var printCommand = parser.parseCommand();
+            assertEquals(0, printCommand.getArgs().length);
         } catch (Exception ignored) {
             fail();
         }

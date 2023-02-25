@@ -23,8 +23,6 @@ public class CommandParser {
     public Command parseCommand() throws CalcException {
         try {
             var factory = new CommandFactory();
-
-            System.out.println(in.equals(new BufferedReader(new InputStreamReader(System.in))));
             String line;
             do {
                 line = in.readLine();

@@ -13,19 +13,22 @@ import java.util.Arrays;
 
 public class CommandParser {
     private final BufferedReader in;
+    private final boolean isCommandLineInput;
 
     public CommandParser(InputStream input) {
         in = new BufferedReader(new InputStreamReader(input));
+        isCommandLineInput = input.equals(System.in);
     }
 
     public Command parseCommand() throws CalcException {
         try {
             var factory = new CommandFactory();
 
+            System.out.println(in.equals(new BufferedReader(new InputStreamReader(System.in))));
             String line;
             do {
                 line = in.readLine();
-                if (line == null || line.equalsIgnoreCase("exit")) {
+                if (line == null || (line.equalsIgnoreCase("exit") && isCommandLineInput)) {
                     return null;
                 }
 

@@ -5,7 +5,7 @@ public class ConfigurationException extends CalcException {
         super(message);
     }
 
-    public ConfigurationException(String message, Throwable cause){
+    public ConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

@@ -21,7 +21,7 @@ public class CommandParser {
     }
 
     public Command parseCommand() throws CalcException {
-        try{
+        try {
             var factory = new CommandFactory();
 
             String line;
@@ -39,7 +39,7 @@ public class CommandParser {
             String[] tokens = line.split("\\s+");
             String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);
             return factory.createCommand(tokens[0], args);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new CalcException("Error when parse commands ", e);
         }

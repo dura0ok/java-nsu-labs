@@ -21,8 +21,7 @@ public abstract class CalcLogger {
         } catch (IOException exception) {
             // todo: problem: the original exception and its stack trace is lost
             // Fixed as: print stack trace and create error with get message
-            exception.printStackTrace();
-            throw new ConfigurationException("can`t open/find log file. Detailed: " + exception.getMessage());
+            throw new ConfigurationException("can`t open/find log file. Detailed: " + exception.getMessage(), exception);
         }
     }
 }

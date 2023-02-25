@@ -10,7 +10,8 @@ import java.util.logging.Logger;
 import static java.util.logging.LogManager.getLogManager;
 
 // todo: problem
-public class CalcLogger {
+// fixed as add abstract
+public abstract class CalcLogger {
     public static Logger getLogger(Class<?> InputClass) throws CalcException {
         try {
             try (InputStream stream = ClassLoader.getSystemResourceAsStream("logging.properties")) {

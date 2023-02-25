@@ -59,6 +59,7 @@ public class MemoryContext implements Context {
     public double getDefinedByKey(String key) throws CalcException {
         if (!defines.containsKey(key)) {
             // todo: problem
+            // fixed as remove NPE throws
             throw new InvalidCommandArgument("can`t find in defined variables this key: " + key);
         }
         return defines.get(key);

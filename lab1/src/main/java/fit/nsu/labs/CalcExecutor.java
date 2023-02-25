@@ -20,17 +20,17 @@ public class CalcExecutor {
 
     public void calculate() throws Exception {
         var context = new MemoryContext();
-        logger.log(Level.INFO, "start parsing commands");
-        logger.log(Level.INFO, "end parsing commands");
+        logger.log(Level.INFO, "start execute commands");
         while (true) {
             var command = parser.parseCommand();
             if(command == null){
                 break;
             }
 
-            logger.log(Level.INFO, "Start execute: " + command.getCommandName());
+            logger.log(Level.INFO, "Start execute: " + command.getCommandName() + "\n");
             try {
                 command.execute(context);
+                logger.log(Level.INFO, "end execute without errors");
             } catch (CalcException e) {
                 logger.warning(e.getMessage());
             }

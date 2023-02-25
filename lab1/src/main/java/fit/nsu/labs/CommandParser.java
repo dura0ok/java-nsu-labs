@@ -26,11 +26,12 @@ public class CommandParser {
 
             String line;
             do {
-                line = in.readLine().strip();
-                if (line == null) {
+                line = in.readLine();
+                if (line == null || line.equalsIgnoreCase("exit")) {
                     return null;
                 }
 
+                line = line.strip();
 
             } while (line.startsWith("#") || line.isEmpty());
 

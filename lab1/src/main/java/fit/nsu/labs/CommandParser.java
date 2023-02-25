@@ -12,8 +12,6 @@ import java.util.Arrays;
 
 
 public class CommandParser {
-    // todo: problem
-    // Solved as private final
     private final BufferedReader in;
 
     public CommandParser(InputStream input) {

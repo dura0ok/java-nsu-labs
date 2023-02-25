@@ -7,12 +7,7 @@ import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 
 import java.util.logging.Logger;
 
-
-// todo: problem, no interface for Command
-// solved as add interface for command
 public abstract class AbstractCommand implements Command {
-    // todo: problem
-    // Solve: add protected
     protected final Logger logger;
     private final String[] args;
 
@@ -42,16 +37,12 @@ public abstract class AbstractCommand implements Command {
         return args;
     }
 
-    // todo: problem
-    // Solve: add protected
     protected void validateNumberOfArgs(int numberNeededArgs) throws BadNumberOfArguments {
         if (getArgs().length != numberNeededArgs) {
             throw new BadNumberOfArguments(getCommandName(), 0, getArgs().length);
         }
     }
 
-    // todo: problem
-    // Solve: add protected
     protected void validateMinimumNeededStackSize(Context context, int numberNeededElements) throws NotEnoughArgumentsInStack {
         if (context.getStackSize() < numberNeededElements) {
             throw new NotEnoughArgumentsInStack(getCommandName(), numberNeededElements, context.getStackSize());

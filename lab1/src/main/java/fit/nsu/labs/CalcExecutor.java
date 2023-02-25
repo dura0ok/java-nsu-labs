@@ -9,8 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CalcExecutor {
-    // todo: problem
-    // fixed add private
     private final Logger logger;
     private final CommandParser parser;
 

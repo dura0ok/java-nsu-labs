@@ -17,11 +17,13 @@ public class CommandParser {
 
     public CommandParser(InputStream input) {
         in = new BufferedReader(new InputStreamReader(input));
+        // todo: super unreliable way to detect interactive mode.
         isCommandLineInput = input.equals(System.in);
     }
 
     public Command parseCommand() throws CalcException {
         try {
+            // todo: problem
             var factory = new CommandFactory();
             String line;
             do {
@@ -39,6 +41,7 @@ public class CommandParser {
             String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);
             return factory.createCommand(tokens[0], args);
         } catch (IOException e) {
+            // todo: problem
             e.printStackTrace();
             throw new CalcException("Error when parse commands ", e);
         }

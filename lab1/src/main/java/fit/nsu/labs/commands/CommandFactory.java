@@ -43,6 +43,7 @@ public class CommandFactory {
         }
     }
 
+    // todo: problem
     public AbstractCommand createCommand(String name, String[] args) throws CalcException {
         try {
             var classPath = commandsSources.get(name.toLowerCase());
@@ -58,6 +59,7 @@ public class CommandFactory {
         }
     }
 
+    // todo: problem
     public void printAvailableCommandsInfo() throws CalcException {
         System.out.println("Available commands:");
         System.out.println("--------------------");

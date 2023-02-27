@@ -36,6 +36,7 @@ public class Main {
         } catch (CalcException e) {
             System.err.println(e.getMessage());
         } catch (Exception e) {
+            // todo: don't need this, if you're not doing anything smarter than printStackTrace
             e.printStackTrace();
         }
     }

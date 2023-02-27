@@ -8,6 +8,7 @@ import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 import java.util.logging.Logger;
 
 public abstract class AbstractCommand implements Command {
+    // todo: protected fields are not as bad as public fields, but still should be avoided. Provide protected getters/setters instead
     protected final Logger logger;
     private final String[] args;
 
@@ -16,6 +17,7 @@ public abstract class AbstractCommand implements Command {
         logger = CalcLogger.getLogger(this.getClass());
     }
 
+    // todo: looks strange, I rarely see protected static methods. Protected works with inheritance, static does not. Looks like this method does not belong here at all
     protected static boolean isNotDouble(String string) {
         try {
             Double.parseDouble(string);

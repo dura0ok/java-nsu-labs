@@ -18,9 +18,10 @@ public class MultiplyCommandTest {
         stack.push(8.0);
         stack.push(2.0);
         try {
-            var addCommand = new Multiply(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(16.0, stack.pop());
+            var multiplyCommand = new Multiply(new String[]{});
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            multiplyCommand.execute(ctx);
+            assertEquals(16.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -34,8 +35,9 @@ public class MultiplyCommandTest {
         stack.push(-8.0);
         try {
             var multiplyCommand = new Multiply(new String[]{});
-            multiplyCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(16.0, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            multiplyCommand.execute(ctx);
+            assertEquals(16.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -49,8 +51,9 @@ public class MultiplyCommandTest {
         stack.push(7.0);
         try {
             var multiplyCommand = new Multiply(new String[]{});
-            multiplyCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-49.0, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            multiplyCommand.execute(ctx);
+            assertEquals(-49.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -64,8 +67,9 @@ public class MultiplyCommandTest {
         stack.push(100.0);
         try {
             var addCommand = new Multiply(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-700.0, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(-700.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -78,9 +82,10 @@ public class MultiplyCommandTest {
         stack.push(1.75);
         stack.push(1.25);
         try {
-            var addCommand = new Multiply(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(2.1875, stack.pop());
+            var mutiplyCommand = new Multiply(new String[]{});
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            mutiplyCommand.execute(ctx);
+            assertEquals(2.1875, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -94,8 +99,9 @@ public class MultiplyCommandTest {
         stack.push(-1.75);
         try {
             var multiplyCommand = new Multiply(new String[]{});
-            multiplyCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(2.1875, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            multiplyCommand.execute(ctx);
+            assertEquals(2.1875, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }

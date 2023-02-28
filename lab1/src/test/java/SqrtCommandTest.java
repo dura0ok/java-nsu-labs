@@ -18,10 +18,12 @@ public class SqrtCommandTest {
     void sqrtNaturalSquare() {
         var stack = new ArrayDeque<Double>();
         stack.push(16.0);
+        var ctx = new MemoryContext(stack, new HashMap<>());
         try {
-            var addCommand = new Sqrt(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(4, stack.pop());
+            var sqrtCommand = new Sqrt(new String[]{});
+            sqrtCommand.execute(ctx);
+            assertEquals(4, ctx.popStack());
+
         } catch (Exception ignored) {
             fail();
         }
@@ -33,9 +35,10 @@ public class SqrtCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(2.25);
         try {
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var addCommand = new Sqrt(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(1.5, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(1.5, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }

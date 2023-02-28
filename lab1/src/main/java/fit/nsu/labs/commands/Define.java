@@ -5,6 +5,8 @@ import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
 import java.util.logging.Level;
 
+import static fit.nsu.labs.Utils.isNotDouble;
+
 public class Define extends AbstractCommand {
     public Define(String[] inputArgs) throws CalcException {
         super(inputArgs);
@@ -26,7 +28,7 @@ public class Define extends AbstractCommand {
         }
 
         if (isNotDouble(value)) {
-            logger.log(Level.WARNING, "this is not a number! You can define only numbers");
+            getLogger().log(Level.WARNING, "this is not a number! You can define only numbers");
             return;
         }
 

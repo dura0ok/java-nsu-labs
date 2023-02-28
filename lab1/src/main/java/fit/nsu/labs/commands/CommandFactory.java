@@ -1,5 +1,6 @@
 package fit.nsu.labs.commands;
 
+import fit.nsu.labs.CalcLogger;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.ConfigurationException;
 import fit.nsu.labs.exceptions.FactoryException;
@@ -10,9 +11,12 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CommandFactory {
     private final Map<String, String> commandsSources = new HashMap<>();
+    private final Logger logger = CalcLogger.getLogger(this.getClass());
 
     public CommandFactory() throws CalcException {
         try (BufferedReader dataReader = getCommandsReaders()) {
@@ -43,8 +47,7 @@ public class CommandFactory {
         }
     }
 
-    // todo: problem
-    public AbstractCommand createCommand(String name, String[] args) throws CalcException {
+    public Command createCommand(String name, String[] args) throws CalcException {
         try {
             var classPath = commandsSources.get(name.toLowerCase());
             if (classPath == null) {
@@ -59,12 +62,15 @@ public class CommandFactory {
         }
     }
 
-    // todo: problem
-    public void printAvailableCommandsInfo() throws CalcException {
+    public void printAvailableCommandsInfo(){
         System.out.println("Available commands:");
         System.out.println("--------------------");
         for (var command : commandsSources.keySet()) {
-            System.out.println(command + " " + createCommand(command, null).getCommandDescription());
+            try {
+                System.out.println(command + " " + createCommand(command, null).getCommandDescription());
+            }catch (CalcException e){
+                logger.log(Level.WARNING, e.getMessage());
+            }
         }
         System.out.println("--------------------");
     }

@@ -16,7 +16,7 @@ public class Main {
             switch (args.length) {
                 case 0 -> {
                     System.out.println("Enter your commands directly into the terminal.");
-                    System.out.println("Next press ctrl-d on Linux or ctrl-z to make it count");
+                    System.out.println("Next press ctrl-d on Linux or ctrl-z to make it count or use exit command");
 
                     CalcExecutor calc = new CalcExecutor(System.in);
                     calc.calculate();
@@ -33,11 +33,8 @@ public class Main {
                         "You can add only 1 file to read from or stdin can be used by default"
                 );
             }
-        } catch (CalcException e) {
-            System.err.println(e.getMessage());
         } catch (Exception e) {
-            // todo: don't need this, if you're not doing anything smarter than printStackTrace
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }

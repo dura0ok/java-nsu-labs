@@ -5,6 +5,8 @@ import fit.nsu.labs.exceptions.InvalidCommandArgument;
 
 import java.util.logging.Level;
 
+import static fit.nsu.labs.Utils.isNotDouble;
+
 public class Push extends AbstractCommand {
 
     public Push(String[] inputArgs) throws CalcException {
@@ -31,7 +33,7 @@ public class Push extends AbstractCommand {
                 var value = context.getDefinedByKey(arg);
                 context.pushStack(value);
             } catch (CalcException e) {
-                logger.log(
+                getLogger().log(
                         Level.WARNING,
                         e.getMessage()
                 );

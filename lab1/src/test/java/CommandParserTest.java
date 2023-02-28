@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CommandParserTest {
 
 
-    CommandParser generateParser(String inputData) {
+    CommandParser generateParser(String inputData) throws CalcException {
         return new CommandParser(
                 new ByteArrayInputStream(inputData.getBytes())
         );
@@ -46,7 +46,7 @@ class CommandParserTest {
     }
 
     @Test
-    void singleIncorrectCommandName() {
+    void singleIncorrectCommandName() throws CalcException {
         var parser = generateParser("sqrt1 arg1 arg2");
         assertThrows(ConfigurationException.class, parser::parseCommand);
     }

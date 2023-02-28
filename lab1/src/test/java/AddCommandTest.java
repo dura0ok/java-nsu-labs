@@ -19,9 +19,10 @@ public class AddCommandTest {
         stack.push(2.0);
         stack.push(8.0);
         try {
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var addCommand = new Add(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(10.0, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(10.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -33,10 +34,11 @@ public class AddCommandTest {
         var stack = new ArrayDeque<Double>();
         stack.push(-2.0);
         stack.push(-8.0);
+        var ctx = new MemoryContext(stack, new HashMap<>());
         try {
             var addCommand = new Add(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-10.0, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(-10.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -49,9 +51,10 @@ public class AddCommandTest {
         stack.push(-7.0);
         stack.push(7.0);
         try {
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var addCommand = new Add(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(0, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -64,9 +67,10 @@ public class AddCommandTest {
         stack.push(-7.0);
         stack.push(100.0);
         try {
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var addCommand = new Add(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(93.0, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(93.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -79,9 +83,10 @@ public class AddCommandTest {
         stack.push(1.25);
         stack.push(1.75);
         try {
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var addCommand = new Add(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(3.0, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(3.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -94,9 +99,10 @@ public class AddCommandTest {
         stack.push(-1.25);
         stack.push(1.75);
         try {
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var addCommand = new Add(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(0.5, stack.pop());
+            addCommand.execute(ctx);
+            assertEquals(0.5, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }

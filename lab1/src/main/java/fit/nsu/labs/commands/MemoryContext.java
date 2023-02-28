@@ -19,11 +19,9 @@ public class MemoryContext implements Context {
         stack = new ArrayDeque<>();
     }
 
-    // todo: problem
-    // fix as: More general replace(Deque, Map)
     public MemoryContext(Deque<Double> inputStack, Map<String, Double> inputDefines) {
-        defines = inputDefines;
-        stack = inputStack;
+        defines = new HashMap<>(inputDefines);
+        stack = new ArrayDeque<>(inputStack);
     }
 
     public double popStack() {
@@ -59,7 +57,6 @@ public class MemoryContext implements Context {
     public double getDefinedByKey(String key) throws CalcException {
         if (!defines.containsKey(key)) {
             // todo: problem
-            // fixed as remove NPE throws
             throw new InvalidCommandArgument("can`t find in defined variables this key: " + key);
         }
         return defines.get(key);

@@ -19,8 +19,9 @@ public class DivideCommandTest {
         stack.push(2.0);
         try {
             var divideCommand = new Divide(new String[]{});
-            divideCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(4.0, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            divideCommand.execute(ctx);
+            assertEquals(4.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -34,8 +35,9 @@ public class DivideCommandTest {
         stack.push(-8.0);
         try {
             var addCommand = new Divide(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(0.25, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(0.25, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -48,9 +50,10 @@ public class DivideCommandTest {
         stack.push(-7.0);
         stack.push(7.0);
         try {
-            var addCommand = new Divide(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-1.0, stack.pop());
+            var divideCommand = new Divide(new String[]{});
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            divideCommand.execute(ctx);
+            assertEquals(-1.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -63,9 +66,10 @@ public class DivideCommandTest {
         stack.push(-7.0);
         stack.push(100.0);
         try {
-            var addCommand = new Divide(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-0.07, stack.pop());
+            var divideCommand = new Divide(new String[]{});
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            divideCommand.execute(ctx);
+            assertEquals(-0.07, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -79,8 +83,9 @@ public class DivideCommandTest {
         stack.push(1.25);
         try {
             var addCommand = new Divide(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(1.4, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(1.4, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -94,8 +99,9 @@ public class DivideCommandTest {
         stack.push(-0.5);
         try {
             var addCommand = new Divide(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(5, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(5, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }

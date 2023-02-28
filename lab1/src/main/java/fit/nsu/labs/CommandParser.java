@@ -13,22 +13,19 @@ import java.util.Arrays;
 
 public class CommandParser {
     private final BufferedReader in;
-    private final boolean isCommandLineInput;
+    private final CommandFactory factory;
 
-    public CommandParser(InputStream input) {
+    public CommandParser(InputStream input) throws CalcException {
         in = new BufferedReader(new InputStreamReader(input));
-        // todo: super unreliable way to detect interactive mode.
-        isCommandLineInput = input.equals(System.in);
+        factory = new CommandFactory();
     }
 
     public Command parseCommand() throws CalcException {
         try {
-            // todo: problem
-            var factory = new CommandFactory();
             String line;
             do {
                 line = in.readLine();
-                if (line == null || (line.equalsIgnoreCase("exit") && isCommandLineInput)) {
+                if (line == null || line.equalsIgnoreCase("exit")) {
                     return null;
                 }
 
@@ -41,8 +38,6 @@ public class CommandParser {
             String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);
             return factory.createCommand(tokens[0], args);
         } catch (IOException e) {
-            // todo: problem
-            e.printStackTrace();
             throw new CalcException("Error when parse commands ", e);
         }
     }

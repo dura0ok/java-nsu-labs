@@ -8,9 +8,9 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 
 import static java.util.logging.LogManager.getLogManager;
+public class CalcLogger {
+    private CalcLogger(){}
 
-// todo: problem, abstract means you're expecting subclasses
-public abstract class CalcLogger {
     public static Logger getLogger(Class<?> InputClass) throws CalcException {
         try {
             try (InputStream stream = ClassLoader.getSystemResourceAsStream("logging.properties")) {

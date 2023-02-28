@@ -23,11 +23,12 @@ public class PushCommandTest {
 
     @Test
     void addNaturalNums() {
-        var stack = new ArrayDeque<Double>();
         try {
+            var stack = new ArrayDeque<Double>();
+            var ctx = new MemoryContext(stack, new HashMap<>());
             var pushCommand = new Push(new String[]{"10"});
-            pushCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(10.0, stack.pop());
+            pushCommand.execute(ctx);
+            assertEquals(10.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -36,13 +37,14 @@ public class PushCommandTest {
 
     @Test
     void pushDefined() {
-        var stack = new ArrayDeque<Double>();
+
         try {
+            var stack = new ArrayDeque<Double>();
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            ctx.defineNumber("a", 4.0);
             var pushCommand = new Push(new String[]{"a"});
-            pushCommand.execute(new MemoryContext(stack, new HashMap<>() {{
-                put("a", 4.0);
-            }}));
-            assertEquals(4, stack.pop());
+            pushCommand.execute(ctx);
+            assertEquals(4, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }

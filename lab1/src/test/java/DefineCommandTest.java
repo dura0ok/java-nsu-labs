@@ -13,16 +13,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DefineCommandTest {
     @Test
     void defineOneCorrectConst() {
-        var defines = new HashMap<String, Double>();
         try {
+            var defines = new HashMap<String, Double>();
+            var ctx = new MemoryContext(new ArrayDeque<>(), defines);
             var defineCommand = new Define(new String[]{"a", "4.0"});
-            defineCommand.execute(new MemoryContext(new ArrayDeque<>(), defines));
-            assertTrue(defines.containsKey("a"));
-            assertEquals(4.0, defines.get("a"));
+            defineCommand.execute(ctx);
+            assertTrue(ctx.isDefined("a"));
+            assertEquals(4.0, ctx.getDefinedByKey("a"));
         } catch (Exception ignored) {
             fail();
         }
     }
+
 
     @Test
     void TryToDefineWithoutArgs() throws CalcException {

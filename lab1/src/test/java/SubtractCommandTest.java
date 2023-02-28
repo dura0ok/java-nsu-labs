@@ -19,9 +19,10 @@ public class SubtractCommandTest {
         stack.push(8.0);
         stack.push(2.0);
         try {
-            var addCommand = new Subtract(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(6.0, stack.pop());
+            var SubtractCommand = new Subtract(new String[]{});
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            SubtractCommand.execute(ctx);
+            assertEquals(6.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -35,8 +36,9 @@ public class SubtractCommandTest {
         stack.push(-8.0);
         try {
             var addCommand = new Subtract(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(6.0, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(6.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -50,8 +52,9 @@ public class SubtractCommandTest {
         stack.push(7.0);
         try {
             var addCommand = new Subtract(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-14.0, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(-14.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -64,9 +67,10 @@ public class SubtractCommandTest {
         stack.push(-7.0);
         stack.push(100.0);
         try {
-            var addCommand = new Subtract(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(-107.0, stack.pop());
+            var SubtractCommand = new Subtract(new String[]{});
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            SubtractCommand.execute(ctx);
+            assertEquals(-107.0, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -80,8 +84,9 @@ public class SubtractCommandTest {
         stack.push(1.25);
         try {
             var addCommand = new Subtract(new String[]{});
-            addCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(0.5, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            addCommand.execute(ctx);
+            assertEquals(0.5, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }
@@ -95,8 +100,9 @@ public class SubtractCommandTest {
         stack.push(-1.75);
         try {
             var subtractCommand = new Subtract(new String[]{});
-            subtractCommand.execute(new MemoryContext(stack, new HashMap<>()));
-            assertEquals(0.5, stack.pop());
+            var ctx = new MemoryContext(stack, new HashMap<>());
+            subtractCommand.execute(ctx);
+            assertEquals(0.5, ctx.popStack());
         } catch (Exception ignored) {
             fail();
         }

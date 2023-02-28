@@ -2,7 +2,6 @@ package fit.nsu.labs;
 
 import fit.nsu.labs.commands.CommandFactory;
 import fit.nsu.labs.exceptions.BadNumberOfArguments;
-import fit.nsu.labs.exceptions.CalcException;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -62,13 +62,13 @@ public class CommandFactory {
         }
     }
 
-    public void printAvailableCommandsInfo(){
+    public void printAvailableCommandsInfo() {
         System.out.println("Available commands:");
         System.out.println("--------------------");
         for (var command : commandsSources.keySet()) {
             try {
                 System.out.println(command + " " + createCommand(command, null).getCommandDescription());
-            }catch (CalcException e){
+            } catch (CalcException e) {
                 logger.log(Level.WARNING, e.getMessage());
             }
         }

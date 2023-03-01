@@ -1,8 +1,11 @@
 package fit.nsu.labs;
 
 import fit.nsu.labs.commands.Command;
+import fit.nsu.labs.commands.Context;
 import fit.nsu.labs.commands.MemoryContext;
+import fit.nsu.labs.exceptions.BadNumberOfArguments;
 import fit.nsu.labs.exceptions.CalcException;
+import fit.nsu.labs.exceptions.NotEnoughArgumentsInStack;
 
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -24,6 +27,8 @@ public class CalcExecutor {
         while ((command = parser.parseCommand()) != null) {
             logger.log(Level.INFO, "Start execute: " + command.getCommandName() + "\n");
             try {
+                validateNumberOfArgs(command);
+                validateMinimumNeededStackSize(command, context);
                 command.execute(context);
                 logger.log(Level.INFO, "end execute without errors");
             } catch (CalcException e) {
@@ -32,5 +37,17 @@ public class CalcExecutor {
 
         }
         logger.log(Level.INFO, "Execute all commands. Finish");
+    }
+
+    private void validateNumberOfArgs(Command command) throws CalcException {
+        if (command.getArgs().length != command.getNumberNeededArgs()) {
+            throw new BadNumberOfArguments(command.getCommandName(), 0, command.getArgs().length);
+        }
+    }
+
+    private void validateMinimumNeededStackSize(Command command, Context context) throws CalcException {
+        if (context.getStackSize() < command.getNumberMinimumNeededStackSize()) {
+            throw new NotEnoughArgumentsInStack(command.getCommandName(), command.getNumberMinimumNeededStackSize(), context.getStackSize());
+        }
     }
 }

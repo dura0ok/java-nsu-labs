@@ -39,8 +39,6 @@ public class MemoryContext implements Context {
     public double peekStack() throws CalcException {
         var retValue = stack.peek();
         if (retValue == null) {
-            // todo: problem
-            // fixed as throws calc exception
             throw new NotEnoughArgumentsInStack("Stack empty");
         }
         return retValue;
@@ -56,7 +54,6 @@ public class MemoryContext implements Context {
 
     public double getDefinedByKey(String key) throws CalcException {
         if (!defines.containsKey(key)) {
-            // todo: problem
             throw new InvalidCommandArgument("can`t find in defined variables this key: " + key);
         }
         return defines.get(key);

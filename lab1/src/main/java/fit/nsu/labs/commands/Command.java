@@ -10,4 +10,10 @@ public interface Command {
     String[] getArgs();
 
     void execute(Context context) throws CalcException;
+
+
+    int getNumberNeededArgs();
+
+    int getNumberMinimumNeededStackSize();
+
 }

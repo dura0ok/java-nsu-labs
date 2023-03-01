@@ -15,10 +15,17 @@ public class Sqrt extends AbstractCommand {
     }
 
     @Override
-    public void execute(Context context) throws CalcException {
-        validateNumberOfArgs(0);
-        validateMinimumNeededStackSize(context, 1);
+    public int getNumberNeededArgs() {
+        return 0;
+    }
 
+    @Override
+    public int getNumberMinimumNeededStackSize() {
+        return 1;
+    }
+
+    @Override
+    public void execute(Context context) throws CalcException {
         double num = context.popStack();
         if (num < 0) {
             throw new InvalidCommandArgument(getCommandName(), "num must be >= 0");

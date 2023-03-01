@@ -14,9 +14,17 @@ public class Divide extends AbstractCommand {
     }
 
     @Override
+    public int getNumberNeededArgs() {
+        return 0;
+    }
+
+    @Override
+    public int getNumberMinimumNeededStackSize() {
+        return 2;
+    }
+
+    @Override
     public void execute(Context context) throws CalcException {
-        validateNumberOfArgs(0);
-        validateMinimumNeededStackSize(context, 2);
 
         var secondNum = context.popStack();
         var firstNum = context.popStack();

@@ -33,16 +33,5 @@ public abstract class AbstractCommand implements Command {
         return logger;
     }
 
-    protected void validateNumberOfArgs(int numberNeededArgs) throws BadNumberOfArguments {
-        if (getArgs().length != numberNeededArgs) {
-            throw new BadNumberOfArguments(getCommandName(), 0, getArgs().length);
-        }
-    }
-
-    protected void validateMinimumNeededStackSize(Context context, int numberNeededElements) throws NotEnoughArgumentsInStack {
-        if (context.getStackSize() < numberNeededElements) {
-            throw new NotEnoughArgumentsInStack(getCommandName(), numberNeededElements, context.getStackSize());
-        }
-    }
 
 }

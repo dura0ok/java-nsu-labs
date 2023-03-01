@@ -18,12 +18,18 @@ public class Push extends AbstractCommand {
         return "Push variable or num to stack";
     }
 
+    @Override
+    public int getNumberNeededArgs() {
+        return 1;
+    }
+
+    @Override
+    public int getNumberMinimumNeededStackSize() {
+        return 0;
+    }
 
     @Override
     public void execute(Context context) throws CalcException {
-
-        validateNumberOfArgs(1);
-
         var arg = getArgs()[0];
 
         if (isNotDouble(arg)) {

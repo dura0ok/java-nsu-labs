@@ -9,15 +9,22 @@ public class Print extends AbstractCommand {
     }
 
     @Override
+    public int getNumberNeededArgs() {
+        return 0;
+    }
+
+    @Override
+    public int getNumberMinimumNeededStackSize() {
+        return 1;
+    }
+
+    @Override
     public String getCommandDescription() {
         return "Print num from stack. Not pop!";
     }
 
     @Override
     public void execute(Context context) throws CalcException {
-        validateNumberOfArgs(0);
-        validateMinimumNeededStackSize(context, 1);
-
         try {
             System.out.println(context.peekStack());
         } catch (CalcException e) {

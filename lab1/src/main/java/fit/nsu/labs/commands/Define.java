@@ -18,9 +18,23 @@ public class Define extends AbstractCommand {
     }
 
     @Override
+    public int getNumberNeededArgs() {
+        return 2;
+    }
+
+    @Override
+    public int getNumberMinimumNeededStackSize() {
+        return 0;
+    }
+
+    @Override
     public void execute(Context context) throws CalcException {
-        validateNumberOfArgs(2);
         var key = getArgs()[0];
+
+        if (!isNotDouble(key)) {
+            throw new InvalidCommandArgument("key must be not number");
+        }
+
         var value = getArgs()[1];
 
         if (context.isDefined(key)) {

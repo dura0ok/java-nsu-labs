@@ -6,7 +6,7 @@ import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
 import fit.nsu.labs.views.Viewer;
 
-public class gameExecutor {
+public class CliExecutor {
 
 
     public void startGame(int height, int width, int bombsCount, Viewer view) {

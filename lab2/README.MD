@@ -1,1 +1,2 @@
-# TST
+# Minesweeper game
+

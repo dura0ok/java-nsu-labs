@@ -4,13 +4,14 @@ import fit.nsu.labs.exceptions.BombOpen;
 import fit.nsu.labs.exceptions.InvalidArgument;
 import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
+import fit.nsu.labs.views.Viewer;
 
 import java.util.Scanner;
 
 public class gameExecutor {
 
 
-    public void startGame(int height, int width, int bombsCount) {
+    public void startGame(int height, int width, int bombsCount, Viewer view) {
         int boardElementsCount = height * width;
 
         var scanner = new Scanner(System.in);
@@ -23,11 +24,11 @@ public class gameExecutor {
         while (true) {
             if (boardElementsCount - bombsCount == getOpenedFieldsCount(field, height, width)) {
                 System.out.println("You win!!!");
-                field.printBoard();
+                view.showGameTable(field, height, width);
                 break;
             }
 
-            field.printBoard();
+            view.showGameTable(field, height, width);
             System.out.println("Enter x: ");
             var x = scanner.nextInt();
             System.out.println("Enter y: ");

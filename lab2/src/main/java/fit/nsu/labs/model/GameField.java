@@ -87,7 +87,7 @@ public class GameField {
         return new Dot(x, y);
     }
 
-    private BoardElement getElementByCoords(Dot coords) {
+    public BoardElement getElementByCoords(Dot coords) {
         return board[coords.getX()][coords.getY()];
     }
 
@@ -116,21 +116,6 @@ public class GameField {
 
     }
 
-    public void printBoard() {
-        for (int i = 0; i < columnSize; i++) {
-            for (int j = 0; j < rowSize; j++) {
-                var el = getElementByCoords(new Dot(i, j));
-                if (!el.isOpened()) {
-                    //System.out.print("*(" + el.getBombsAroundCount() + ", " + (el.isBomb() ? "Bomb" : "simp") + ")");
-                    System.out.print("*");
-                } else {
-                    System.out.print(el.getBombsAroundCount());
-                }
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
 
     public boolean isOpened(Dot dot) {
         return getElementByCoords(dot).isOpened();

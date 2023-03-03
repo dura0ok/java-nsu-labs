@@ -3,6 +3,8 @@ package fit.nsu.labs.views;
 import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
 
+import java.util.Scanner;
+
 public class Console implements Viewer {
     public void showGameTable(GameField field, int columnSize, int rowSize) {
         for (int i = 0; i < columnSize; i++) {
@@ -20,7 +22,12 @@ public class Console implements Viewer {
         }
     }
 
-    public void clickButton(Dot dot) {
-
+    public Dot clickButton() {
+        var scanner = new Scanner(System.in);
+        System.out.println("Enter x: ");
+        var x = scanner.nextInt();
+        System.out.println("Enter y: ");
+        var y = scanner.nextInt();
+        return new Dot(x, y);
     }
 }

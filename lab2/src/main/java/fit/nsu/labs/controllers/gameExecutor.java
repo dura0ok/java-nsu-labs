@@ -6,15 +6,12 @@ import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
 import fit.nsu.labs.views.Viewer;
 
-import java.util.Scanner;
-
 public class gameExecutor {
 
 
     public void startGame(int height, int width, int bombsCount, Viewer view) {
         int boardElementsCount = height * width;
 
-        var scanner = new Scanner(System.in);
         if (bombsCount <= 0 || bombsCount > width * height) {
             throw new InvalidArgument("bombs counter");
         }
@@ -29,30 +26,21 @@ public class gameExecutor {
             }
 
             view.showGameTable(field, height, width);
-            System.out.println("Enter x: ");
-            var x = scanner.nextInt();
-            System.out.println("Enter y: ");
-            var y = scanner.nextInt();
             try {
-                var dot = new Dot(x, y);
-                if (field.isOpened(dot)) {
+                var clickedButton = view.clickButton();
+                if (field.isOpened(clickedButton)) {
                     System.err.println("this field already");
                     continue;
                 }
 
-                field.openElement(dot);
+                field.openElement(clickedButton);
             } catch (BombOpen ignored) {
                 System.out.println("Booom!! Game finished");
                 break;
             } catch (IndexOutOfBoundsException ignored) {
                 System.err.println("Current input coords invalid");
             }
-
         }
-//
-
-//        field.printBoard();
-
     }
 
     private int getOpenedFieldsCount(GameField field, int columnSize, int rowSize) {

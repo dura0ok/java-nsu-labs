@@ -6,5 +6,5 @@ import fit.nsu.labs.model.GameField;
 public interface Viewer {
     void showGameTable(GameField field, int columnSize, int rowSize);
 
-    void clickButton(Dot dot);
+    Dot clickButton();
 }

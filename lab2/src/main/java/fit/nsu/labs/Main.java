@@ -6,6 +6,9 @@ import fit.nsu.labs.views.Console;
 public class Main {
     public static void main(String[] args) {
         var executor = new MineSweeperExecutor();
-        executor.startGame(2, 2, 1, new Console());
+        var height = 2;
+        var width = 2;
+        var bombsCount = 1;
+        executor.startGame(height, width, bombsCount, new Console());
     }
 }

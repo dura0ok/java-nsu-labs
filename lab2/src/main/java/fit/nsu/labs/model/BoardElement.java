@@ -39,4 +39,10 @@ public class BoardElement {
     public void open() {
         isOpened = true;
     }
+
+    enum BoardElementType {
+        BOMB,
+        REGULAR_FIELD
+    }
+
 }

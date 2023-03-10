@@ -6,6 +6,8 @@ import fit.nsu.labs.model.GameField;
 import java.util.Scanner;
 
 public class Console implements Viewer {
+    private final Scanner scanner = new Scanner(System.in);
+
     public void showGameTable(GameField field, int columnSize, int rowSize) {
         for (int i = 0; i < columnSize; i++) {
             for (int j = 0; j < rowSize; j++) {
@@ -23,7 +25,6 @@ public class Console implements Viewer {
     }
 
     public Dot clickButton() {
-        var scanner = new Scanner(System.in);
         System.out.println("Enter x: ");
         var x = scanner.nextInt();
         System.out.println("Enter y: ");

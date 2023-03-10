@@ -72,13 +72,14 @@ public class GameField {
     }
 
     private void generateBombs(int bombsCounter) {
-        if (bombsCounter == 0) return;
-        do {
-            Dot generatedDot = generateRandomDot();
-            System.out.println("Bomb coords " + generatedDot);
-            bombs.add(getElementByCoords(generatedDot));
-            getElementByCoords(generatedDot).makeBombType();
-        } while (bombs.size() != bombsCounter);
+        while (bombs.size() != bombsCounter) {
+            var element = getElementByCoords(generateRandomDot());
+            System.out.println("Bomb coords " + element.getBoardCoords());
+            if (!element.isBomb()) {
+                bombs.add(element);
+                element.makeBombType();
+            }
+        }
     }
 
     private Dot generateRandomDot() {
@@ -98,11 +99,16 @@ public class GameField {
 
         getElementByCoords(dot).open();
 
+        openAroundArea(dot);
+
+    }
+
+    private void openAroundArea(Dot dot) {
         if (getElementByCoords(dot).getBombsAroundCount() == 0) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     var newPoint = new Dot(dot.getX() + i, dot.getY() + j);
-                    if(newPoint.getY() > rowSize || newPoint.getX() > columnSize){
+                    if (newPoint.getY() > rowSize || newPoint.getX() > columnSize) {
                         continue;
                     }
 
@@ -112,7 +118,6 @@ public class GameField {
                 }
             }
         }
-
     }
 
 

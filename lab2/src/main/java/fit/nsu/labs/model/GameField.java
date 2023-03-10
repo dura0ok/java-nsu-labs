@@ -102,13 +102,12 @@ public class GameField {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     var newPoint = new Dot(dot.getX() + i, dot.getY() + j);
-                    try {
-                        if (!getElementByCoords(newPoint).isOpened()) {
-                            openElement(newPoint);
-                        }
+                    if(newPoint.getY() > rowSize || newPoint.getX() > columnSize){
+                        continue;
+                    }
 
-                    } catch (IndexOutOfBoundsException ignored) {
-
+                    if (!getElementByCoords(newPoint).isOpened()) {
+                        openElement(newPoint);
                     }
                 }
             }

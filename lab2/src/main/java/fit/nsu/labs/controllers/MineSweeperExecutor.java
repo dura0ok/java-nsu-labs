@@ -6,20 +6,17 @@ import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
 import fit.nsu.labs.views.Viewer;
 
-public class CliExecutor {
+public class MineSweeperExecutor {
 
 
     public void startGame(int height, int width, int bombsCount, Viewer view) {
         int boardElementsCount = height * width;
-
-        if (bombsCount <= 0 || bombsCount > width * height) {
-            throw new InvalidArgument("bombs counter");
-        }
-
+        validate(height, width, bombsCount);
 
         var field = new GameField(height, width, bombsCount);
         while (true) {
-            if (boardElementsCount - bombsCount == getOpenedFieldsCount(field, height, width)) {
+            var openedFieldsCount = getOpenedFieldsCount(field, height, width);
+            if (checkWinState(bombsCount, boardElementsCount, openedFieldsCount)) {
                 System.out.println("You win!!!");
                 view.showGameTable(field, height, width);
                 break;
@@ -29,7 +26,7 @@ public class CliExecutor {
             try {
                 var clickedButton = view.clickButton();
                 if (field.isOpened(clickedButton)) {
-                    System.err.println("this field already");
+                    System.err.println("this field already opened");
                     continue;
                 }
 
@@ -41,6 +38,20 @@ public class CliExecutor {
                 System.err.println("Current input coords invalid");
             }
         }
+    }
+
+    private static void validate(int height, int width, int bombsCount) {
+        if(bombsCount <= 0){
+            throw new InvalidArgument("Bombs counter must be positive");
+        }
+
+        if (bombsCount > width * height) {
+            throw new InvalidArgument("bombs counter must be less-equal field size");
+        }
+    }
+
+    private static boolean checkWinState(int bombsCount, int boardElementsCount, int openedFieldsCount) {
+        return boardElementsCount - bombsCount == openedFieldsCount;
     }
 
     private int getOpenedFieldsCount(GameField field, int columnSize, int rowSize) {

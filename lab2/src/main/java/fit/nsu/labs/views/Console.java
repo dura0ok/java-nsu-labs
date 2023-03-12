@@ -5,10 +5,14 @@ import fit.nsu.labs.model.GameField;
 
 import java.util.Scanner;
 
-public class Console implements Viewer {
+public class Console extends MineSweeperViewer {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void showGameTable(GameField field, int columnSize, int rowSize) {
+    Console(GameField field, int columnSize, int rowSize) {
+        super(field, columnSize, rowSize);
+    }
+
+    public void reDrawField() {
         for (int i = 0; i < columnSize; i++) {
             for (int j = 0; j < rowSize; j++) {
                 var el = field.getElementByCoords(new Dot(i, j));
@@ -32,3 +36,4 @@ public class Console implements Viewer {
         return new Dot(x, y);
     }
 }
+

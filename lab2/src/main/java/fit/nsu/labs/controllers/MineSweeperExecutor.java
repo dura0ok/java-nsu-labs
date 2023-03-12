@@ -4,10 +4,18 @@ import fit.nsu.labs.exceptions.BombOpen;
 import fit.nsu.labs.exceptions.InvalidArgument;
 import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
-import fit.nsu.labs.views.Viewer;
+import fit.nsu.labs.views.MineSweeperViewer;
 
 public class MineSweeperExecutor {
+    private final int columnSize;
+    private final int rowSize;
+    private final int bombsCount;
 
+    public MineSweeperExecutor(int columnSize, int rowSize, int bombsCount) {
+        this.columnSize = columnSize;
+        this.rowSize = rowSize;
+        this.bombsCount = bombsCount;
+    }
 
     private static void validate(int boardElementsCount, int bombsCount) {
         if (bombsCount <= 0) {
@@ -23,34 +31,45 @@ public class MineSweeperExecutor {
         return boardElementsCount - bombsCount == openedFieldsCount;
     }
 
-    public void startGame(int height, int width, int bombsCount, Viewer view) {
-        int boardElementsCount = height * width;
+    public void startGame(Class<? extends MineSweeperViewer> viewerClass) {
+        int boardElementsCount = columnSize * rowSize;
         validate(boardElementsCount, bombsCount);
 
-        var field = new GameField(height, width, bombsCount);
-        while (true) {
-            view.showGameTable(field, height, width);
-            try {
-                var clickedButton = view.clickButton();
-                if (field.isOpened(clickedButton)) {
-                    System.err.println("this field already opened");
-                    continue;
+        var field = new GameField(columnSize, rowSize, bombsCount);
+        try {
+            var view = viewerClass.getConstructor(GameField.class, int.class, int.class).newInstance(field, columnSize, rowSize);
+
+            while (true) {
+                view.reDrawField();
+                try {
+
+                    var clickedButton = view.clickButton();
+                    if (field.isOpened(clickedButton)) {
+                        System.err.println("this field already opened");
+                        continue;
+                    }
+
+                    field.openElement(clickedButton);
+                } catch (BombOpen ignored) {
+                    System.out.println("Boom!! Game finished");
+                    break;
+                } catch (IndexOutOfBoundsException ignored) {
+                    System.err.println("Current input coords invalid");
+                } catch (NullPointerException e) {
+                    throw new InvalidArgument("Clicked button must be not null!");
                 }
 
-                field.openElement(clickedButton);
-            } catch (BombOpen ignored) {
-                System.out.println("Booom!! Game finished");
-                break;
-            } catch (IndexOutOfBoundsException ignored) {
-                System.err.println("Current input coords invalid");
+                var openedFieldsCount = getOpenedFieldsCount(field, columnSize, rowSize);
+                if (checkWinState(bombsCount, boardElementsCount, openedFieldsCount)) {
+                    System.out.println("You win!!!");
+                    view.reDrawField();
+                    break;
+                }
             }
 
-            var openedFieldsCount = getOpenedFieldsCount(field, height, width);
-            if (checkWinState(bombsCount, boardElementsCount, openedFieldsCount)) {
-                System.out.println("You win!!!");
-                view.showGameTable(field, height, width);
-                break;
-            }
+
+        } catch (ReflectiveOperationException e) {
+            throw new InvalidArgument("Bad viewer class", e);
         }
     }
 

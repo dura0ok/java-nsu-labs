@@ -21,7 +21,7 @@ public class Graphics extends MineSweeperViewer {
         frame.setLocationRelativeTo(null);
         frame.setContentPane(new FieldElementsGrid(columnSize, rowSize, buttons));
         frame.setVisible(true);
-
+        addActionListener(buttons);
     }
 
     @Override
@@ -32,6 +32,15 @@ public class Graphics extends MineSweeperViewer {
     @Override
     public void reDrawField() {
 
+    }
+
+    private void addActionListener(FieldElement[][] buttons) {
+        var listener = new FieldElementListener();
+        for (JButton[] jButtons : buttons) {
+            for (JButton jButton : jButtons) {
+                jButton.addActionListener(listener);
+            }
+        }
     }
 }
 
@@ -54,22 +63,13 @@ class FieldElementsGrid extends JPanel {
         setLayout(new GridLayout(columnSize, rowSize, 3, 3));
         for (int row = 0; row < buttons.length; row++) {
             for (int col = 0; col < buttons[row].length; col++) {
-                String text = String.format("  [  %d,  %d  ]  ", col, row);
+                 String text = String.format("  [  %d,  %d  ]  ", col, row);
                 FieldElement button = new FieldElement(text, new Dot(col, row));
                 add(button);
                 buttons[row][col] = button;
             }
         }
-        addActionListener(buttons);
-    }
 
-    private void addActionListener(FieldElement[][] buttons) {
-        var listener = new FieldElementListener();
-        for (JButton[] jButtons : buttons) {
-            for (JButton jButton : jButtons) {
-                jButton.addActionListener(listener);
-            }
-        }
     }
 }
 
@@ -79,14 +79,15 @@ class FieldElementListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
         FieldElement sourceBtn = (FieldElement) e.getSource();
-        var x = String.valueOf(sourceBtn.getDot().getX());
-        var y = String.valueOf(sourceBtn.getDot().getY());
+        var x = Integer.parseInt(String.valueOf(sourceBtn.getDot().getX()));
+        var y = Integer.parseInt(String.valueOf(sourceBtn.getDot().getY()));
 
 
         String message = "Button pressed: " + actionCommand + " " + x + " " + y;
         JOptionPane.showMessageDialog(sourceBtn, message, "Button Pressed", JOptionPane.PLAIN_MESSAGE);
         sourceBtn.setText("Pressed");
         sourceBtn.setEnabled(false);
+        var dot = new Dot(x,y);
     }
 }
 

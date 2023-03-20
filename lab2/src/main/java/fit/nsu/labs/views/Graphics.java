@@ -9,10 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Graphics extends MineSweeperViewer {
+public class Graphics extends MineSweeperViewer implements ActionListener {
 
     private final FieldElement[][] buttons = new FieldElement[rowSize][columnSize];
     private final JFrame frame = new JFrame();
+
+    Dot clickedDot = null;
 
     public Graphics(GameField field, int columnSize, int rowSize) {
         super(field, columnSize, rowSize);
@@ -21,12 +23,23 @@ public class Graphics extends MineSweeperViewer {
         frame.setLocationRelativeTo(null);
         frame.setContentPane(new FieldElementsGrid(columnSize, rowSize, buttons));
         frame.setVisible(true);
+        frame.setSize(500, 500);
         addActionListener(buttons);
     }
 
     @Override
-    public Dot clickButton() {
-        return null;
+    public synchronized Dot clickButton() {
+        while(clickedDot == null){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        var exited = clickedDot;
+        clickedDot = null;
+        return exited;
+        
     }
 
     @Override
@@ -35,12 +48,27 @@ public class Graphics extends MineSweeperViewer {
     }
 
     private void addActionListener(FieldElement[][] buttons) {
-        var listener = new FieldElementListener();
         for (JButton[] jButtons : buttons) {
             for (JButton jButton : jButtons) {
-                jButton.addActionListener(listener);
+                jButton.addActionListener(this);
             }
         }
+    }
+
+    @Override
+    public synchronized void actionPerformed(ActionEvent e) {
+        String actionCommand = e.getActionCommand();
+        FieldElement sourceBtn = (FieldElement) e.getSource();
+        var x = Integer.parseInt(String.valueOf(sourceBtn.getDot().getX()));
+        var y = Integer.parseInt(String.valueOf(sourceBtn.getDot().getY()));
+
+
+        String message = "Button pressed: " + actionCommand + " " + x + " " + y;
+        JOptionPane.showMessageDialog(sourceBtn, message, "Button Pressed", JOptionPane.PLAIN_MESSAGE);
+        sourceBtn.setText("Pressed");
+        sourceBtn.setEnabled(false);
+        clickedDot = new Dot(x,y);
+        this.notify();
     }
 }
 
@@ -74,20 +102,5 @@ class FieldElementsGrid extends JPanel {
 }
 
 
-class FieldElementListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String actionCommand = e.getActionCommand();
-        FieldElement sourceBtn = (FieldElement) e.getSource();
-        var x = Integer.parseInt(String.valueOf(sourceBtn.getDot().getX()));
-        var y = Integer.parseInt(String.valueOf(sourceBtn.getDot().getY()));
 
-
-        String message = "Button pressed: " + actionCommand + " " + x + " " + y;
-        JOptionPane.showMessageDialog(sourceBtn, message, "Button Pressed", JOptionPane.PLAIN_MESSAGE);
-        sourceBtn.setText("Pressed");
-        sourceBtn.setEnabled(false);
-        var dot = new Dot(x,y);
-    }
-}
 

@@ -40,10 +40,13 @@ public class MineSweeperExecutor {
             var view = viewerClass.getConstructor(GameField.class, int.class, int.class).newInstance(field, columnSize, rowSize);
 
             while (true) {
+                System.out.println("Asd");
                 view.reDrawField();
                 try {
 
                     var clickedButton = view.clickButton();
+                    System.out.println("Adsad");
+                    System.out.println(clickedButton);
                     if (field.isOpened(clickedButton)) {
                         System.err.println("this field already opened");
                         continue;
@@ -51,6 +54,7 @@ public class MineSweeperExecutor {
 
                     field.openElement(clickedButton);
                 } catch (BombOpen ignored) {
+                    System.out.println("Asd");
                     System.out.println("Boom!! Game finished");
                     break;
                 } catch (IndexOutOfBoundsException ignored) {
@@ -71,6 +75,7 @@ public class MineSweeperExecutor {
         } catch (ReflectiveOperationException e) {
             throw new InvalidArgument("Bad viewer class", e);
         }
+
     }
 
     private int getOpenedFieldsCount(GameField field, int columnSize, int rowSize) {

@@ -11,7 +11,7 @@ import static fit.nsu.labs.utils.Random.getRandomNumber;
 
 public class GameField implements Observable {
     private final BoardElement[][] board;
-    private final HashSet<Dot> bombs = new HashSet<Dot>();
+    private final HashSet<Dot> bombs = new HashSet<>();
 
     private final int columnSize;
     private final int rowSize;
@@ -117,8 +117,8 @@ public class GameField implements Observable {
     private Dot generateRandomDot() {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
-        //return new Dot(x, y);
-        return new Dot(1, 1);
+        return new Dot(x, y);
+        //return new Dot(1, 1);
     }
 
     public BoardElement getElementByCoords(Dot coords) {
@@ -126,15 +126,20 @@ public class GameField implements Observable {
     }
 
     public void click(Dot dot) {
-        if (getElementByCoords(dot).isOpened()) {
+        if(dot.x() >= columnSize || dot.y() >= rowSize){
+            throw new InvalidArgument("Invalid clicked dot coords");
+        }
+
+        if(dot.x() < 0 || dot.y() < 0){
+            throw new InvalidArgument("Invalid clicked dot coords");
+        }
+
+        if (isOpened(dot)) {
             notifyObservers(new Event(EventType.ALREADY_CLICKED, this));
             return;
         }
 
-        if (getElementByCoords(dot).isBomb()) {
-            //throw new RuntimeException("bomb");
-
-            // todo :C
+        if (isDotBomb(dot)) {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
 
@@ -147,7 +152,7 @@ public class GameField implements Observable {
     }
 
     private void openElement(Dot dot) {
-        if (getElementByCoords(dot).isOpened() || getElementByCoords(dot).isBomb()) {
+        if (isOpened(dot)|| isDotBomb(dot)) {
             return;
         }
 
@@ -184,6 +189,10 @@ public class GameField implements Observable {
 
     public boolean isOpened(Dot dot) {
         return getElementByCoords(dot).isOpened();
+    }
+
+    public boolean isDotBomb(Dot dot) {
+        return getElementByCoords(dot).isBomb();
     }
 
     @Override

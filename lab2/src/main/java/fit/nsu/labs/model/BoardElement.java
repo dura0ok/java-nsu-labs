@@ -2,22 +2,22 @@ package fit.nsu.labs.model;
 
 public class BoardElement {
     private final Dot boardCoords;
-    private BoardElementType type;
+    private final BoardElementType type;
     private boolean isOpened;
     private int bombsAroundCount;
 
-    public BoardElement(Dot boardCoords) {
-        this.type = BoardElementType.REGULAR_FIELD;
+    public BoardElement(Dot boardCoords, BoardElementType type) {
+        this.type = type;
         this.boardCoords = boardCoords;
         isOpened = false;
     }
 
-    public boolean isBomb() {
-        return type == BoardElementType.BOMB;
+    public BoardElement(Dot boardCoords) {
+        this(boardCoords, BoardElementType.REGULAR_FIELD);
     }
 
-    public void makeBombType() {
-        type = BoardElementType.BOMB;
+    public boolean isBomb() {
+        return type == BoardElementType.BOMB;
     }
 
     public boolean isOpened() {

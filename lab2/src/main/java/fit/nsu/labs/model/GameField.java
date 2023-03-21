@@ -118,7 +118,7 @@ public class GameField implements Observable {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
         //return new Dot(x, y);
-        return new Dot(3, 5);
+        return new Dot(1, 1);
     }
 
     public BoardElement getElementByCoords(Dot coords) {
@@ -137,20 +137,23 @@ public class GameField implements Observable {
             // todo :C
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
+
             return;
         }
 
         openElement(dot);
+        checkWinState();
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 
     private void openElement(Dot dot) {
+        if (getElementByCoords(dot).isOpened() || getElementByCoords(dot).isBomb()) {
+            return;
+        }
+
         getElementByCoords(dot).open();
         openedFieldsCount++;
         openAroundArea(dot);
-
-        checkWinState();
-
     }
 
     private void openAroundArea(Dot dot) {
@@ -198,6 +201,7 @@ public class GameField implements Observable {
     private void checkWinState() {
         if (boardElementsCount - bombs.size() == openedFieldsCount) {
             state = GameState.GAME_OVER;
+            notifyObservers(new Event(EventType.USER_WIN, this));
         }
     }
 
@@ -214,7 +218,7 @@ public class GameField implements Observable {
 
     public enum GameState {
         RUNNING,
-        GAME_OVER
+        GAME_OVER,
     }
 
 }

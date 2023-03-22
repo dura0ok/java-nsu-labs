@@ -13,7 +13,6 @@ import java.util.List;
 public class SumNumberGuesser implements Observable {
     private final List<Observer> observers = new ArrayList<>();
 
-    private final View view = new View();
 
     private Ticker ticker = new Ticker(this);
 
@@ -22,10 +21,15 @@ public class SumNumberGuesser implements Observable {
     private int points = 0;
 
     public SumNumberGuesser() {
-        registerObserver(view);
+    }
+
+    public void start(){
         updateNumber();
         ticker.start();
+    }
 
+    public void registerView(Observer view){
+        registerObserver(view);
     }
 
     private static int getRandomNumber(int min, int max) {

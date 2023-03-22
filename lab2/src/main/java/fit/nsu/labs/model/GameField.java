@@ -117,8 +117,8 @@ public class GameField implements Observable {
     private Dot generateRandomDot() {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
-        return new Dot(x, y);
-        //return new Dot(1, 1);
+        //return new Dot(x, y);
+        return new Dot(1, 1);
     }
 
     public BoardElement getElementByCoords(Dot coords) {

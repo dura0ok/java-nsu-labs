@@ -18,12 +18,14 @@ public class GameField implements Observable {
 
     private final int boardElementsCount;
     private final List<Observer> observers = new ArrayList<>();
+    private final int bombsCounter;
     private int openedFieldsCount = 0;
     private GameField.GameState state;
 
-    public GameField(int columnSize, int rowSize, int bombsCounter, Observer observer) {
+    public GameField(int columnSize, int rowSize, int bombsCounter) {
         this.columnSize = columnSize;
         this.rowSize = rowSize;
+        this.bombsCounter = bombsCounter;
         boardElementsCount = columnSize * rowSize;
         validate(bombsCounter);
 
@@ -31,12 +33,14 @@ public class GameField implements Observable {
         generateBombs(bombsCounter);
         initializeField();
         updateBombsAroundCount();
+        state = GameState.GAME_OVER;
+    }
 
+    public void startGame(){
         state = GameState.RUNNING;
-
-        registerObserver(observer);
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
+
 
     public GameState getState() {
         return state;
@@ -48,6 +52,11 @@ public class GameField implements Observable {
 
     public int getRowSize() {
         return rowSize;
+    }
+
+
+    public int getBombsCounter() {
+        return bombsCounter;
     }
 
     private void initializeField() {
@@ -105,7 +114,7 @@ public class GameField implements Observable {
     }
 
     private void generateBombs(int bombsCounter) {
-        while (bombs.size() != bombsCounter) {
+        while (getBombsCounter() != bombsCounter) {
             var element = generateRandomDot();
             if (!bombs.contains(element)) {
                 System.out.println("Bomb coords " + element);
@@ -117,8 +126,8 @@ public class GameField implements Observable {
     private Dot generateRandomDot() {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
-        //return new Dot(x, y);
-        return new Dot(1, 1);
+        return new Dot(x, y);
+        //return new Dot(5, 5);
     }
 
     public BoardElement getElementByCoords(Dot coords) {
@@ -126,11 +135,11 @@ public class GameField implements Observable {
     }
 
     public void click(Dot dot) {
-        if(dot.x() >= columnSize || dot.y() >= rowSize){
+        if (dot.x() >= columnSize || dot.y() >= rowSize) {
             throw new InvalidArgument("Invalid clicked dot coords");
         }
 
-        if(dot.x() < 0 || dot.y() < 0){
+        if (dot.x() < 0 || dot.y() < 0) {
             throw new InvalidArgument("Invalid clicked dot coords");
         }
 
@@ -152,7 +161,7 @@ public class GameField implements Observable {
     }
 
     private void openElement(Dot dot) {
-        if (isOpened(dot)|| isDotBomb(dot)) {
+        if (isOpened(dot) || isDotBomb(dot)) {
             return;
         }
 
@@ -208,7 +217,7 @@ public class GameField implements Observable {
     }
 
     private void checkWinState() {
-        if (boardElementsCount - bombs.size() == openedFieldsCount) {
+        if (boardElementsCount - getBombsCounter() == openedFieldsCount) {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.USER_WIN, this));
         }

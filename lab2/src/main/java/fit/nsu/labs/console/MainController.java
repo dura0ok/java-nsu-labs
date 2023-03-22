@@ -11,23 +11,26 @@ public class MainController {
     private final Scanner scanner = new Scanner(System.in);
 
     public MainController(int columnSize, int rowSize, int bombsCount) {
-        this.model = new GameField(columnSize, rowSize, bombsCount, new ConsoleViewer());
+        this.model = new GameField(columnSize, rowSize, bombsCount);
+        model.registerObserver(new ConsoleViewer());
+        this.model.startGame();
     }
 
     public static void main(String[] args) {
         var game = new MainController(10, 10, 5);
+
         game.startGame();
     }
 
     public void startGame() {
         while (model.getState() != GameField.GameState.GAME_OVER) {
-            try{
+            try {
                 System.out.println("Enter x: ");
                 var x = scanner.nextInt();
                 System.out.println("Enter y: ");
                 var y = scanner.nextInt();
                 model.click(new Dot(x, y));
-            }catch (InvalidArgument e){
+            } catch (InvalidArgument e) {
                 System.err.println(e.getMessage());
             }
 

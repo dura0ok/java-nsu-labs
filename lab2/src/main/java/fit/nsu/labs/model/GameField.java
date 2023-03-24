@@ -36,7 +36,7 @@ public class GameField implements Observable {
         state = GameState.GAME_OVER;
     }
 
-    public void startGame(){
+    public void startGame() {
         state = GameState.RUNNING;
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
@@ -56,7 +56,7 @@ public class GameField implements Observable {
 
 
     public int getBombsCounter() {
-        return bombsCounter;
+        return bombs.size();
     }
 
     private void initializeField() {
@@ -126,8 +126,8 @@ public class GameField implements Observable {
     private Dot generateRandomDot() {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
-        return new Dot(x, y);
-        //return new Dot(5, 5);
+        //return new Dot(x, y);
+        return new Dot(0, 0);
     }
 
     public BoardElement getElementByCoords(Dot coords) {
@@ -135,6 +135,7 @@ public class GameField implements Observable {
     }
 
     public void click(Dot dot) {
+
         if (dot.x() >= columnSize || dot.y() >= rowSize) {
             throw new InvalidArgument("Invalid clicked dot coords");
         }
@@ -144,19 +145,21 @@ public class GameField implements Observable {
         }
 
         if (isOpened(dot)) {
+            System.out.println("ALREADY_CLICKED");
             notifyObservers(new Event(EventType.ALREADY_CLICKED, this));
             return;
         }
 
         if (isDotBomb(dot)) {
-            state = GameState.GAME_OVER;
+            System.out.println("throw bomb opened");
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
-
+            state = GameState.GAME_OVER;
             return;
         }
 
         openElement(dot);
         checkWinState();
+        System.out.println("REDRAW");
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 

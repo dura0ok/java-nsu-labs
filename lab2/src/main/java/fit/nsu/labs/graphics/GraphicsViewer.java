@@ -1,7 +1,7 @@
 package fit.nsu.labs.graphics;
 
-import fit.nsu.labs.model.*;
 import fit.nsu.labs.model.Event;
+import fit.nsu.labs.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,6 @@ public class GraphicsViewer extends JFrame implements Observer {
         this.model = model;
         controller = new MainController(this.model);
         buttons = new FieldElement[model.getColumnSize()][model.getRowSize()];
-        model.registerObserver(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setContentPane(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons));
@@ -40,21 +39,21 @@ public class GraphicsViewer extends JFrame implements Observer {
 
     @Override
     public void notification(Event event) {
-        if(event.type().equals(EventType.REDRAW_REQUEST)){
+        if (event.type().equals(EventType.REDRAW_REQUEST)) {
             reDraw(event);
             return;
         }
-        if(event.type().equals(EventType.USER_WIN)){
+        if (event.type().equals(EventType.USER_WIN)) {
             showMessageDialog(null, "You win!");
             return;
         }
 
-        if(event.type().equals(EventType.BOMB_OPENED)){
+        if (event.type().equals(EventType.BOMB_OPENED)) {
             showMessageDialog(null, "Bomb opened");
             dispose();
             return;
         }
-        if(event.type().equals(EventType.ALREADY_CLICKED)){
+        if (event.type().equals(EventType.ALREADY_CLICKED)) {
             showMessageDialog(null, "Already clicked");
         }
 
@@ -65,13 +64,13 @@ public class GraphicsViewer extends JFrame implements Observer {
         var rows = event.field().getRowSize();
         var field = event.field();
 
-        for(int i = 0; i < cols; i++){
-            for(int j = 0; j < rows; j++){
-                var el = field.getElementByCoords(new Dot(i,j));
-                if(el.isOpened()){
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                var el = field.getElementByCoords(new Dot(i, j));
+                if (el.isOpened()) {
                     buttons[i][j].setText(String.valueOf(el.getBombsAroundCount()));
                     buttons[i][j].setEnabled(false);
-                }else{
+                } else {
                     buttons[i][j].setText("*");
                 }
             }

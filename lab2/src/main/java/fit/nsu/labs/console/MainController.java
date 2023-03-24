@@ -13,16 +13,17 @@ public class MainController {
     public MainController(int columnSize, int rowSize, int bombsCount) {
         this.model = new GameField(columnSize, rowSize, bombsCount);
         model.registerObserver(new ConsoleViewer());
-        this.model.startGame();
+
     }
 
     public static void main(String[] args) {
-        var game = new MainController(10, 10, 5);
-
+        var game = new MainController(10, 10, 2);
         game.startGame();
+
     }
 
     public void startGame() {
+        this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
                 System.out.println("Enter x: ");

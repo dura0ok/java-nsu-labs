@@ -16,7 +16,6 @@ public class MainController implements ActionListener {
     }
 
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         SwingUtilities.invokeLater(() -> {
@@ -24,15 +23,14 @@ public class MainController implements ActionListener {
             FieldElement sourceBtn = (FieldElement) e.getSource();
             var x = Integer.parseInt(String.valueOf(sourceBtn.getDot().x()));
             var y = Integer.parseInt(String.valueOf(sourceBtn.getDot().y()));
-
+            System.out.println("performed " + new Dot(x, y));
             var clickedDot = new Dot(x, y);
 
             model.click(clickedDot);
 //
-            String message = "Button pressed: " + actionCommand + " " + x + " " + y;
-            JOptionPane.showMessageDialog(sourceBtn, message, "Button Pressed", JOptionPane.PLAIN_MESSAGE);
+//            String message = "Button pressed: " + actionCommand + " " + x + " " + y;
+//            JOptionPane.showMessageDialog(sourceBtn, message, "Button Pressed", JOptionPane.PLAIN_MESSAGE);
 //        sourceBtn.setText(String.valueOf(model.getElementByCoords(clickedDot).getBombsAroundCount()));
-            sourceBtn.setEnabled(false);
         });
     }
 }
@@ -42,15 +40,16 @@ class FieldElement extends JButton {
 
     public FieldElement(String text, Dot dot) {
         super(text);
-        this.dot = dot;
+        this.dot = new Dot(dot.y(), dot.x());
     }
 
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            var model = new GameField(10, 10, 5);
+            var model = new GameField(2, 2, 1);
             var graphicsView = new GraphicsViewer(model);
             model.registerObserver(graphicsView);
+            model.startGame();
             graphicsView.setVisible(true);
 
 

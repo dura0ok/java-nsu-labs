@@ -5,14 +5,15 @@ import fit.nsu.labs.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
 public class GraphicsViewer extends JFrame implements Observer {
 
+    private static final String closedIconName = "closed.png";
     private final FieldElement[][] buttons;
-
     private final GameField model;
     private final MainController controller;
 
@@ -22,12 +23,17 @@ public class GraphicsViewer extends JFrame implements Observer {
         buttons = new FieldElement[model.getColumnSize()][model.getRowSize()];
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
         setContentPane(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons));
         addActionListener(buttons);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setSize(500, 500);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        int size = model.getColumnSize() * model.getRowSize();
+        setSize(size, size);
+        setResizable(false);
         pack();
     }
+
 
     private void addActionListener(FieldElement[][] buttons) {
         for (JButton[] jButtons : buttons) {
@@ -50,11 +56,10 @@ public class GraphicsViewer extends JFrame implements Observer {
 
         if (event.type().equals(EventType.BOMB_OPENED)) {
             showMessageDialog(null, "Bomb opened");
-            dispose();
             return;
         }
         if (event.type().equals(EventType.ALREADY_CLICKED)) {
-            showMessageDialog(null, "Already clicked");
+            showMessageDialog(null, "Already opened");
         }
 
     }
@@ -67,12 +72,27 @@ public class GraphicsViewer extends JFrame implements Observer {
         for (int i = 0; i < cols; i++) {
             for (int j = 0; j < rows; j++) {
                 var el = field.getElementByCoords(new Dot(i, j));
-                if (el.isOpened()) {
-                    buttons[i][j].setText(String.valueOf(el.getBombsAroundCount()));
-                    buttons[i][j].setEnabled(false);
+
+                ImageIcon icon;
+                var state = model.getState();
+                if (state.equals(GameField.GameState.GAME_OVER) || el.isOpened()) {
+                    var imageName = String.format("num%d.png", el.getBombsAroundCount());
+                    if (state.equals(GameField.GameState.GAME_OVER) && el.isBomb()) {
+                        imageName = "bomb.png";
+                        buttons[i][j].setEnabled(false);
+                    }
+
+                    if (state.equals(GameField.GameState.GAME_OVER) && !el.isOpened()) {
+                        el.open();
+                    }
+                    icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(imageName)));
+
+                    //buttons[i][j].setText(String.valueOf(el.getBombsAroundCount()));
+                    //buttons[i][j].setEnabled(false);
                 } else {
-                    buttons[i][j].setText("*");
+                    icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(closedIconName)));
                 }
+                buttons[i][j].setIcon(icon);
             }
         }
     }
@@ -80,10 +100,20 @@ public class GraphicsViewer extends JFrame implements Observer {
     static class FieldElementsGrid extends JPanel {
         public FieldElementsGrid(int columnSize, int rowSize, FieldElement[][] buttons) {
             setLayout(new GridLayout(columnSize, rowSize, 3, 3));
+            setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
             for (int row = 0; row < buttons.length; row++) {
                 for (int col = 0; col < buttons[row].length; col++) {
-                    FieldElement button = new FieldElement("*", new Dot(col, row));
+                    FieldElement button = new FieldElement("", new Dot(col, row));
+                    var icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(closedIconName)));
+                    //Image image = icon.getImage().getScaledInstance(icon.getImage().getWidth(this), icon.getImage().getWidth(this), Image.SCALE_SMOOTH);
+                    //ImageIcon resizedIcon = new ImageIcon(image);
+
+                    //icon.setImage();
+                    button.setIcon(icon);
+                    button.setPreferredSize(new Dimension(50, 50));
+
                     add(button);
+
                     buttons[row][col] = button;
                 }
             }

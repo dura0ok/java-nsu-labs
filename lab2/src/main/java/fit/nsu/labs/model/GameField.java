@@ -126,8 +126,8 @@ public class GameField implements Observable {
     private Dot generateRandomDot() {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
-        //return new Dot(x, y);
-        return new Dot(0, 0);
+        return new Dot(x, y);
+        //return new Dot(0, 0);
     }
 
     public BoardElement getElementByCoords(Dot coords) {
@@ -154,6 +154,7 @@ public class GameField implements Observable {
             System.out.println("throw bomb opened");
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
             state = GameState.GAME_OVER;
+            notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
             return;
         }
 

@@ -135,6 +135,11 @@ public class GameField implements Observable {
     }
 
     public void click(Dot dot) {
+        var el = getElementByCoords(dot);
+
+        if(el.isFlagged()){
+            return;
+        }
 
         if (dot.x() >= columnSize || dot.y() >= rowSize) {
             throw new InvalidArgument("Invalid clicked dot coords");
@@ -235,6 +240,12 @@ public class GameField implements Observable {
         if (bombsCount > boardElementsCount) {
             throw new InvalidArgument("bombs counter must be less-equal field size");
         }
+    }
+
+    public void updateFlag(Dot clickedDot) {
+        System.out.println("update flug func");
+        getElementByCoords(clickedDot).updateFlagged();
+        notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 
 

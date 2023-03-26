@@ -17,7 +17,7 @@ public class MainController {
     }
 
     public static void main(String[] args) {
-        var game = new MainController(10, 10, 2);
+        var game = new MainController(5, 5, 2);
         game.startGame();
 
     }

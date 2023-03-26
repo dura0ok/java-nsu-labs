@@ -13,6 +13,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class GraphicsViewer extends JFrame implements Observer {
 
     private static final String closedIconName = "closed.png";
+    private static final String flaggedIconName = "flagged.png";
     private final FieldElement[][] buttons;
     private final GameField model;
     private final MainController controller;
@@ -23,14 +24,15 @@ public class GraphicsViewer extends JFrame implements Observer {
         buttons = new FieldElement[model.getColumnSize()][model.getRowSize()];
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        int size = model.getColumnSize() * model.getRowSize();
+        setSize(size, size);
+        setResizable(false);
 
         setContentPane(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons));
         addActionListener(buttons);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        int size = model.getColumnSize() * model.getRowSize();
-        setSize(size, size);
-        setResizable(false);
+
         pack();
     }
 
@@ -38,7 +40,7 @@ public class GraphicsViewer extends JFrame implements Observer {
     private void addActionListener(FieldElement[][] buttons) {
         for (JButton[] jButtons : buttons) {
             for (JButton jButton : jButtons) {
-                jButton.addActionListener(controller);
+                jButton.addMouseListener(controller);
             }
         }
     }
@@ -60,8 +62,14 @@ public class GraphicsViewer extends JFrame implements Observer {
         }
         if (event.type().equals(EventType.ALREADY_CLICKED)) {
             showMessageDialog(null, "Already opened");
+            return;
         }
 
+
+        if (event.type().equals(EventType.FLAG_STATE_UPDATE)) {
+            reDraw(event);
+            return;
+        }
     }
 
     private void reDraw(Event event) {
@@ -75,8 +83,8 @@ public class GraphicsViewer extends JFrame implements Observer {
 
                 ImageIcon icon;
                 var state = model.getState();
+                var imageName = String.format("num%d.png", el.getBombsAroundCount());
                 if (state.equals(GameField.GameState.GAME_OVER) || el.isOpened()) {
-                    var imageName = String.format("num%d.png", el.getBombsAroundCount());
                     if (state.equals(GameField.GameState.GAME_OVER) && el.isBomb()) {
                         imageName = "bomb.png";
                         buttons[i][j].setEnabled(false);
@@ -85,13 +93,18 @@ public class GraphicsViewer extends JFrame implements Observer {
                     if (state.equals(GameField.GameState.GAME_OVER) && !el.isOpened()) {
                         el.open();
                     }
-                    icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(imageName)));
+
 
                     //buttons[i][j].setText(String.valueOf(el.getBombsAroundCount()));
                     //buttons[i][j].setEnabled(false);
                 } else {
-                    icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(closedIconName)));
+
+                    imageName = closedIconName;
+                    if(el.isFlagged()){
+                        imageName = flaggedIconName;
+                    }
                 }
+                icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(imageName)));
                 buttons[i][j].setIcon(icon);
             }
         }

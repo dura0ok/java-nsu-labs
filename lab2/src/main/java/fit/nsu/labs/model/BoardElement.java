@@ -4,12 +4,15 @@ public class BoardElement {
     private final Dot boardCoords;
     private final BoardElementType type;
     private boolean isOpened;
+
+    private boolean isFlagged;
     private int bombsAroundCount;
 
     public BoardElement(Dot boardCoords, BoardElementType type) {
         this.type = type;
         this.boardCoords = boardCoords;
         isOpened = false;
+        isFlagged = false;
     }
 
     public BoardElement(Dot boardCoords) {
@@ -38,6 +41,14 @@ public class BoardElement {
 
     public void open() {
         isOpened = true;
+    }
+
+    public boolean isFlagged() {
+        return isFlagged;
+    }
+
+    public void updateFlagged() {
+        isFlagged = !isFlagged;
     }
 
     enum BoardElementType {

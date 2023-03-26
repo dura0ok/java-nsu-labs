@@ -11,7 +11,7 @@ public class MainController {
     private final Scanner scanner = new Scanner(System.in);
 
     public MainController(int columnSize, int rowSize, int bombsCount) {
-        this.model = new GameField(columnSize, rowSize, bombsCount);
+        this.model = new GameField(columnSize, rowSize, bombsCount, 10);
         model.registerObserver(new ConsoleViewer());
 
     }

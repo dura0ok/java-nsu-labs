@@ -18,6 +18,9 @@ public class GraphicsViewer extends JFrame implements Observer {
     private final GameField model;
     private final MainController controller;
 
+    private final InfoPanel panel;
+
+
     public GraphicsViewer(GameField model) {
         this.model = model;
         controller = new MainController(this.model);
@@ -27,8 +30,9 @@ public class GraphicsViewer extends JFrame implements Observer {
         int size = model.getColumnSize() * model.getRowSize();
         setSize(size, size);
         setResizable(false);
-
-        setContentPane(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons));
+        panel = new InfoPanel(100);
+        add(panel, BorderLayout.PAGE_START);
+        add(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons), BorderLayout.PAGE_END);
         addActionListener(buttons);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -73,6 +77,8 @@ public class GraphicsViewer extends JFrame implements Observer {
     }
 
     private void reDraw(Event event) {
+        panel.setTimeElapsedTextField(event.field().getCurrentTimer());
+        panel.setFlagsLeftTextField(event.field().getAvailableFlagsCounter());
         var cols = event.field().getColumnSize();
         var rows = event.field().getRowSize();
         var field = event.field();
@@ -100,7 +106,7 @@ public class GraphicsViewer extends JFrame implements Observer {
                 } else {
 
                     imageName = closedIconName;
-                    if(el.isFlagged()){
+                    if (el.isFlagged()) {
                         imageName = flaggedIconName;
                     }
                 }

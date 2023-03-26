@@ -5,6 +5,9 @@ import fit.nsu.labs.exceptions.InvalidArgument;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static fit.nsu.labs.utils.Random.getRandomNumber;
 
@@ -19,13 +22,17 @@ public class GameField implements Observable {
     private final int boardElementsCount;
     private final List<Observer> observers = new ArrayList<>();
     private final int bombsCounter;
+    private final GameTime timer = new GameTime(this);
+    private int availableFlagsCounter;
     private int openedFieldsCount = 0;
     private GameField.GameState state;
+    private ScheduledExecutorService executor;
 
-    public GameField(int columnSize, int rowSize, int bombsCounter) {
+    public GameField(int columnSize, int rowSize, int bombsCounter, int flaggedLimit) {
         this.columnSize = columnSize;
         this.rowSize = rowSize;
         this.bombsCounter = bombsCounter;
+        this.availableFlagsCounter = flaggedLimit;
         boardElementsCount = columnSize * rowSize;
         validate(bombsCounter);
 
@@ -36,9 +43,21 @@ public class GameField implements Observable {
         state = GameState.GAME_OVER;
     }
 
+    public long getCurrentTimer() {
+        return timer.getElapsed();
+    }
+
+    public int getAvailableFlagsCounter() {
+        return availableFlagsCounter;
+    }
+
     public void startGame() {
         state = GameState.RUNNING;
+        executor = Executors.newScheduledThreadPool(1);
+        timer.reset();
+        executor.scheduleWithFixedDelay(timer, 0, 1, TimeUnit.SECONDS);
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
+
     }
 
 
@@ -137,7 +156,7 @@ public class GameField implements Observable {
     public void click(Dot dot) {
         var el = getElementByCoords(dot);
 
-        if(el.isFlagged()){
+        if (el.isFlagged()) {
             return;
         }
 
@@ -160,6 +179,8 @@ public class GameField implements Observable {
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
+
+            executor.shutdownNow();
             return;
         }
 
@@ -243,8 +264,19 @@ public class GameField implements Observable {
     }
 
     public void updateFlag(Dot clickedDot) {
-        System.out.println("update flug func");
-        getElementByCoords(clickedDot).updateFlagged();
+        var el = getElementByCoords(clickedDot);
+        if (availableFlagsCounter <= 0 && !el.isFlagged()) {
+            return;
+        }
+
+
+        if (el.isFlagged()) {
+            availableFlagsCounter++;
+        } else {
+            availableFlagsCounter--;
+        }
+
+        el.updateFlagged();
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 

@@ -6,13 +6,12 @@ import fit.nsu.labs.model.GameField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainController extends MouseAdapter {
     private final GameField model;
+
 
     public MainController(GameField model) {
         this.model = model;
@@ -27,7 +26,7 @@ public class MainController extends MouseAdapter {
 //            System.out.println(rows);
 //            System.out.println(bombsCounter);
             //var model = new GameField(columns, rows, bombsCounter);
-            var model = new GameField(5, 5, 2);
+            var model = new GameField(5, 5, 2, 2);
 
 
             var graphicsView = new GraphicsViewer(model);
@@ -47,11 +46,11 @@ public class MainController extends MouseAdapter {
             var y = Integer.parseInt(String.valueOf(sourceBtn.getDot().y()));
             //System.out.println("performed " + new Dot(x, y));
             var clickedDot = new Dot(x, y);
-            if(e.getButton() == MouseEvent.BUTTON1){
+            if (e.getButton() == MouseEvent.BUTTON1) {
                 model.click(clickedDot);
             }
 
-            if(e.getButton() == MouseEvent.BUTTON3){
+            if (e.getButton() == MouseEvent.BUTTON3) {
                 model.updateFlag(clickedDot);
             }
 

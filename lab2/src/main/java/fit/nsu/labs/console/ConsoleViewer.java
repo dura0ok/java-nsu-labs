@@ -13,9 +13,10 @@ public class ConsoleViewer implements Observer {
                     System.out.print(el.getBombsAroundCount());
                     //System.out.print("*(" + el.getBombsAroundCount() + ", " + (el.isBomb() ? "Bomb" : "simp") + ")");
                 } else {
-                    System.out.println("*");
+                    System.out.print("*");
                 }
                 System.out.print(" ");
+
             }
             System.out.println();
         }

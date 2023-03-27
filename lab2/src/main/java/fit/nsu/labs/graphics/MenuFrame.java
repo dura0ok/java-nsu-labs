@@ -1,6 +1,5 @@
 package fit.nsu.labs.graphics;
 
-import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.GameField;
 import fit.nsu.labs.model.GameLevels;
 import fit.nsu.labs.model.GameSettings;
@@ -50,10 +49,14 @@ public class MenuFrame extends JFrame {
         hardButton.addActionListener(new MenuHandler());
         buttonsContainer.add(hardButton);
 
+        var customButton = new JButton("Custom Level");
+        customButton.setActionCommand(String.valueOf(GameLevels.CUSTOM));
+        customButton.addActionListener(new MenuHandler());
+        buttonsContainer.add(customButton);
+
         buttonsContainer.add(new JButton("Custom Game"));
         buttonsContainer.add(new JButton("Show scores"));
         buttonsContainer.add(new JButton("Help"));
-        buttonsContainer.add(new JButton("Exit"));
 
         for (var button : buttonsContainer) {
             buttonsPanel.add(button, container);
@@ -90,13 +93,22 @@ class MenuHandler implements ActionListener {
             model = new GameField(hardLevel.cols(), hardLevel.rows(), hardLevel.bombsCount(), hardLevel.flagsCount());
         }
 
-        if (model == null) {
-            throw new MineSweeperGameException("invalid button game level");
+        if (e.getActionCommand().equals(String.valueOf(GameLevels.CUSTOM))) {
+            int columns = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter cols"));
+            int rows = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter rows"));
+            int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
+            int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
+
+            model = new GameField(columns, rows, bombsCounter, flagsCounter);
         }
 
-        var graphicsView = new GraphicsViewer(model);
-        model.registerObserver(graphicsView);
-        model.startGame();
-        graphicsView.setVisible(true);
+
+        if (model != null) {
+            var graphicsView = new GraphicsViewer(model);
+            model.registerObserver(graphicsView);
+            model.startGame();
+            graphicsView.setVisible(true);
+        }
+
     }
 }

@@ -19,7 +19,8 @@ class InfoPanel extends JPanel {
     }
 
     public void setTimeElapsedTextField(long time) {
-        timeElapsedTextField.setText("Time: " + time);
+        var minutes = time / 60;
+        timeElapsedTextField.setText(String.format("Time: %d minutes %d seconds", minutes, time % 60));
     }
 
 

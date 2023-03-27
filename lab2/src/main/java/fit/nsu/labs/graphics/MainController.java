@@ -26,13 +26,16 @@ public class MainController extends MouseAdapter {
 //            System.out.println(rows);
 //            System.out.println(bombsCounter);
             //var model = new GameField(columns, rows, bombsCounter);
-            var model = new GameField(5, 5, 2, 2);
 
+            var menu = new MenuFrame();
 
-            var graphicsView = new GraphicsViewer(model);
-            model.registerObserver(graphicsView);
-            model.startGame();
-            graphicsView.setVisible(true);
+//            var model = new GameField(5, 5, 2, 2);
+//
+//
+//            var graphicsView = new GraphicsViewer(model);
+//            model.registerObserver(graphicsView);
+//            model.startGame();
+//            graphicsView.setVisible(true);
 
 
         });

@@ -26,13 +26,13 @@ public class GraphicsViewer extends JFrame implements Observer {
         controller = new MainController(this.model);
         buttons = new FieldElement[model.getColumnSize()][model.getRowSize()];
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         int size = model.getColumnSize() * model.getRowSize();
         setSize(size, size);
+        setLocationRelativeTo(null);
         setResizable(false);
         panel = new InfoPanel(100);
         add(panel, BorderLayout.PAGE_START);
-        add(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons), BorderLayout.PAGE_END);
+        add(new FieldElementsGrid(model.getColumnSize(), model.getRowSize(), buttons));
         addActionListener(buttons);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 

@@ -25,6 +25,6 @@ public class GameTime implements Runnable {
         updateTimer();
         var elapsed = getElapsed();
         System.out.printf("Elapsed: %d minutes %d seconds\n", elapsed / 60, elapsed);
-        field.notifyObservers(new Event(EventType.REDRAW_REQUEST, field));
+        field.notifyObservers(new Event(EventType.REDRAW_TIMER, field));
     }
 }

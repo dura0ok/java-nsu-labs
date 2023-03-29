@@ -74,11 +74,14 @@ public class GraphicsViewer extends JFrame implements Observer {
             reDraw(event);
             return;
         }
+
+        if(event.type().equals(EventType.REDRAW_TIMER)){
+            panel.setTimeElapsedTextField(event.field().getCurrentTimer());
+            panel.setFlagsLeftTextField(event.field().getAvailableFlagsCounter());
+        }
     }
 
     private void reDraw(Event event) {
-        panel.setTimeElapsedTextField(event.field().getCurrentTimer());
-        panel.setFlagsLeftTextField(event.field().getAvailableFlagsCounter());
         var cols = event.field().getColumnSize();
         var rows = event.field().getRowSize();
         var field = event.field();

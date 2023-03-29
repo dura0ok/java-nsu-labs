@@ -133,8 +133,6 @@ class MenuHandler implements ActionListener {
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                     menu.dispose();
                 }
-
-
             });
         }
 

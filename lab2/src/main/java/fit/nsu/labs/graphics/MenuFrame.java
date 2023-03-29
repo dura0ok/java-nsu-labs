@@ -53,7 +53,7 @@ public class MenuFrame extends JFrame {
         customButton.setActionCommand(String.valueOf(GameLevels.CUSTOM));
         customButton.addActionListener(new MenuHandler(this));
         buttonsContainer.add(customButton);
-        
+
         buttonsContainer.add(new JButton("Show scores"));
         buttonsContainer.add(new JButton("Help"));
 
@@ -99,24 +99,43 @@ class MenuHandler implements ActionListener {
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.CUSTOM))) {
-            try{
+            try {
                 int columns = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter cols"));
                 int rows = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter rows"));
                 int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
                 int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
 
                 model = new GameField(columns, rows, bombsCounter, flagsCounter);
-            }catch (NumberFormatException ignored){}
+            } catch (NumberFormatException ignored) {
+            }
         }
 
 
         if (model != null) {
 
             var graphicsView = new GraphicsViewer(model);
+
             model.registerObserver(graphicsView);
             model.startGame();
             graphicsView.setVisible(true);
-            menu.dispose();
+            menu.setVisible(false);
+            graphicsView.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    menu.setVisible(true);
+                }
+
+
+            });
+
+            menu.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    menu.dispose();
+                }
+
+
+            });
         }
 
     }

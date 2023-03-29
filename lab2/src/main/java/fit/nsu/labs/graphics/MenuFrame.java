@@ -83,20 +83,26 @@ class MenuHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         GameField model = null;
+        String name = null;
+        while (name == null || name.isEmpty()) {
+            name = JOptionPane.showInputDialog(null, "Enter name");
+        }
+
         if (e.getActionCommand().equals(String.valueOf(GameLevels.EASY))) {
             var easyLevel = GameSettings.getEasyLevel();
-            model = new GameField(easyLevel.cols(), easyLevel.rows(), easyLevel.bombsCount(), easyLevel.flagsCount());
+            model = new GameField(easyLevel.cols(), easyLevel.rows(), easyLevel.bombsCount(), easyLevel.flagsCount(), GameLevels.EASY, name);
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.MEDIUM))) {
             var mediumLevel = GameSettings.getHardLevel();
-            model = new GameField(mediumLevel.cols(), mediumLevel.rows(), mediumLevel.bombsCount(), mediumLevel.flagsCount());
+            model = new GameField(mediumLevel.cols(), mediumLevel.rows(), mediumLevel.bombsCount(), mediumLevel.flagsCount(), GameLevels.MEDIUM, name);
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.HARD))) {
             var hardLevel = GameSettings.getHardLevel();
-            model = new GameField(hardLevel.cols(), hardLevel.rows(), hardLevel.bombsCount(), hardLevel.flagsCount());
+            model = new GameField(hardLevel.cols(), hardLevel.rows(), hardLevel.bombsCount(), hardLevel.flagsCount(), GameLevels.HARD, name);
         }
+
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.CUSTOM))) {
             try {
@@ -105,7 +111,7 @@ class MenuHandler implements ActionListener {
                 int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
                 int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
 
-                model = new GameField(columns, rows, bombsCounter, flagsCounter);
+                model = new GameField(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM, name);
             } catch (NumberFormatException ignored) {
             }
         }

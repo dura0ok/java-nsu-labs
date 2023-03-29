@@ -1,8 +1,10 @@
 package fit.nsu.labs.console;
 
 import fit.nsu.labs.exceptions.InvalidArgument;
+import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.Dot;
 import fit.nsu.labs.model.GameField;
+import fit.nsu.labs.model.GameLevels;
 
 import java.util.Scanner;
 
@@ -11,7 +13,12 @@ public class ConsoleController {
     private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleController(int columnSize, int rowSize, int bombsCount) {
-        this.model = new GameField(columnSize, rowSize, bombsCount, 10);
+        System.out.println("Enter name:");
+        var name = scanner.nextLine();
+        if (name.isEmpty()) {
+            throw new MineSweeperGameException("invalid name");
+        }
+        this.model = new GameField(columnSize, rowSize, bombsCount, 10, GameLevels.EASY, name);
         model.registerObserver(new ConsoleViewer());
 
     }

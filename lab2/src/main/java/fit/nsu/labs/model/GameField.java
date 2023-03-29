@@ -17,12 +17,14 @@ public class GameField implements Observable {
     private final BoardElement[][] board;
     private final HashSet<Dot> bombs = new HashSet<>();
 
+    private final GameLevels level;
     private final int columnSize;
     private final int rowSize;
 
     private final int boardElementsCount;
     private final List<Observer> observers = new ArrayList<>();
     private final int bombsCounter;
+    private final String name;
     private final GameTime timer = new GameTime(this);
     private int availableFlagsCounter;
     private int openedFieldsCount = 0;
@@ -31,11 +33,13 @@ public class GameField implements Observable {
 
     private ScheduledFuture<?> future;
 
-    public GameField(int columnSize, int rowSize, int bombsCounter, int flaggedLimit) {
+    public GameField(int columnSize, int rowSize, int bombsCounter, int flaggedLimit, GameLevels level, String name) {
         this.columnSize = columnSize;
         this.rowSize = rowSize;
         this.bombsCounter = bombsCounter;
         this.availableFlagsCounter = flaggedLimit;
+        this.name = name;
+        this.level = level;
         boardElementsCount = columnSize * rowSize;
         validate(bombsCounter);
 
@@ -254,6 +258,9 @@ public class GameField implements Observable {
         if (boardElementsCount - getBombsCounter() == openedFieldsCount) {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.USER_WIN, this));
+            var recordsManager = new RecordsManager();
+            recordsManager.writeRecord(level, new Record(name, timer.getElapsed()));
+
             System.out.println("FINISHING " + timer.getElapsed());
             future.cancel(true);
             executor.shutdownNow();

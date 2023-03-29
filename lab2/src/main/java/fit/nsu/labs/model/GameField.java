@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static fit.nsu.labs.utils.Random.getRandomNumber;
@@ -27,6 +28,8 @@ public class GameField implements Observable {
     private int openedFieldsCount = 0;
     private GameField.GameState state;
     private ScheduledExecutorService executor;
+
+    private ScheduledFuture<?> future;
 
     public GameField(int columnSize, int rowSize, int bombsCounter, int flaggedLimit) {
         this.columnSize = columnSize;
@@ -55,9 +58,8 @@ public class GameField implements Observable {
         state = GameState.RUNNING;
         executor = Executors.newScheduledThreadPool(1);
         timer.reset();
-        executor.scheduleWithFixedDelay(timer, 0, 1, TimeUnit.SECONDS);
+        future = executor.scheduleWithFixedDelay(timer, 0, 1, TimeUnit.SECONDS);
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
-
     }
 
 
@@ -180,6 +182,7 @@ public class GameField implements Observable {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
 
+            future.cancel(true);
             executor.shutdownNow();
             return;
         }

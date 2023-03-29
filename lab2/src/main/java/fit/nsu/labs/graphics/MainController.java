@@ -28,7 +28,7 @@ public class MainController extends MouseAdapter {
             //var model = new GameField(columns, rows, bombsCounter);
 
             var menu = new MenuFrame();
-
+            System.out.println("asd");
 //            var model = new GameField(5, 5, 2, 2);
 //
 //

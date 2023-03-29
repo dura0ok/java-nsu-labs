@@ -36,25 +36,24 @@ public class MenuFrame extends JFrame {
         List<JButton> buttonsContainer = new ArrayList<>();
         var easyButton = new JButton("Easy Level");
         easyButton.setActionCommand(String.valueOf(GameLevels.EASY));
-        easyButton.addActionListener(new MenuHandler());
+        easyButton.addActionListener(new MenuHandler(this));
         buttonsContainer.add(easyButton);
 
         var mediumButton = new JButton("Medium Level");
         mediumButton.setActionCommand(String.valueOf(GameLevels.MEDIUM));
-        mediumButton.addActionListener(new MenuHandler());
+        mediumButton.addActionListener(new MenuHandler(this));
         buttonsContainer.add(mediumButton);
 
         var hardButton = new JButton("Hard Level");
         hardButton.setActionCommand(String.valueOf(GameLevels.HARD));
-        hardButton.addActionListener(new MenuHandler());
+        hardButton.addActionListener(new MenuHandler(this));
         buttonsContainer.add(hardButton);
 
-        var customButton = new JButton("Custom Level");
+        var customButton = new JButton("Custom Game");
         customButton.setActionCommand(String.valueOf(GameLevels.CUSTOM));
-        customButton.addActionListener(new MenuHandler());
+        customButton.addActionListener(new MenuHandler(this));
         buttonsContainer.add(customButton);
-
-        buttonsContainer.add(new JButton("Custom Game"));
+        
         buttonsContainer.add(new JButton("Show scores"));
         buttonsContainer.add(new JButton("Help"));
 
@@ -69,12 +68,18 @@ public class MenuFrame extends JFrame {
         setVisible(true);
         setSize(500, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 }
 
 
 class MenuHandler implements ActionListener {
+    private final MenuFrame menu;
+
+    public MenuHandler(MenuFrame menuFrame) {
+        menu = menuFrame;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         GameField model = null;
@@ -94,20 +99,24 @@ class MenuHandler implements ActionListener {
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.CUSTOM))) {
-            int columns = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter cols"));
-            int rows = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter rows"));
-            int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
-            int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
+            try{
+                int columns = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter cols"));
+                int rows = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter rows"));
+                int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
+                int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
 
-            model = new GameField(columns, rows, bombsCounter, flagsCounter);
+                model = new GameField(columns, rows, bombsCounter, flagsCounter);
+            }catch (NumberFormatException ignored){}
         }
 
 
         if (model != null) {
+
             var graphicsView = new GraphicsViewer(model);
             model.registerObserver(graphicsView);
             model.startGame();
             graphicsView.setVisible(true);
+            menu.dispose();
         }
 
     }

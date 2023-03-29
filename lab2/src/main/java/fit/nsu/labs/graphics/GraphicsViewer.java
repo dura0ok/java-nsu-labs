@@ -25,7 +25,7 @@ public class GraphicsViewer extends JFrame implements Observer {
         this.model = model;
         controller = new MainController(this.model);
         buttons = new FieldElement[model.getColumnSize()][model.getRowSize()];
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         int size = model.getColumnSize() * model.getRowSize();
         setSize(size, size);
         setLocationRelativeTo(null);

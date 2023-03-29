@@ -6,18 +6,18 @@ import fit.nsu.labs.model.GameField;
 
 import java.util.Scanner;
 
-public class MainController {
+public class ConsoleController {
     private final GameField model;
     private final Scanner scanner = new Scanner(System.in);
 
-    public MainController(int columnSize, int rowSize, int bombsCount) {
+    public ConsoleController(int columnSize, int rowSize, int bombsCount) {
         this.model = new GameField(columnSize, rowSize, bombsCount, 10);
         model.registerObserver(new ConsoleViewer());
 
     }
 
     public static void main(String[] args) {
-        var game = new MainController(5, 5, 2);
+        var game = new ConsoleController(2, 2, 1);
         game.startGame();
 
     }
@@ -30,7 +30,17 @@ public class MainController {
                 var x = scanner.nextInt();
                 System.out.println("Enter y: ");
                 var y = scanner.nextInt();
-                model.click(new Dot(x, y));
+
+                System.out.println("Enter type(dot - 0, flag - 1)");
+                var type = scanner.nextInt();
+                if (type == 0) {
+                    model.click(new Dot(x, y));
+                }
+
+                if (type == 1) {
+                    model.updateFlag(new Dot(x, y));
+                }
+
             } catch (InvalidArgument e) {
                 System.err.println(e.getMessage());
             }

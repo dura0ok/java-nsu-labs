@@ -9,11 +9,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MainController extends MouseAdapter {
+public class GraphicsController extends MouseAdapter {
     private final GameField model;
 
 
-    public MainController(GameField model) {
+    public GraphicsController(GameField model) {
         this.model = model;
     }
 

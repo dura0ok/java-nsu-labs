@@ -156,11 +156,6 @@ public class GameField implements Observable {
     }
 
     public void click(Dot dot) {
-        var el = getElementByCoords(dot);
-
-        if (el.isFlagged()) {
-            return;
-        }
 
         if (dot.x() >= columnSize || dot.y() >= rowSize) {
             throw new InvalidArgument("Invalid clicked dot coords");
@@ -168,6 +163,13 @@ public class GameField implements Observable {
 
         if (dot.x() < 0 || dot.y() < 0) {
             throw new InvalidArgument("Invalid clicked dot coords");
+        }
+
+        var el = getElementByCoords(dot);
+
+        if (el.isFlagged()) {
+            notifyObservers(new Event(EventType.ALREADY_FLAGGED, this));
+            return;
         }
 
         if (isOpened(dot)) {
@@ -189,7 +191,6 @@ public class GameField implements Observable {
 
         openElement(dot);
         checkWinState();
-        System.out.println("REDRAW");
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 
@@ -253,6 +254,9 @@ public class GameField implements Observable {
         if (boardElementsCount - getBombsCounter() == openedFieldsCount) {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.USER_WIN, this));
+            System.out.println("FINISHING " + timer.getElapsed());
+            future.cancel(true);
+            executor.shutdownNow();
         }
     }
 

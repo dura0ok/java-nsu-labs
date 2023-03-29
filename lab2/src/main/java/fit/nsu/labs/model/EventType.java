@@ -5,5 +5,7 @@ public enum EventType {
     ALREADY_CLICKED,
     BOMB_OPENED,
     FLAG_STATE_UPDATE,
-    REDRAW_TIMER, USER_WIN
+    REDRAW_TIMER,
+    ALREADY_FLAGGED,
+    USER_WIN
 }

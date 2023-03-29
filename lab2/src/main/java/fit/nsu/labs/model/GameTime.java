@@ -23,8 +23,7 @@ public class GameTime implements Runnable {
     @Override
     public void run() {
         updateTimer();
-        var elapsed = getElapsed();
-        System.out.printf("Elapsed: %d minutes %d seconds\n", elapsed / 60, elapsed);
+        //System.out.printf("Elapsed: %d minutes %d seconds\n", elapsed / 60, elapsed);
         field.notifyObservers(new Event(EventType.REDRAW_TIMER, field));
     }
 }

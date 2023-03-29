@@ -16,14 +16,14 @@ public class GraphicsViewer extends JFrame implements Observer {
     private static final String flaggedIconName = "flagged.png";
     private final FieldElement[][] buttons;
     private final GameField model;
-    private final MainController controller;
+    private final GraphicsController controller;
 
     private final InfoPanel panel;
 
 
     public GraphicsViewer(GameField model) {
         this.model = model;
-        controller = new MainController(this.model);
+        controller = new GraphicsController(this.model);
         buttons = new FieldElement[model.getColumnSize()][model.getRowSize()];
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         int size = model.getColumnSize() * model.getRowSize();
@@ -75,9 +75,13 @@ public class GraphicsViewer extends JFrame implements Observer {
             return;
         }
 
-        if(event.type().equals(EventType.REDRAW_TIMER)){
+        if (event.type().equals(EventType.REDRAW_TIMER)) {
             panel.setTimeElapsedTextField(event.field().getCurrentTimer());
             panel.setFlagsLeftTextField(event.field().getAvailableFlagsCounter());
+        }
+
+        if (event.type().equals(EventType.ALREADY_FLAGGED)) {
+            showMessageDialog(null, "this coordinates already flagged");
         }
     }
 

@@ -13,6 +13,10 @@ public class ConsoleViewer implements Observer {
                     System.out.print(el.getBombsAroundCount());
                     //System.out.print("*(" + el.getBombsAroundCount() + ", " + (el.isBomb() ? "Bomb" : "simp") + ")");
                 } else {
+                    if (el.isFlagged()) {
+                        System.out.print("F ");
+                        continue;
+                    }
                     System.out.print("*");
                 }
                 System.out.print(" ");
@@ -43,5 +47,20 @@ public class ConsoleViewer implements Observer {
         if (event.type() == EventType.USER_WIN) {
             System.out.println("You win!!!");
         }
+
+        if (event.type().equals(EventType.FLAG_STATE_UPDATE)) {
+            printField(event.field());
+            return;
+        }
+
+        if (event.type().equals(EventType.REDRAW_TIMER)) {
+            //System.out.println(event.field().getCurrentTimer());
+        }
+
+        if (event.type().equals(EventType.ALREADY_FLAGGED)) {
+            System.out.println("this coordinates already flagged");
+        }
+
+
     }
 }

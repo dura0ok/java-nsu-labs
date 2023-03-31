@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuFrame extends JFrame {
+
+
+    private String playerName = null;
+
     MenuFrame() {
         JLabel name = new JLabel("Minesweeper game");
         name.setFont(new Font("Arial", Font.BOLD, 30));
@@ -68,7 +72,16 @@ public class MenuFrame extends JFrame {
         setVisible(true);
         setSize(500, 500);
         setLocationRelativeTo(null);
+
+        while (playerName == null || playerName.isEmpty()) {
+            playerName = JOptionPane.showInputDialog(null, "Enter name");
+        }
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 }
 
@@ -83,24 +96,21 @@ class MenuHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         GameField model = null;
-        String name = null;
-        while (name == null || name.isEmpty()) {
-            name = JOptionPane.showInputDialog(null, "Enter name");
-        }
+
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.EASY))) {
             var easyLevel = GameSettings.getEasyLevel();
-            model = new GameField(easyLevel.cols(), easyLevel.rows(), easyLevel.bombsCount(), easyLevel.flagsCount(), GameLevels.EASY, name);
+            model = new GameField(easyLevel.cols(), easyLevel.rows(), easyLevel.bombsCount(), easyLevel.flagsCount(), GameLevels.EASY, menu.getPlayerName());
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.MEDIUM))) {
             var mediumLevel = GameSettings.getHardLevel();
-            model = new GameField(mediumLevel.cols(), mediumLevel.rows(), mediumLevel.bombsCount(), mediumLevel.flagsCount(), GameLevels.MEDIUM, name);
+            model = new GameField(mediumLevel.cols(), mediumLevel.rows(), mediumLevel.bombsCount(), mediumLevel.flagsCount(), GameLevels.MEDIUM, menu.getPlayerName());
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.HARD))) {
             var hardLevel = GameSettings.getHardLevel();
-            model = new GameField(hardLevel.cols(), hardLevel.rows(), hardLevel.bombsCount(), hardLevel.flagsCount(), GameLevels.HARD, name);
+            model = new GameField(hardLevel.cols(), hardLevel.rows(), hardLevel.bombsCount(), hardLevel.flagsCount(), GameLevels.HARD, menu.getPlayerName());
         }
 
 
@@ -111,7 +121,7 @@ class MenuHandler implements ActionListener {
                 int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
                 int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
 
-                model = new GameField(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM, name);
+                model = new GameField(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM, menu.getPlayerName());
             } catch (NumberFormatException ignored) {
             }
         }

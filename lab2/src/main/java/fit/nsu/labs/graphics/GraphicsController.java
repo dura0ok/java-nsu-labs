@@ -18,27 +18,7 @@ public class GraphicsController extends MouseAdapter {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-//            int columns = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter cols"));
-//            int rows = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter rows"));
-//            int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter bombs counter"));
-//            System.out.println(columns);
-//            System.out.println(rows);
-//            System.out.println(bombsCounter);
-            //var model = new GameField(columns, rows, bombsCounter);
-
-            var menu = new MenuFrame();
-            System.out.println("asd");
-//            var model = new GameField(5, 5, 2, 2);
-//
-//
-//            var graphicsView = new GraphicsViewer(model);
-//            model.registerObserver(graphicsView);
-//            model.startGame();
-//            graphicsView.setVisible(true);
-
-
-        });
+        SwingUtilities.invokeLater(MenuFrame::new);
     }
 
     @Override

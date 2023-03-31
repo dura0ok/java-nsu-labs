@@ -23,7 +23,6 @@ public class GameField implements Observable {
 
     private final int boardElementsCount;
     private final List<Observer> observers = new ArrayList<>();
-    private final int bombsCounter;
     private final String name;
     private final GameTime timer = new GameTime(this);
     private int availableFlagsCounter;
@@ -33,13 +32,14 @@ public class GameField implements Observable {
 
     private ScheduledFuture<?> future;
 
-    public GameField(int columnSize, int rowSize, int bombsCounter, int flaggedLimit, GameLevels level, String name) {
-        this.columnSize = columnSize;
-        this.rowSize = rowSize;
-        this.bombsCounter = bombsCounter;
-        this.availableFlagsCounter = flaggedLimit;
+
+    public GameField(GameSettings settings, String name) {
+        this.columnSize = settings.cols();
+        this.rowSize = settings.rows();
+        int bombsCounter = settings.bombsCount();
+        this.availableFlagsCounter = settings.flagsCount();
         this.name = name;
-        this.level = level;
+        this.level = settings.level();
         boardElementsCount = columnSize * rowSize;
         validate(bombsCounter);
 

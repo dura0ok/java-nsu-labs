@@ -34,10 +34,9 @@ public class RecordsManager {
                 records.add(new Record(currentName, currentTime));
                 line = reader.readLine();
             }
-        }catch (FileNotFoundException ignored){
+        } catch (FileNotFoundException ignored) {
             return records;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new MineSweeperGameException("error in read records", e);
         }
         return records;

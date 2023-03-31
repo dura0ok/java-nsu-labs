@@ -60,22 +60,19 @@ public class MenuFrame extends JFrame {
         buttonsContainer.add(customButton);
 
         var scoresButton = new JButton("Show scores");
-        scoresButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                var frame = new JFrame("High Scores");
-                String[] options = {GameLevels.EASY.name(), GameLevels.MEDIUM.name(), GameLevels.HARD.name(), GameLevels.CUSTOM.name()};
-                String selectedOption = (String) JOptionPane.showInputDialog(null, "Choose level:", "Options",
-                        JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        scoresButton.addActionListener(e -> {
+            var frame = new JFrame("High Scores");
+            String[] options = {GameLevels.EASY.name(), GameLevels.MEDIUM.name(), GameLevels.HARD.name(), GameLevels.CUSTOM.name()};
+            String selectedOption = (String) JOptionPane.showInputDialog(null, "Choose level:", "Options",
+                    JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
-                var recordsHandler = new RecordsManager();
-                var easy = recordsHandler.readRecords(GameLevels.valueOf(selectedOption));
-                var table = new JTable(new RecordsTable(easy, GameLevels.valueOf(selectedOption)));
-                frame.add(new JScrollPane(table));
-                frame.pack();
-                frame.setVisible(true);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            }
+            var recordsHandler = new RecordsManager();
+            var easy = recordsHandler.readRecords(GameLevels.valueOf(selectedOption));
+            var table = new JTable(new RecordsTable(easy, GameLevels.valueOf(selectedOption)));
+            frame.add(new JScrollPane(table));
+            frame.pack();
+            frame.setVisible(true);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
         buttonsContainer.add(scoresButton);
 
@@ -123,17 +120,17 @@ class MenuHandler implements ActionListener {
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.EASY))) {
             var easyLevel = GameSettings.getEasyLevel();
-            model = new GameField(easyLevel.cols(), easyLevel.rows(), easyLevel.bombsCount(), easyLevel.flagsCount(), GameLevels.EASY, menu.getPlayerName());
+            model = new GameField(easyLevel, menu.getPlayerName());
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.MEDIUM))) {
-            var mediumLevel = GameSettings.getHardLevel();
-            model = new GameField(mediumLevel.cols(), mediumLevel.rows(), mediumLevel.bombsCount(), mediumLevel.flagsCount(), GameLevels.MEDIUM, menu.getPlayerName());
+            var mediumLevel = GameSettings.getMediumLevel();
+            model = new GameField(mediumLevel, menu.getPlayerName());
         }
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.HARD))) {
             var hardLevel = GameSettings.getHardLevel();
-            model = new GameField(hardLevel.cols(), hardLevel.rows(), hardLevel.bombsCount(), hardLevel.flagsCount(), GameLevels.HARD, menu.getPlayerName());
+            model = new GameField(hardLevel, menu.getPlayerName());
         }
 
 
@@ -144,7 +141,7 @@ class MenuHandler implements ActionListener {
                 int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
                 int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
 
-                model = new GameField(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM, menu.getPlayerName());
+                model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), menu.getPlayerName());
             } catch (NumberFormatException ignored) {
             }
         }

@@ -2,11 +2,7 @@ package fit.nsu.labs.model;
 
 import fit.nsu.labs.exceptions.MineSweeperGameException;
 
-import javax.swing.table.AbstractTableModel;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +34,10 @@ public class RecordsManager {
                 records.add(new Record(currentName, currentTime));
                 line = reader.readLine();
             }
-        } catch (Exception e) {
+        }catch (FileNotFoundException ignored){
+            return records;
+        }
+        catch (Exception e) {
             throw new MineSweeperGameException("error in read records", e);
         }
         return records;
@@ -70,7 +69,6 @@ public class RecordsManager {
 
 
     }
-
 
 
 }

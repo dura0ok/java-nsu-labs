@@ -9,10 +9,12 @@ import java.util.List;
 public class RecordsTable extends AbstractTableModel {
     private final List<Record> records;
     private final GameLevels level;
-    RecordsTable(List<Record> records, GameLevels level){
+
+    RecordsTable(List<Record> records, GameLevels level) {
         this.records = records;
         this.level = level;
     }
+
     @Override
     public int getRowCount() {
         return records.size();
@@ -29,7 +31,7 @@ public class RecordsTable extends AbstractTableModel {
         return switch (columnIndex) {
             case 0 -> record.name();
             case 1 -> record.secondsTime();
-            case 2-> level;
+            case 2 -> level;
             default -> throw new IndexOutOfBoundsException("Invalid column index");
         };
     }

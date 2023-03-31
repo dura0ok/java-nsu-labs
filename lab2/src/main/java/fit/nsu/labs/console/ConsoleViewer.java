@@ -3,6 +3,7 @@ package fit.nsu.labs.console;
 import fit.nsu.labs.model.*;
 
 public class ConsoleViewer implements Observer {
+    private static long currentTime;
 
     private void printField(GameField model) {
         for (int i = 0; i < model.getColumnSize(); i++) {
@@ -54,7 +55,7 @@ public class ConsoleViewer implements Observer {
         }
 
         if (event.type().equals(EventType.REDRAW_TIMER)) {
-            //System.out.println(event.field().getCurrentTimer());
+            //currentTime = event.field().getCurrentTimer();
         }
 
         if (event.type().equals(EventType.ALREADY_FLAGGED)) {

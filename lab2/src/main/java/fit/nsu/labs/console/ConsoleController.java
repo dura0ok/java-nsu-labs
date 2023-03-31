@@ -13,7 +13,7 @@ public class ConsoleController {
     private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleController(int columnSize, int rowSize, int bombsCount) {
-        System.out.println("Enter name:");
+        System.out.print("Enter name: ");
         var name = scanner.nextLine();
         if (name.isEmpty()) {
             throw new MineSweeperGameException("invalid name");
@@ -33,13 +33,22 @@ public class ConsoleController {
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
-                System.out.println("Enter x: ");
+                System.out.print("Enter type command(dot - 0, flag - 1, time - 2): ");
+                var type = scanner.nextInt();
+
+                if(type == 2){
+                    System.out.println("Elapsed time: " + model.getElapsed());
+                    continue;
+                }
+
+
+
+                System.out.print("Enter x: ");
                 var x = scanner.nextInt();
-                System.out.println("Enter y: ");
+                System.out.print("Enter y: ");
                 var y = scanner.nextInt();
 
-                System.out.println("Enter type(dot - 0, flag - 1)");
-                var type = scanner.nextInt();
+
                 if (type == 0) {
                     model.click(new Dot(x, y));
                 }

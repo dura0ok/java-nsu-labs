@@ -294,6 +294,10 @@ public class GameField implements Observable {
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 
+    public long getElapsed() {
+        return timer.getElapsed();
+    }
+
 
     public enum GameState {
         RUNNING,

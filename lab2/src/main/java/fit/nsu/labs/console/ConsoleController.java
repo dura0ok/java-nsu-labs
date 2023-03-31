@@ -94,12 +94,16 @@ public class ConsoleController {
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
-                System.out.print("Enter type command(dot - 0, flag - 1, time - 2): ");
+                System.out.println("Enter type command(dot - 0, flag - 1, time - 2): ");
                 var type = scanner.nextInt();
 
                 if (type == 2) {
                     System.out.println("Elapsed time: " + model.getElapsed());
                     continue;
+                }
+
+                if(type != 0 && type != 1){
+                    throw new InvalidArgument("invalid command type");
                 }
 
 
@@ -117,8 +121,12 @@ public class ConsoleController {
                     model.updateFlag(new Dot(x, y));
                 }
 
-            } catch (InvalidArgument | InputMismatchException e) {
+            }catch (InvalidArgument e){
                 System.err.println(e.getMessage());
+            }
+            catch (InputMismatchException ignored) {
+                System.err.println("Incorrect input");
+                scanner.nextLine();
             }
 
             //System.out.println(model.getState());

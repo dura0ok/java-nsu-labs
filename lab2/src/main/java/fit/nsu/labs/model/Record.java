@@ -1,19 +1,6 @@
 package fit.nsu.labs.model;
 
-import java.io.Serializable;
-
-public class Record implements Serializable {
-    private final String name;
-    private final long secondsTime;
-
-    public Record(String name, long secondsTime) {
-        this.name = name;
-        this.secondsTime = secondsTime;
-    }
-
-    public long getSecondsTime() {
-        return secondsTime;
-    }
+public record Record(String name, long secondsTime) {
 
     @Override
     public String toString() {

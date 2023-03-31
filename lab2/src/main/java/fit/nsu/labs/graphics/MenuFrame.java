@@ -3,6 +3,7 @@ package fit.nsu.labs.graphics;
 import fit.nsu.labs.model.GameField;
 import fit.nsu.labs.model.GameLevels;
 import fit.nsu.labs.model.GameSettings;
+import fit.nsu.labs.model.RecordsManager;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -58,8 +59,29 @@ public class MenuFrame extends JFrame {
         customButton.addActionListener(new MenuHandler(this));
         buttonsContainer.add(customButton);
 
-        buttonsContainer.add(new JButton("Show scores"));
-        buttonsContainer.add(new JButton("Help"));
+        var scoresButton = new JButton("Show scores");
+        scoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                var frame = new JFrame("High Scores");
+                String[] options = {GameLevels.EASY.name(), GameLevels.MEDIUM.name(), GameLevels.HARD.name(), GameLevels.CUSTOM.name()};
+                String selectedOption = (String) JOptionPane.showInputDialog(null, "Choose level:", "Options",
+                        JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+                var recordsHandler = new RecordsManager();
+                var easy = recordsHandler.readRecords(GameLevels.valueOf(selectedOption));
+                var table = new JTable(new RecordsTable(easy, GameLevels.valueOf(selectedOption)));
+                frame.add(new JScrollPane(table));
+                frame.pack();
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
+        buttonsContainer.add(scoresButton);
+
+        var helpButton = new JButton("Help");
+        helpButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "Help!"));
+        buttonsContainer.add(helpButton);
 
         for (var button : buttonsContainer) {
             buttonsPanel.add(button, container);
@@ -95,6 +117,7 @@ class MenuHandler implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         GameField model = null;
 
 

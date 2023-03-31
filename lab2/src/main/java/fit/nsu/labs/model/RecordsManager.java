@@ -2,6 +2,7 @@ package fit.nsu.labs.model;
 
 import fit.nsu.labs.exceptions.MineSweeperGameException;
 
+import javax.swing.table.AbstractTableModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RecordsManager {
+
     private final Map<GameLevels, String> record_files = new HashMap<>() {{
         put(GameLevels.EASY, "easy.txt");
         put(GameLevels.MEDIUM, "medium.txt");
@@ -19,7 +21,7 @@ public class RecordsManager {
         put(GameLevels.CUSTOM, "custom.txt");
     }};
 
-    private List<Record> readRecords(GameLevels level) throws MineSweeperGameException {
+    public List<Record> readRecords(GameLevels level) throws MineSweeperGameException {
         List<Record> records = new ArrayList<>();
         try (var reader = new BufferedReader(new FileReader(record_files.get(level)))) {
             String line = reader.readLine();
@@ -47,7 +49,7 @@ public class RecordsManager {
         try {
             var data = readRecords(level);
             data.add(record);
-            data.sort((o1, o2) -> (int) (o1.getSecondsTime() - o2.getSecondsTime()));
+            data.sort((o1, o2) -> (int) (o1.secondsTime() - o2.secondsTime()));
 
 
             if (data.size() > 10) {
@@ -68,4 +70,7 @@ public class RecordsManager {
 
 
     }
+
+
+
 }

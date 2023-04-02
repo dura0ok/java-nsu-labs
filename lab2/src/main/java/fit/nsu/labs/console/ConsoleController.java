@@ -12,36 +12,43 @@ public class ConsoleController {
     private GameField model;
 
     public ConsoleController() {
-        System.out.print("Enter name: ");
-        var name = scanner.nextLine();
+        try {
+            System.out.print("Enter name: ");
+            var name = scanner.nextLine();
 
-        if (name.isEmpty()) {
-            throw new MineSweeperGameException("invalid name");
-        }
+            if (name.isEmpty()) {
+                throw new MineSweeperGameException("invalid name");
+            }
 
-        System.out.println("Menu");
-        System.out.println("1 - easy");
-        System.out.println("2 - medium");
-        System.out.println("3 - hard");
-        System.out.println("4 - custom");
-        System.out.println("5 - records");
+            System.out.println("Menu");
+            System.out.println("1 - easy");
+            System.out.println("2 - medium");
+            System.out.println("3 - hard");
+            System.out.println("4 - custom");
+            System.out.println("5 - records");
 
-        var menuChoice = scanner.nextInt();
-        switch (menuChoice) {
-            case 1 -> {
-                var easyLevel = GameSettings.getEasyLevel();
-                model = new GameField(easyLevel, name);
+            int menuChoice;
+            try{
+                menuChoice = scanner.nextInt();
+            }catch (InputMismatchException e){
+                throw new InvalidArgument("invalid menu choice", e);
             }
-            case 2 -> {
-                var mediumLevel = GameSettings.getMediumLevel();
-                model = new GameField(mediumLevel, name);
-            }
-            case 3 -> {
-                var hardLevel = GameSettings.getHardLevel();
-                model = new GameField(hardLevel, name);
-            }
-            case 4 -> {
-                try {
+
+            switch (menuChoice) {
+                case 1 -> {
+                    var easyLevel = GameSettings.getEasyLevel();
+                    model = new GameField(easyLevel, name);
+                }
+                case 2 -> {
+                    var mediumLevel = GameSettings.getMediumLevel();
+                    model = new GameField(mediumLevel, name);
+                }
+                case 3 -> {
+                    var hardLevel = GameSettings.getHardLevel();
+                    model = new GameField(hardLevel, name);
+                }
+                case 4 -> {
+
                     System.out.print("Enter cols: ");
                     var columns = scanner.nextInt();
 
@@ -54,29 +61,30 @@ public class ConsoleController {
                     System.out.print("Enter flags counter: ");
                     var flagsCounter = scanner.nextInt();
                     model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), name);
-                } catch (NumberFormatException ignored) {
+
+                }
+                case 5 -> {
+                    System.out.print("1 - Easy, 2 - Medium, 3 - Hard, 4 - Custom: ");
+                    var levelChoice = scanner.nextInt();
+                    GameLevels level = null;
+                    switch (levelChoice) {
+                        case 1 -> level = GameLevels.EASY;
+                        case 2 -> level = GameLevels.MEDIUM;
+                        case 3 -> level = GameLevels.HARD;
+                        case 4 -> level = GameLevels.CUSTOM;
+                        default -> System.out.println("Something went wrong");
+                    }
+                    var manager = new RecordsManager();
+                    var data = manager.readRecords(level);
+                    for (var el : data) {
+                        System.out.println(el);
+                    }
                 }
             }
-            case 5 -> {
-                System.out.print("1 - Easy, 2 - Medium, 3 - Hard, 4 - Custom: ");
-                var levelChoice = scanner.nextInt();
-                GameLevels level = null;
-                switch (levelChoice) {
-                    case 1 -> level = GameLevels.EASY;
-                    case 2 -> level = GameLevels.MEDIUM;
-                    case 3 -> level = GameLevels.HARD;
-                    case 4 -> level = GameLevels.CUSTOM;
-                    default -> System.out.println("Something went wrong");
-                }
-                var manager = new RecordsManager();
-                var data = manager.readRecords(level);
-                for (var el : data) {
-                    System.out.println(el);
-                }
-            }
+
+        }catch (MineSweeperGameException e) {
+            System.err.println(e.getMessage());
         }
-
-
     }
 
     public static void main(String[] args) {
@@ -102,7 +110,7 @@ public class ConsoleController {
                     continue;
                 }
 
-                if(type != 0 && type != 1){
+                if (type != 0 && type != 1) {
                     throw new InvalidArgument("invalid command type");
                 }
 
@@ -121,10 +129,9 @@ public class ConsoleController {
                     model.updateFlag(new Dot(x, y));
                 }
 
-            }catch (InvalidArgument e){
+            } catch (InvalidArgument e) {
                 System.err.println(e.getMessage());
-            }
-            catch (InputMismatchException ignored) {
+            } catch (InputMismatchException ignored) {
                 System.err.println("Incorrect input");
                 scanner.nextLine();
             }

@@ -27,12 +27,7 @@ public class ConsoleController {
             System.out.println("4 - custom");
             System.out.println("5 - records");
 
-            int menuChoice;
-            try{
-                menuChoice = scanner.nextInt();
-            }catch (InputMismatchException e){
-                throw new InvalidArgument("invalid menu choice", e);
-            }
+            int menuChoice = inputMenuChoice();
 
             switch (menuChoice) {
                 case 1 -> {
@@ -80,18 +75,14 @@ public class ConsoleController {
                         System.out.println(el);
                     }
                 }
+                default -> throw new IllegalStateException("Unexpected value: " + menuChoice);
             }
 
-        }catch (MineSweeperGameException e) {
+        } catch (MineSweeperGameException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public static void main(String[] args) {
-        var game = new ConsoleController();
-        game.startGame();
-
-    }
 
     public void startGame() {
         if (model == null) {
@@ -136,7 +127,15 @@ public class ConsoleController {
                 scanner.nextLine();
             }
 
-            //System.out.println(model.getState());
+        }
+    }
+
+
+    int inputMenuChoice() throws InvalidArgument {
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            throw new InvalidArgument("invalid menu choice", e);
         }
     }
 }

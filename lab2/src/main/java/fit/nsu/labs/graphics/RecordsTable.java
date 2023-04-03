@@ -1,23 +1,23 @@
 package fit.nsu.labs.graphics;
 
 import fit.nsu.labs.model.GameLevels;
-import fit.nsu.labs.model.Record;
+import fit.nsu.labs.model.HighScore;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class RecordsTable extends AbstractTableModel {
-    private final List<Record> records;
+    private final List<HighScore> highScores;
     private final GameLevels level;
 
-    RecordsTable(List<Record> records, GameLevels level) {
-        this.records = records;
+    RecordsTable(List<HighScore> highScores, GameLevels level) {
+        this.highScores = highScores;
         this.level = level;
     }
 
     @Override
     public int getRowCount() {
-        return records.size();
+        return highScores.size();
     }
 
     @Override
@@ -27,10 +27,10 @@ public class RecordsTable extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Record record = records.get(rowIndex);
+        HighScore rowHighScore = highScores.get(rowIndex);
         return switch (columnIndex) {
-            case 0 -> record.name();
-            case 1 -> record.secondsTime();
+            case 0 -> rowHighScore.name();
+            case 1 -> rowHighScore.secondsTime();
             case 2 -> level;
             default -> throw new IndexOutOfBoundsException("Invalid column index");
         };

@@ -17,18 +17,14 @@ public class GraphicsController extends MouseAdapter {
         this.model = model;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MenuFrame::new);
-    }
-
     @Override
     public void mousePressed(MouseEvent e) {
         SwingUtilities.invokeLater(() -> {
             FieldElement sourceBtn = (FieldElement) e.getSource();
             var x = Integer.parseInt(String.valueOf(sourceBtn.getDot().x()));
             var y = Integer.parseInt(String.valueOf(sourceBtn.getDot().y()));
-            //System.out.println("performed " + new Dot(x, y));
             var clickedDot = new Dot(x, y);
+
             if (e.getButton() == MouseEvent.BUTTON1) {
                 model.click(clickedDot);
             }
@@ -36,11 +32,6 @@ public class GraphicsController extends MouseAdapter {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 model.updateFlag(clickedDot);
             }
-
-//
-//            String message = "Button pressed: " + actionCommand + " " + x + " " + y;
-//            JOptionPane.showMessageDialog(sourceBtn, message, "Button Pressed", JOptionPane.PLAIN_MESSAGE);
-//        sourceBtn.setText(String.valueOf(model.getElementByCoords(clickedDot).getBombsAroundCount()));
         });
     }
 }
@@ -51,13 +42,6 @@ class FieldElement extends JButton {
     public FieldElement(String text, Dot dot) {
         super(text);
         this.dot = new Dot(dot.y(), dot.x());
-//        int buttonWidth = getWidth();
-//        int buttonHeight = getHeight();
-
-//        Image scaledImage = icon.getImage().getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_DEFAULT);
-//        Icon scaledIcon = new ImageIcon(scaledImage);
-//        setIcon(scaledIcon);
-
     }
 
     @Override

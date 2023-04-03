@@ -72,7 +72,7 @@ public class MenuFrame extends JFrame {
             frame.add(new JScrollPane(table));
             frame.pack();
             frame.setVisible(true);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         });
         buttonsContainer.add(scoresButton);
 

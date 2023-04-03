@@ -3,7 +3,12 @@ package fit.nsu.labs.console;
 import fit.nsu.labs.model.*;
 
 public class ConsoleViewer implements Observer {
-    private static long currentTime;
+
+    public static void main(String[] args) {
+        var game = new ConsoleController();
+        game.startGame();
+
+    }
 
     private void printField(GameField model) {
         for (int i = 0; i < model.getColumnSize(); i++) {
@@ -12,7 +17,6 @@ public class ConsoleViewer implements Observer {
                 var state = model.getState();
                 if (state.equals(GameField.GameState.GAME_OVER) || el.isOpened()) {
                     System.out.print(el.getBombsAroundCount());
-                    //System.out.print("*(" + el.getBombsAroundCount() + ", " + (el.isBomb() ? "Bomb" : "simp") + ")");
                 } else {
                     if (el.isFlagged()) {
                         System.out.print("F ");
@@ -54,9 +58,6 @@ public class ConsoleViewer implements Observer {
             return;
         }
 
-        if (event.type().equals(EventType.REDRAW_TIMER)) {
-            //currentTime = event.field().getCurrentTimer();
-        }
 
         if (event.type().equals(EventType.ALREADY_FLAGGED)) {
             System.out.println("this coordinates already flagged");

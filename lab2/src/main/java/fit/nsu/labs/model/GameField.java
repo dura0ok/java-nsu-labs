@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static fit.nsu.labs.utils.Random.getRandomNumber;
+import static fit.nsu.labs.utils.RandomUtil.getRandomNumber;
 
 
 public class GameField implements Observable {
@@ -126,14 +126,14 @@ public class GameField implements Observable {
     private void updateBombsAroundCount() {
         for (int i = 0; i < columnSize; i++) {
             for (int j = 0; j < rowSize; j++) {
-                int local_counter = 0;
+                int localCounter = 0;
                 var neighbours = getNeighbours(new Dot(i, j));
                 for (var neighbour : neighbours) {
                     if (neighbour.isBomb()) {
-                        local_counter += 1;
+                        localCounter += 1;
                     }
                 }
-                board[i][j].setBombsAroundCount(local_counter);
+                board[i][j].setBombsAroundCount(localCounter);
             }
         }
     }
@@ -152,7 +152,6 @@ public class GameField implements Observable {
         int x = getRandomNumber(0, columnSize);
         int y = getRandomNumber(0, rowSize);
         return new Dot(x, y);
-        //return new Dot(0, 0);
     }
 
     public BoardElement getElementByCoords(Dot coords) {
@@ -259,7 +258,7 @@ public class GameField implements Observable {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.USER_WIN, this));
             var recordsManager = new RecordsManager();
-            recordsManager.writeRecord(level, new Record(name, timer.getElapsed()));
+            recordsManager.writeRecord(level, new HighScore(name, timer.getElapsed()));
 
             System.out.println("FINISHING " + timer.getElapsed());
             future.cancel(true);

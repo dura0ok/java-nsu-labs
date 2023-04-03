@@ -4,22 +4,26 @@ import fit.nsu.labs.exceptions.MineSweeperGameException;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class RecordsManager {
+    private final Map<GameLevels, String> RECORD_FILES;
 
-    private final Map<GameLevels, String> record_files = new HashMap<>() {{
-        put(GameLevels.EASY, "easy.txt");
-        put(GameLevels.MEDIUM, "medium.txt");
-        put(GameLevels.HARD, "hard.txt");
-        put(GameLevels.CUSTOM, "custom.txt");
-    }};
+    public RecordsManager() {
+        RECORD_FILES = new EnumMap<>(GameLevels.class) {{
+            put(GameLevels.EASY, "easy.txt");
+            put(GameLevels.MEDIUM, "medium.txt");
+            put(GameLevels.HARD, "hard.txt");
+            put(GameLevels.CUSTOM, "custom.txt");
+        }};
+    }
 
-    public List<Record> readRecords(GameLevels level) throws MineSweeperGameException {
-        List<Record> records = new ArrayList<>();
-        try (var reader = new BufferedReader(new FileReader(record_files.get(level)))) {
+
+    public List<HighScore> readRecords(GameLevels level) throws MineSweeperGameException {
+        List<HighScore> highScores = new ArrayList<>();
+        try (var reader = new BufferedReader(new FileReader(RECORD_FILES.get(level)))) {
             String line = reader.readLine();
             while (line != null) {
                 var splitted = line.split("\\s+");
@@ -31,22 +35,22 @@ public class RecordsManager {
                 String currentName = splitted[0];
                 long currentTime = Long.parseLong(splitted[1]);
 
-                records.add(new Record(currentName, currentTime));
+                highScores.add(new HighScore(currentName, currentTime));
                 line = reader.readLine();
             }
         } catch (FileNotFoundException ignored) {
-            return records;
+            return highScores;
         } catch (Exception e) {
             throw new MineSweeperGameException("error in read records", e);
         }
-        return records;
+        return highScores;
     }
 
-    public void writeRecord(GameLevels level, Record record) {
+    public void writeRecord(GameLevels level, HighScore newHighScore) {
 
         try {
             var data = readRecords(level);
-            data.add(record);
+            data.add(newHighScore);
             data.sort((o1, o2) -> (int) (o1.secondsTime() - o2.secondsTime()));
 
 
@@ -55,7 +59,7 @@ public class RecordsManager {
             }
 
 
-            try (var writer = new BufferedWriter(new FileWriter(record_files.get(level), false))) {
+            try (var writer = new BufferedWriter(new FileWriter(RECORD_FILES.get(level), false))) {
                 for (var item : data) {
                     writer.write(item.toString());
                 }

@@ -92,8 +92,13 @@ public class MenuFrame extends JFrame {
         setSize(500, 500);
         setLocationRelativeTo(null);
 
-        while (playerName == null || playerName.isEmpty()) {
+        while (playerName == null) {
             playerName = JOptionPane.showInputDialog(null, "Enter name");
+        }
+
+        if (playerName.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "You entered empty name. This is incorrect :C");
+            dispose();
         }
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

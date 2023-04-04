@@ -15,6 +15,8 @@ public class GraphicsViewer extends JFrame implements Observer {
     private static final String CLOSED_ICON_NAME = "closed.png";
     private static final String FLAGGED_ICON_NAME = "flagged.png";
     private static final String BOMB_ICON_NAME = "bomb.png";
+    private static final int BORDER_SIZE = 100;
+    private static final int ICON_SIZE = 50;
     private final FieldElement[][] buttons;
     private final GameField model;
     private final GraphicsController controller;
@@ -124,13 +126,13 @@ public class GraphicsViewer extends JFrame implements Observer {
     static class FieldElementsGrid extends JPanel {
         public FieldElementsGrid(int columnSize, int rowSize, FieldElement[][] buttons) {
             setLayout(new GridLayout(columnSize, rowSize, 3, 3));
-            setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+            setBorder(BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE));
             for (int row = 0; row < buttons.length; row++) {
                 for (int col = 0; col < buttons[row].length; col++) {
                     FieldElement button = new FieldElement("", new Dot(col, row));
                     var icon = new ImageIcon(Objects.requireNonNull(ClassLoader.getSystemResource(CLOSED_ICON_NAME)));
                     button.setIcon(icon);
-                    button.setPreferredSize(new Dimension(50, 50));
+                    button.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
                     add(button);
 

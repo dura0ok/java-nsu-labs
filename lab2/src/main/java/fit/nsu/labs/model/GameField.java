@@ -15,6 +15,8 @@ import static fit.nsu.labs.utils.RandomUtil.getRandomNumber;
 
 public class GameField implements Observable {
     private final BoardElement[][] board;
+
+    // TODO: use interfaces as field types where possible
     private final HashSet<Dot> bombs = new HashSet<>();
 
     private final GameLevels level;

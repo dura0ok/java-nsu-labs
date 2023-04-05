@@ -67,6 +67,7 @@ public class RecordsManager {
 
 
         } catch (Exception e) {
+            // TODO: handle exception. Use logging if needed
             e.printStackTrace();
         }
 

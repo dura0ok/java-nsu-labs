@@ -111,6 +111,11 @@ public class MenuFrame extends JFrame {
 
 
 class MenuHandler implements ActionListener {
+    // TODO: do not have multiple top-level classes in one file.
+    // TODO: It's allowed by the language, but very unconventional and questionable.
+    // TODO: Nested classes are OK, you can have many of them in one file.
+    // TODO: Same for FieldElement
+
     private final MenuFrame menu;
 
     public MenuHandler(MenuFrame menuFrame) {

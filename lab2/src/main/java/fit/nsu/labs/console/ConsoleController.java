@@ -89,6 +89,9 @@ public class ConsoleController {
             return;
         }
 
+        // TODO: controller creates view -> not ideal.
+        // TODO: at least pass it as a parameter in constructor.
+        // TODO: even better to make them completely separated (not that hard for the console UI)
         model.registerObserver(new ConsoleViewer());
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {

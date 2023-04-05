@@ -54,6 +54,7 @@ public class GraphicsViewer extends JFrame implements Observer {
 
     @Override
     public void notification(Event event) {
+        // TODO: make sure all UI manipulations are always done in the UI thread
         if (event.type().equals(EventType.REDRAW_REQUEST)) {
             reDraw(event);
             return;

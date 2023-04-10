@@ -1,6 +1,5 @@
 package fit.nsu.labs.console;
 
-import fit.nsu.labs.exceptions.InvalidArgument;
 import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.*;
 
@@ -9,9 +8,11 @@ import java.util.Scanner;
 
 public class ConsoleController {
     private final Scanner scanner = new Scanner(System.in);
+    private final onEvent view;
     private GameField model;
 
-    public ConsoleController() {
+    public ConsoleController(onEvent view) {
+        this.view = view;
         try {
             System.out.print("Enter name: ");
             var name = scanner.nextLine();
@@ -89,10 +90,7 @@ public class ConsoleController {
             return;
         }
 
-        // TODO: controller creates view -> not ideal.
-        // TODO: at least pass it as a parameter in constructor.
-        // TODO: even better to make them completely separated (not that hard for the console UI)
-        model.registerObserver(new ConsoleViewer());
+        model.registerObserver(view);
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
@@ -105,7 +103,7 @@ public class ConsoleController {
                 }
 
                 if (type != 0 && type != 1) {
-                    throw new InvalidArgument("invalid command type");
+                    throw new IllegalArgumentException("invalid command type");
                 }
 
 
@@ -123,7 +121,7 @@ public class ConsoleController {
                     model.updateFlag(new Dot(x, y));
                 }
 
-            } catch (InvalidArgument e) {
+            } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());
             } catch (InputMismatchException ignored) {
                 System.err.println("Incorrect input");
@@ -134,11 +132,11 @@ public class ConsoleController {
     }
 
 
-    int inputMenuChoice() throws InvalidArgument {
+    int inputMenuChoice() throws IllegalStateException {
         try {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
-            throw new InvalidArgument("invalid menu choice", e);
+            throw new IllegalStateException("invalid menu choice", e);
         }
     }
 }

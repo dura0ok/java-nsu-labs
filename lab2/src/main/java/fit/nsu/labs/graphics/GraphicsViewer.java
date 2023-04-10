@@ -10,7 +10,7 @@ import java.util.Objects;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
-public class GraphicsViewer extends JFrame implements Observer {
+public class GraphicsViewer extends JFrame implements onEvent {
 
     private static final String CLOSED_ICON_NAME = "closed.png";
     private static final String FLAGGED_ICON_NAME = "flagged.png";
@@ -54,11 +54,17 @@ public class GraphicsViewer extends JFrame implements Observer {
 
     @Override
     public void notification(Event event) {
-        // TODO: make sure all UI manipulations are always done in the UI thread
         if (event.type().equals(EventType.REDRAW_REQUEST)) {
-            reDraw(event);
+            SwingUtilities.invokeLater(() -> {
+                reDraw(event);
+            });
             return;
         }
+
+        if (event.type().equals(EventType.RECORDS_ERROR)) {
+            showMessageDialog(null, "Error when writing records");
+        }
+
         if (event.type().equals(EventType.USER_WIN)) {
             showMessageDialog(null, "You win!");
             return;
@@ -75,7 +81,9 @@ public class GraphicsViewer extends JFrame implements Observer {
 
 
         if (event.type().equals(EventType.FLAG_STATE_UPDATE)) {
-            reDraw(event);
+            SwingUtilities.invokeLater(() -> {
+                reDraw(event);
+            });
             return;
         }
 

@@ -1,10 +1,12 @@
 package fit.nsu.labs.model;
 
-import fit.nsu.labs.exceptions.InvalidArgument;
+
+import fit.nsu.labs.exceptions.RecordsWritingException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -15,16 +17,14 @@ import static fit.nsu.labs.utils.RandomUtil.getRandomNumber;
 
 public class GameField implements Observable {
     private final BoardElement[][] board;
-
-    // TODO: use interfaces as field types where possible
-    private final HashSet<Dot> bombs = new HashSet<>();
+    private final Set<Dot> bombs = new HashSet<>();
 
     private final GameLevels level;
     private final int columnSize;
     private final int rowSize;
 
     private final int boardElementsCount;
-    private final List<Observer> observers = new ArrayList<>();
+    private final List<onEvent> onEvents = new ArrayList<>();
     private final String name;
     private final GameTime timer = new GameTime(this);
     private int availableFlagsCounter;
@@ -163,11 +163,11 @@ public class GameField implements Observable {
     public void click(Dot dot) {
 
         if (dot.x() >= columnSize || dot.y() >= rowSize) {
-            throw new InvalidArgument("Invalid clicked dot coords");
+            throw new IllegalArgumentException("Invalid clicked dot coords");
         }
 
         if (dot.x() < 0 || dot.y() < 0) {
-            throw new InvalidArgument("Invalid clicked dot coords");
+            throw new IllegalArgumentException("Invalid clicked dot coords");
         }
 
         var el = getElementByCoords(dot);
@@ -244,14 +244,13 @@ public class GameField implements Observable {
     }
 
     @Override
-    public void registerObserver(Observer o) {
-        observers.add(o);
+    public void registerObserver(onEvent o) {
+        onEvents.add(o);
     }
 
-    @Override
     public void notifyObservers(Event event) {
-        for (Observer observer : observers) {
-            observer.notification(event);
+        for (onEvent onEvent : onEvents) {
+            onEvent.notification(event);
         }
     }
 
@@ -260,7 +259,13 @@ public class GameField implements Observable {
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.USER_WIN, this));
             var recordsManager = new RecordsManager();
-            recordsManager.writeRecord(level, new HighScore(name, timer.getElapsed()));
+
+            try {
+                recordsManager.writeRecord(level, new HighScore(name, timer.getElapsed()));
+            } catch (RecordsWritingException ignored) {
+                notifyObservers(new Event(EventType.RECORDS_ERROR, this));
+            }
+
 
             System.out.println("FINISHING " + timer.getElapsed());
             future.cancel(true);
@@ -270,11 +275,11 @@ public class GameField implements Observable {
 
     private void validate(int bombsCount) {
         if (0 >= bombsCount) {
-            throw new InvalidArgument("Bombs counter must be positive");
+            throw new IllegalArgumentException("Bombs counter must be positive");
         }
 
         if (bombsCount > boardElementsCount) {
-            throw new InvalidArgument("bombs counter must be less-equal field size");
+            throw new IllegalArgumentException("bombs counter must be less-equal field size");
         }
     }
 

@@ -2,10 +2,10 @@ package fit.nsu.labs.console;
 
 import fit.nsu.labs.model.*;
 
-public class ConsoleViewer implements Observer {
+public class ConsoleViewer implements onEvent {
 
     public static void main(String[] args) {
-        var game = new ConsoleController();
+        var game = new ConsoleController(new ConsoleViewer());
         game.startGame();
 
     }
@@ -61,6 +61,10 @@ public class ConsoleViewer implements Observer {
 
         if (event.type().equals(EventType.ALREADY_FLAGGED)) {
             System.out.println("this coordinates already flagged");
+        }
+
+        if (event.type().equals(EventType.RECORDS_ERROR)) {
+            System.err.println("Error in writing records");
         }
 
 

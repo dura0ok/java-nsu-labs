@@ -1,6 +1,7 @@
 package fit.nsu.labs.model;
 
 import fit.nsu.labs.exceptions.MineSweeperGameException;
+import fit.nsu.labs.exceptions.RecordsWritingException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -67,8 +68,7 @@ public class RecordsManager {
 
 
         } catch (Exception e) {
-            // TODO: handle exception. Use logging if needed
-            e.printStackTrace();
+            throw new RecordsWritingException("records writing error");
         }
 
 

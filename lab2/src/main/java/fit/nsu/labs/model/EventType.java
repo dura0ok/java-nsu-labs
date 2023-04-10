@@ -7,5 +7,5 @@ public enum EventType {
     FLAG_STATE_UPDATE,
     REDRAW_TIMER,
     ALREADY_FLAGGED,
-    USER_WIN
+    RECORDS_ERROR, USER_WIN
 }

@@ -43,7 +43,7 @@ class MenuHandler implements ActionListener {
                 int columns = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter cols"));
                 int rows = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter rows"));
                 int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
-                int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter flags counter"));
+                int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter limit flags"));
 
                 model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), menu.getPlayerName());
             } catch (NumberFormatException ignored) {

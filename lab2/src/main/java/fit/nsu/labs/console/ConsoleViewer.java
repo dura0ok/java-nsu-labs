@@ -1,8 +1,14 @@
 package fit.nsu.labs.console;
 
+import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.*;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class ConsoleViewer implements onEvent {
+
+    private final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         var game = new ConsoleController(new ConsoleViewer());
@@ -67,6 +73,35 @@ public class ConsoleViewer implements onEvent {
             System.err.println("Error in writing records");
         }
 
+    }
 
+    public int inputNumber(String message) {
+        try {
+            System.out.print(message);
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            scanner.next();
+            throw new MineSweeperGameException("invalid input number", e);
+        }
+    }
+
+    public String inputLine(String message) {
+        try {
+            System.out.print(message);
+            return scanner.nextLine();
+        } catch (InputMismatchException e) {
+            scanner.next();
+            throw new IllegalArgumentException("invalid input", e);
+        }
+    }
+
+    public void printMenu() {
+        System.out.println("Menu");
+        System.out.println("1 - easy");
+        System.out.println("2 - medium");
+        System.out.println("3 - hard");
+        System.out.println("4 - custom");
+        System.out.println("5 - records");
+        System.out.println("6 - exit");
     }
 }

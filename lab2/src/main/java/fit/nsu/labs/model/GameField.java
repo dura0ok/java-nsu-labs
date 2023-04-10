@@ -3,19 +3,15 @@ package fit.nsu.labs.model;
 
 import fit.nsu.labs.exceptions.RecordsWritingException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static fit.nsu.labs.utils.RandomUtil.getRandomNumber;
-
 
 public class GameField implements Observable {
+    private static final Random randomService = new Random();
     private final BoardElement[][] board;
     private final Set<Dot> bombs = new HashSet<>();
 
@@ -52,6 +48,10 @@ public class GameField implements Observable {
         state = GameState.GAME_OVER;
     }
 
+    private static int getRandomNumber(int max) {
+        return randomService.nextInt(max);
+    }
+
     public long getCurrentTimer() {
         return timer.getElapsed();
     }
@@ -68,7 +68,6 @@ public class GameField implements Observable {
         notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
     }
 
-
     public GameState getState() {
         return state;
     }
@@ -80,7 +79,6 @@ public class GameField implements Observable {
     public int getRowSize() {
         return rowSize;
     }
-
 
     public int getBombsCounter() {
         return bombs.size();
@@ -99,7 +97,6 @@ public class GameField implements Observable {
             }
         }
     }
-
 
     ArrayList<BoardElement> getNeighbours(Dot dot) {
         var res = new ArrayList<BoardElement>();
@@ -151,8 +148,8 @@ public class GameField implements Observable {
     }
 
     private Dot generateRandomDot() {
-        int x = getRandomNumber(0, columnSize);
-        int y = getRandomNumber(0, rowSize);
+        int x = getRandomNumber(columnSize);
+        int y = getRandomNumber(rowSize);
         return new Dot(x, y);
     }
 
@@ -233,7 +230,6 @@ public class GameField implements Observable {
             }
         }
     }
-
 
     public boolean isOpened(Dot dot) {
         return getElementByCoords(dot).isOpened();

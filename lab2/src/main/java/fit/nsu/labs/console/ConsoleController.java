@@ -3,32 +3,23 @@ package fit.nsu.labs.console;
 import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.*;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class ConsoleController {
-    private final Scanner scanner = new Scanner(System.in);
-    private final onEvent view;
+
+    private final ConsoleViewer view;
     private GameField model;
 
-    public ConsoleController(onEvent view) {
+    public ConsoleController(ConsoleViewer view) {
         this.view = view;
         try {
-            System.out.print("Enter name: ");
-            var name = scanner.nextLine();
+            var name = view.inputLine("Enter name: ");
 
             if (name.isEmpty()) {
                 throw new MineSweeperGameException("invalid name");
             }
 
-            System.out.println("Menu");
-            System.out.println("1 - easy");
-            System.out.println("2 - medium");
-            System.out.println("3 - hard");
-            System.out.println("4 - custom");
-            System.out.println("5 - records");
+            view.printMenu();
 
-            int menuChoice = inputMenuChoice();
+            int menuChoice = view.inputNumber("Enter menu choice: ");
 
             switch (menuChoice) {
                 case 1 -> {
@@ -45,29 +36,25 @@ public class ConsoleController {
                 }
                 case 4 -> {
 
-                    System.out.print("Enter cols: ");
-                    var columns = scanner.nextInt();
+                    var columns = view.inputNumber("Enter cols: ");
 
-                    System.out.print("Enter rows: ");
-                    var rows = scanner.nextInt();
+                    var rows = view.inputNumber("Enter rows: ");
 
-                    System.out.print("Enter bombs counter: ");
-                    var bombsCounter = scanner.nextInt();
+                    var bombsCounter = view.inputNumber("Enter bombs counter: ");
 
-                    System.out.print("Enter flags counter: ");
-                    var flagsCounter = scanner.nextInt();
+                    var flagsCounter = view.inputNumber("Enter limit flags: ");
                     model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), name);
 
                 }
                 case 5 -> {
-                    System.out.print("1 - Easy, 2 - Medium, 3 - Hard, 4 - Custom: ");
-                    var levelChoice = scanner.nextInt();
+                    var levelChoice = view.inputNumber("1 - Easy, 2 - Medium, 3 - Hard, 4 - Custom: ");
                     GameLevels level = null;
                     switch (levelChoice) {
                         case 1 -> level = GameLevels.EASY;
                         case 2 -> level = GameLevels.MEDIUM;
                         case 3 -> level = GameLevels.HARD;
                         case 4 -> level = GameLevels.CUSTOM;
+                        case 5 -> System.exit(0);
                         default -> System.out.println("Something went wrong");
                     }
                     var manager = new RecordsManager();
@@ -76,6 +63,7 @@ public class ConsoleController {
                         System.out.println(el);
                     }
                 }
+                case 6 -> System.exit(0);
                 default -> throw new IllegalStateException("Unexpected value: " + menuChoice);
             }
 
@@ -94,8 +82,7 @@ public class ConsoleController {
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
-                System.out.println("Enter type command(dot - 0, flag - 1, time - 2): ");
-                var type = scanner.nextInt();
+                var type = view.inputNumber("Enter type command(dot - 0, flag - 1, time - 2, exit - 3): ");
 
                 if (type == 2) {
                     System.out.println("Elapsed time: " + model.getElapsed());
@@ -107,10 +94,8 @@ public class ConsoleController {
                 }
 
 
-                System.out.print("Enter x: ");
-                var x = scanner.nextInt();
-                System.out.print("Enter y: ");
-                var y = scanner.nextInt();
+                var x = view.inputNumber("Enter x: ");
+                var y = view.inputNumber("Enter y: ");
 
 
                 if (type == 0) {
@@ -123,20 +108,10 @@ public class ConsoleController {
 
             } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());
-            } catch (InputMismatchException ignored) {
-                System.err.println("Incorrect input");
-                scanner.nextLine();
             }
 
         }
     }
 
 
-    int inputMenuChoice() throws IllegalStateException {
-        try {
-            return scanner.nextInt();
-        } catch (InputMismatchException e) {
-            throw new IllegalStateException("invalid menu choice", e);
-        }
-    }
 }

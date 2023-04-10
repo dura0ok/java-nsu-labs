@@ -18,10 +18,9 @@ public class GraphicsViewer extends JFrame implements onEvent {
     private static final int BORDER_SIZE = 100;
     private static final int ICON_SIZE = 50;
     private final FieldElement[][] buttons;
-    private final GameField model;
     private final GraphicsController controller;
-
     private final InfoPanel panel;
+    private GameField model;
 
 
     public GraphicsViewer(GameField model) {

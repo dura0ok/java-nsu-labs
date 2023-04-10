@@ -7,10 +7,15 @@ import fit.nsu.labs.model.GameSettings;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Objects;
 
 class MenuHandler implements ActionListener {
 
     private final MenuFrame menu;
+    private GraphicsViewer viewer;
+    private GameField model = null;
 
     public MenuHandler(MenuFrame menuFrame) {
         menu = menuFrame;
@@ -18,8 +23,6 @@ class MenuHandler implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        GameField model = null;
 
 
         if (e.getActionCommand().equals(String.valueOf(GameLevels.EASY))) {
@@ -51,30 +54,38 @@ class MenuHandler implements ActionListener {
         }
 
 
-        if (model != null) {
+        var graphicsView = new GraphicsViewer(model);
+        viewer = graphicsView;
 
-            var graphicsView = new GraphicsViewer(model);
+        model.registerObserver(viewer);
+        model.startGame();
+        viewer.setVisible(true);
+        menu.setVisible(false);
+        viewer.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
+                String[] options = {"Exit", "Restart"};
+                String selectedOption = (String) JOptionPane.showInputDialog(null, "What you want to do?", "Exit options", JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 
-            model.registerObserver(graphicsView);
-            model.startGame();
-            graphicsView.setVisible(true);
-            menu.setVisible(false);
-            graphicsView.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                if (Objects.equals(selectedOption, options[0])) {
                     menu.setVisible(true);
+                    viewer.dispose();
+                } else {
+                    viewer.setVisible(false);
+                    model = new GameField(model.getSettings(), menu.getPlayerName());
+                    viewer = new GraphicsViewer(model);
+                    model.registerObserver(viewer);
+                    model.startGame();
+                    viewer.setVisible(true);
                 }
-
-
-            });
-
-            menu.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                    menu.dispose();
-                }
-            });
-        }
+            }
+        });
+        menu.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                menu.dispose();
+            }
+        });
 
     }
 }

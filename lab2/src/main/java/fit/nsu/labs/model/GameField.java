@@ -23,15 +23,16 @@ public class GameField implements Observable {
     private final List<onEvent> onEvents = new ArrayList<>();
     private final String name;
     private final GameTime timer = new GameTime(this);
+    private final GameSettings settings;
     private int availableFlagsCounter;
     private int openedFieldsCount = 0;
     private GameField.GameState state;
     private ScheduledExecutorService executor;
-
     private ScheduledFuture<?> future;
 
 
     public GameField(GameSettings settings, String name) {
+        this.settings = settings;
         this.columnSize = settings.cols();
         this.rowSize = settings.rows();
         int bombsCounter = settings.bombsCount();
@@ -50,6 +51,10 @@ public class GameField implements Observable {
 
     private static int getRandomNumber(int max) {
         return randomService.nextInt(max);
+    }
+
+    public GameSettings getSettings() {
+        return settings;
     }
 
     public long getCurrentTimer() {
@@ -181,7 +186,7 @@ public class GameField implements Observable {
         }
 
         if (isDotBomb(dot)) {
-            System.out.println("throw bomb opened");
+            //System.out.println("throw bomb opened");
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
             state = GameState.GAME_OVER;
             notifyObservers(new Event(EventType.REDRAW_REQUEST, this));

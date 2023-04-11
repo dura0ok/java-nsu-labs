@@ -107,7 +107,7 @@ public class ConsoleController {
                 }
 
             } catch (IllegalArgumentException e) {
-                System.err.println(e.getMessage());
+                System.out.println(e.getMessage());
             }
 
         }

@@ -1,6 +1,5 @@
 package fit.nsu.labs.console;
 
-import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.*;
 
 import java.util.InputMismatchException;
@@ -81,7 +80,7 @@ public class ConsoleViewer implements onEvent {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
             scanner.next();
-            throw new MineSweeperGameException("invalid input number", e);
+            throw new IllegalArgumentException("invalid input number\n", e);
         }
     }
 
@@ -91,7 +90,7 @@ public class ConsoleViewer implements onEvent {
             return scanner.nextLine();
         } catch (InputMismatchException e) {
             scanner.next();
-            throw new IllegalArgumentException("invalid input", e);
+            throw new IllegalArgumentException("invalid input\n", e);
         }
     }
 

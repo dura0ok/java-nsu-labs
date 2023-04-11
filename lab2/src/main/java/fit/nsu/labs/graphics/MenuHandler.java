@@ -89,8 +89,7 @@ class MenuHandler implements ActionListener {
                 }
             });
         } catch (IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

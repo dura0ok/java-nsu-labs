@@ -60,7 +60,7 @@ public class ConsoleController {
                     var manager = new RecordsManager();
                     var data = manager.readRecords(level);
                     for (var el : data) {
-                        System.out.println(el);
+                        System.out.print(el);
                     }
                 }
                 case 6 -> System.exit(0);
@@ -82,29 +82,41 @@ public class ConsoleController {
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
-                var type = view.inputNumber("Enter type command(dot - 0, flag - 1, time - 2, exit - 3): ");
+                var type = view.inputNumber("Enter type command(dot - 0, flag - 1, time - 2, 3 - print field,  exit - 4): ");
 
                 if (type == 2) {
                     System.out.println("Elapsed time: " + model.getElapsed());
                     continue;
                 }
 
-                if (type != 0 && type != 1) {
-                    throw new IllegalArgumentException("invalid command type");
+                if(type == 3){
+                    model.notifyObservers(new Event(EventType.REDRAW_REQUEST, model));
+                    continue;
+                }
+
+                if(type == 4){
+                    System.exit(0);
                 }
 
 
-                var x = view.inputNumber("Enter x: ");
-                var y = view.inputNumber("Enter y: ");
+                if(type == 0 || type == 1){
+                    var x = view.inputNumber("Enter x: ");
+                    var y = view.inputNumber("Enter y: ");
 
 
-                if (type == 0) {
-                    model.click(new Dot(x, y));
+                    if (type == 0) {
+                        model.click(new Dot(x, y));
+                    }
+
+                    if (type == 1) {
+                        model.updateFlag(new Dot(x, y));
+                    }
+
+                    continue;
                 }
 
-                if (type == 1) {
-                    model.updateFlag(new Dot(x, y));
-                }
+
+                throw new IllegalArgumentException("invalid command type");
 
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());

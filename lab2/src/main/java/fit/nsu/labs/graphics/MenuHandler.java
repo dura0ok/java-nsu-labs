@@ -24,72 +24,74 @@ class MenuHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        try {
+            if (e.getActionCommand().equals(String.valueOf(GameLevels.EASY))) {
+                var easyLevel = GameSettings.getEasyLevel();
+                model = new GameField(easyLevel, menu.getPlayerName());
+            }
 
-        if (e.getActionCommand().equals(String.valueOf(GameLevels.EASY))) {
-            var easyLevel = GameSettings.getEasyLevel();
-            model = new GameField(easyLevel, menu.getPlayerName());
-        }
+            if (e.getActionCommand().equals(String.valueOf(GameLevels.MEDIUM))) {
+                var mediumLevel = GameSettings.getMediumLevel();
+                model = new GameField(mediumLevel, menu.getPlayerName());
+            }
 
-        if (e.getActionCommand().equals(String.valueOf(GameLevels.MEDIUM))) {
-            var mediumLevel = GameSettings.getMediumLevel();
-            model = new GameField(mediumLevel, menu.getPlayerName());
-        }
-
-        if (e.getActionCommand().equals(String.valueOf(GameLevels.HARD))) {
-            var hardLevel = GameSettings.getHardLevel();
-            model = new GameField(hardLevel, menu.getPlayerName());
-        }
+            if (e.getActionCommand().equals(String.valueOf(GameLevels.HARD))) {
+                var hardLevel = GameSettings.getHardLevel();
+                model = new GameField(hardLevel, menu.getPlayerName());
+            }
 
 
-        if (e.getActionCommand().equals(String.valueOf(GameLevels.CUSTOM))) {
-            try {
+            if (e.getActionCommand().equals(String.valueOf(GameLevels.CUSTOM))) {
+
                 int columns = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter cols"));
                 int rows = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter rows"));
                 int bombsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter bombs counter"));
                 int flagsCounter = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter limit flags"));
 
                 model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), menu.getPlayerName());
-            } catch (NumberFormatException ignored) {
+
             }
-        }
 
 
-        viewer = new GraphicsViewer(model);
+            viewer = new GraphicsViewer(model);
 
-        model.registerObserver(viewer);
-        model.startGame();
-        viewer.setVisible(true);
-        menu.setVisible(false);
-        viewer.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent windowEvent) {
-                String[] options = {"Exit", "Restart"};
-                String selectedOption = (String) JOptionPane.showInputDialog(null, "What you want to do?", "Exit options", JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+            model.registerObserver(viewer);
+            model.startGame();
+            viewer.setVisible(true);
+            menu.setVisible(false);
+            viewer.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent windowEvent) {
+                    String[] options = {"Exit", "Restart"};
+                    String selectedOption = (String) JOptionPane.showInputDialog(null, "What you want to do?", "Exit options", JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 
-                if (Objects.equals(selectedOption, options[0])) {
-                    menu.setVisible(true);
-                    viewer.dispose();
-                } else {
-                    viewer.setVisible(false);
-                    model = new GameField(model.getSettings(), menu.getPlayerName());
-                    viewer = new GraphicsViewer(model);
-                    model.registerObserver(viewer);
-                    model.startGame();
-                    viewer.setVisible(true);
-                    menu.setVisible(false);
+                    if (Objects.equals(selectedOption, options[0])) {
+                        menu.setVisible(true);
+                        viewer.dispose();
+                    } else {
+                        viewer.setVisible(false);
+                        model = new GameField(model.getSettings(), menu.getPlayerName());
+                        viewer = new GraphicsViewer(model);
+                        model.registerObserver(viewer);
+                        model.startGame();
+                        viewer.setVisible(true);
+                        menu.setVisible(false);
 
-                    addWindowListenerToViewer();
-                    addWindowListenerToMenu();
+                        addWindowListenerToViewer();
+                        addWindowListenerToMenu();
+                    }
                 }
-            }
-        });
-        menu.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                menu.dispose();
-            }
-        });
-
+            });
+            menu.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    menu.dispose();
+                }
+            });
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void addWindowListenerToViewer() {

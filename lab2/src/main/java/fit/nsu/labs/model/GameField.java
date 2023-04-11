@@ -145,9 +145,9 @@ public class GameField implements Observable {
     private void generateBombs(int bombsCounter) {
         while (getBombsCounter() != bombsCounter) {
             var element = generateRandomDot();
-            if (!bombs.contains(element)) {
-                System.out.println("Bomb coords " + element);
-            }
+//            if (!bombs.contains(element)) {
+//                System.out.println("Bomb coords " + element);
+//            }
             bombs.add(element);
         }
     }

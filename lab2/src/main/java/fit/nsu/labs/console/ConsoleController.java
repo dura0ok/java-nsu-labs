@@ -3,17 +3,20 @@ package fit.nsu.labs.console;
 import fit.nsu.labs.exceptions.MineSweeperGameException;
 import fit.nsu.labs.model.*;
 
+import java.util.InputMismatchException;
+
 public class ConsoleController {
 
     private final ConsoleViewer view;
     private GameField model;
+    private String playerName;
 
     public ConsoleController(ConsoleViewer view) {
         this.view = view;
         try {
-            var name = view.inputLine("Enter name: ");
+            playerName = view.inputLine("Enter name: ");
 
-            if (name.isEmpty()) {
+            if (playerName.isEmpty()) {
                 throw new MineSweeperGameException("invalid name");
             }
 
@@ -24,15 +27,15 @@ public class ConsoleController {
             switch (menuChoice) {
                 case 1 -> {
                     var easyLevel = GameSettings.getEasyLevel();
-                    model = new GameField(easyLevel, name);
+                    model = new GameField(easyLevel, playerName);
                 }
                 case 2 -> {
                     var mediumLevel = GameSettings.getMediumLevel();
-                    model = new GameField(mediumLevel, name);
+                    model = new GameField(mediumLevel, playerName);
                 }
                 case 3 -> {
                     var hardLevel = GameSettings.getHardLevel();
-                    model = new GameField(hardLevel, name);
+                    model = new GameField(hardLevel, playerName);
                 }
                 case 4 -> {
 
@@ -43,7 +46,7 @@ public class ConsoleController {
                     var bombsCounter = view.inputNumber("Enter bombs counter: ");
 
                     var flagsCounter = view.inputNumber("Enter limit flags: ");
-                    model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), name);
+                    model = new GameField(new GameSettings(columns, rows, bombsCounter, flagsCounter, GameLevels.CUSTOM), playerName);
 
                 }
                 case 5 -> {
@@ -70,6 +73,8 @@ public class ConsoleController {
         } catch (MineSweeperGameException e) {
             System.err.println(e.getMessage());
         }
+
+        model.registerObserver(view);
     }
 
 
@@ -78,7 +83,7 @@ public class ConsoleController {
             return;
         }
 
-        model.registerObserver(view);
+
         this.model.startGame();
         while (model.getState() != GameField.GameState.GAME_OVER) {
             try {
@@ -89,17 +94,17 @@ public class ConsoleController {
                     continue;
                 }
 
-                if(type == 3){
+                if (type == 3) {
                     model.notifyObservers(new Event(EventType.REDRAW_REQUEST, model));
                     continue;
                 }
 
-                if(type == 4){
+                if (type == 4) {
                     System.exit(0);
                 }
 
 
-                if(type == 0 || type == 1){
+                if (type == 0 || type == 1) {
                     var x = view.inputNumber("Enter x: ");
                     var y = view.inputNumber("Enter y: ");
 
@@ -123,6 +128,18 @@ public class ConsoleController {
             }
 
         }
+
+        try {
+            int res = view.inputNumber("Do you want to restart?: 1 - Yes, other input - No: ");
+            if (res == 1) {
+                model = new GameField(model.getSettings(), playerName);
+                model.registerObserver(view);
+                startGame();
+            }
+        } catch (InputMismatchException | IllegalArgumentException ignored) {
+            System.exit(0);
+        }
+
     }
 
 

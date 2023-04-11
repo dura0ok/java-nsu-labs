@@ -4,6 +4,6 @@ public record HighScore(String name, long secondsTime) {
 
     @Override
     public String toString() {
-        return String.format("%s %d", name, secondsTime);
+        return String.format("%s %d\n", name, secondsTime);
     }
 }

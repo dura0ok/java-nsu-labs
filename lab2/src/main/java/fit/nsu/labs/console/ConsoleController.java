@@ -66,7 +66,8 @@ public class ConsoleController {
                         System.out.print(el);
                     }
                 }
-                case 6 -> System.exit(0);
+                case 6 -> view.printHelp();
+                case 7 -> System.exit(0);
                 default -> throw new IllegalStateException("Unexpected value: " + menuChoice);
             }
 

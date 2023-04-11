@@ -1,5 +1,6 @@
 package fit.nsu.labs.graphics;
 
+import fit.nsu.labs.model.GameField;
 import fit.nsu.labs.model.GameLevels;
 import fit.nsu.labs.model.RecordsManager;
 
@@ -73,7 +74,7 @@ public class MenuFrame extends JFrame {
         buttonsContainer.add(scoresButton);
 
         var helpButton = new JButton("Help");
-        helpButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "Help!"));
+        helpButton.addActionListener(e -> JOptionPane.showMessageDialog(null, GameField.getHelp()));
         buttonsContainer.add(helpButton);
 
         for (var button : buttonsContainer) {

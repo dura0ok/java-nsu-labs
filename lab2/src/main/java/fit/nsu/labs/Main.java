@@ -5,12 +5,12 @@ import fit.nsu.labs.graphics.GraphicsViewer;
 
 public class Main {
     public static void main(String[] args) {
-        if(args.length == 0){
+        if (args.length == 0) {
             GraphicsViewer.main(new String[]{});
         }
 
-        if(args.length == 1){
-            if(args[0].equalsIgnoreCase("--console")){
+        if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("--console")) {
                 ConsoleViewer.main(new String[]{});
             }
 

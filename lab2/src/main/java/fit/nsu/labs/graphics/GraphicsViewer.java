@@ -20,7 +20,7 @@ public class GraphicsViewer extends JFrame implements onEvent {
     private final FieldElement[][] buttons;
     private final GraphicsController controller;
     private final InfoPanel panel;
-    private GameField model;
+    private final GameField model;
 
 
     public GraphicsViewer(GameField model) {
@@ -54,9 +54,7 @@ public class GraphicsViewer extends JFrame implements onEvent {
     @Override
     public void notification(Event event) {
         if (event.type().equals(EventType.REDRAW_REQUEST)) {
-            SwingUtilities.invokeLater(() -> {
-                reDraw(event);
-            });
+            SwingUtilities.invokeLater(() -> reDraw(event));
             return;
         }
 
@@ -74,15 +72,13 @@ public class GraphicsViewer extends JFrame implements onEvent {
             return;
         }
         if (event.type().equals(EventType.ALREADY_CLICKED)) {
-            showMessageDialog(null, "Already opened");
+            showMessageDialog(null, "Already opened", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
 
         if (event.type().equals(EventType.FLAG_STATE_UPDATE)) {
-            SwingUtilities.invokeLater(() -> {
-                reDraw(event);
-            });
+            SwingUtilities.invokeLater(() -> reDraw(event));
             return;
         }
 
@@ -92,7 +88,7 @@ public class GraphicsViewer extends JFrame implements onEvent {
         }
 
         if (event.type().equals(EventType.ALREADY_FLAGGED)) {
-            showMessageDialog(null, "this coordinates already flagged");
+            showMessageDialog(null, "this coordinates already flagged", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
 

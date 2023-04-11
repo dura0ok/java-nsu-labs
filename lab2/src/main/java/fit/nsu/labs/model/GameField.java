@@ -53,6 +53,17 @@ public class GameField implements Observable {
         return randomService.nextInt(max);
     }
 
+    public static String getHelp() {
+        return """
+                The objective of the game is to clear a rectangular board containing hidden "mines" without detonating any of them. \n To help you, the board is divided into cells, and each cell contains a number indicating how many mines are adjacent to it.
+
+                \n To play the game, you can click on a cell to reveal its contents. If the cell contains a mine, the game is over. \n If the cell contains a number, it indicates how many mines are adjacent to the cell. If the cell is blank, it means that none of the adjacent cells contain mines, so you can safely reveal all adjacent cells.
+
+                To flag a cell that you suspect contains a mine, you can right-click on the cell. This will mark the cell with a flag, indicating that you think it contains a mine. \n You can remove a flag by right-clicking on the cell again.
+
+                The game is won when all non-mine cells are revealed. Good luck!""";
+    }
+
     public GameSettings getSettings() {
         return settings;
     }
@@ -304,7 +315,6 @@ public class GameField implements Observable {
     public long getElapsed() {
         return timer.getElapsed();
     }
-
 
     public enum GameState {
         RUNNING,

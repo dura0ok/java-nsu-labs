@@ -101,6 +101,11 @@ public class ConsoleViewer implements onEvent {
         System.out.println("3 - hard");
         System.out.println("4 - custom");
         System.out.println("5 - records");
-        System.out.println("6 - exit");
+        System.out.println("6 - help");
+        System.out.println("7 - exit");
+    }
+
+    public void printHelp() {
+        System.out.println(GameField.getHelp());
     }
 }

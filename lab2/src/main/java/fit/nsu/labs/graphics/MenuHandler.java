@@ -54,8 +54,7 @@ class MenuHandler implements ActionListener {
         }
 
 
-        var graphicsView = new GraphicsViewer(model);
-        viewer = graphicsView;
+        viewer = new GraphicsViewer(model);
 
         model.registerObserver(viewer);
         model.startGame();
@@ -77,6 +76,10 @@ class MenuHandler implements ActionListener {
                     model.registerObserver(viewer);
                     model.startGame();
                     viewer.setVisible(true);
+                    menu.setVisible(false);
+
+                    addWindowListenerToViewer();
+                    addWindowListenerToMenu();
                 }
             }
         });
@@ -87,5 +90,38 @@ class MenuHandler implements ActionListener {
             }
         });
 
+    }
+
+    private void addWindowListenerToViewer() {
+        viewer.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
+                String[] options = {"Exit", "Restart"};
+                String selectedOption = (String) JOptionPane.showInputDialog(null, "What you want to do?", "Exit options", JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+
+                if (Objects.equals(selectedOption, options[0])) {
+                    menu.setVisible(true);
+                    viewer.dispose();
+                } else {
+                    viewer.setVisible(false);
+                    model = new GameField(model.getSettings(), menu.getPlayerName());
+                    viewer = new GraphicsViewer(model);
+                    model.registerObserver(viewer);
+                    model.startGame();
+                    viewer.setVisible(true);
+                    addWindowListenerToViewer();
+                }
+            }
+        });
+    }
+
+
+    private void addWindowListenerToMenu() {
+        menu.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                menu.dispose();
+            }
+        });
     }
 }

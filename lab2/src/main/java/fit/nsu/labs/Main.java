@@ -12,7 +12,7 @@ public class Main {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("--console")) {
                 ConsoleViewer.main(new String[]{});
-            }else{
+            } else {
                 System.out.println("if you want to run in gui mode, you don`t need add arguments");
                 System.out.println("but if you want to run console game version, add --console to arguments");
             }

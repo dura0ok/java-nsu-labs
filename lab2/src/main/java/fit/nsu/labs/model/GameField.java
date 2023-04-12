@@ -191,11 +191,44 @@ public class GameField implements Observable {
         }
 
         if (isOpened(dot)) {
-            System.out.println("ALREADY_CLICKED");
+            var neighbours = getNeighbours(dot);
+            int flaggedAround = 0;
+            for(var neighbour: neighbours){
+                if(neighbour.isFlagged()){
+                    flaggedAround++;
+                }
+            }
+
+            if(flaggedAround == getElementByCoords(dot).getBombsAroundCount()){
+                for(var neighbour: neighbours){
+                    var currentDot = neighbour.getBoardCoords();
+
+                    if(getElementByCoords(currentDot).isFlagged()){
+                        continue;
+                    }
+
+                    if (handleDotBomb(currentDot)){
+                        return;
+                    }
+                    getElementByCoords(neighbour.getBoardCoords()).open();
+                }
+                notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
+                return;
+            }
+
             notifyObservers(new Event(EventType.ALREADY_CLICKED, this));
+        }
+
+        if (handleDotBomb(dot)){
             return;
         }
 
+        openElement(dot);
+        checkWinState();
+        notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
+    }
+
+    private boolean handleDotBomb(Dot dot) {
         if (isDotBomb(dot)) {
             //System.out.println("throw bomb opened");
             notifyObservers(new Event(EventType.BOMB_OPENED, this));
@@ -204,12 +237,9 @@ public class GameField implements Observable {
 
             future.cancel(true);
             executor.shutdownNow();
-            return;
+            return true;
         }
-
-        openElement(dot);
-        checkWinState();
-        notifyObservers(new Event(EventType.REDRAW_REQUEST, this));
+        return false;
     }
 
     private void openElement(Dot dot) {

@@ -107,16 +107,17 @@ public class ConsoleController {
 
 
                 if (type == 0 || type == 1) {
+
                     var x = view.inputNumber("Enter x: ");
                     var y = view.inputNumber("Enter y: ");
 
 
                     if (type == 0) {
-                        model.click(new Dot(x, y));
+                        model.click(new Dot(y, x));
                     }
 
                     if (type == 1) {
-                        model.updateFlag(new Dot(x, y));
+                        model.updateFlag(new Dot(y, x));
                     }
 
                     continue;

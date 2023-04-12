@@ -72,7 +72,7 @@ public class GraphicsViewer extends JFrame implements onEvent {
             return;
         }
         if (event.type().equals(EventType.ALREADY_CLICKED)) {
-            showMessageDialog(null, "Already opened", "Warning", JOptionPane.WARNING_MESSAGE);
+            //showMessageDialog(null, "Already opened", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

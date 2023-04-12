@@ -21,6 +21,10 @@ public class ConsoleViewer implements onEvent {
                 var el = model.getElementByCoords(new Dot(i, j));
                 var state = model.getState();
                 if (state.equals(GameField.GameState.GAME_OVER) || el.isOpened()) {
+                    if(el.isBomb()){
+                        System.out.print("B ");
+                        continue;
+                    }
                     System.out.print(el.getBombsAroundCount());
                 } else {
                     if (el.isFlagged()) {

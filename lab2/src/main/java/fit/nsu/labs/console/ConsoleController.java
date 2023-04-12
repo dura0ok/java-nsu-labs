@@ -9,13 +9,12 @@ public class ConsoleController {
 
     private final ConsoleViewer view;
     private GameField model;
-    private String playerName;
+    private String playerName = null;
 
     public ConsoleController(ConsoleViewer view) {
         this.view = view;
         try {
             playerName = view.inputLine("Enter name: ");
-
             if (playerName.isEmpty()) {
                 throw new MineSweeperGameException("invalid name");
             }
@@ -68,14 +67,17 @@ public class ConsoleController {
                 }
                 case 6 -> view.printHelp();
                 case 7 -> System.exit(0);
-                default -> throw new IllegalStateException("Unexpected value: " + menuChoice);
+                default -> throw new IllegalArgumentException("Unexpected value: " + menuChoice);
             }
 
-        } catch (MineSweeperGameException e) {
+        } catch (MineSweeperGameException | IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
 
-        model.registerObserver(view);
+        if (model != null) {
+            model.registerObserver(view);
+        }
+
     }
 
 

@@ -70,14 +70,13 @@ public class ConsoleController {
                 default -> throw new IllegalArgumentException("Unexpected value: " + menuChoice);
             }
 
+            if (model != null) {
+                model.registerObserver(view);
+            }
+
         } catch (MineSweeperGameException | IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-
-        if (model != null) {
-            model.registerObserver(view);
-        }
-
     }
 
 

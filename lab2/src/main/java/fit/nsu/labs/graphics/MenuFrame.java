@@ -94,7 +94,7 @@ public class MenuFrame extends JFrame {
         }
 
         if (playerName.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "You entered empty name. This is incorrect :C");
+            JOptionPane.showMessageDialog(null, "You entered empty name. This is incorrect :C", "Error", JOptionPane.ERROR_MESSAGE);
             dispose();
         }
 

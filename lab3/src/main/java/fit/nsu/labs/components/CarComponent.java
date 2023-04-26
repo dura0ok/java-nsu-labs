@@ -1,19 +1,10 @@
 package fit.nsu.labs.components;
 
-import java.util.concurrent.atomic.AtomicLong;
+import fit.nsu.labs.AtomicId;
 
-public abstract class CarComponent {
-    private static final AtomicLong id = new AtomicLong(0);
-
-    CarComponent(){
+public abstract class CarComponent extends AtomicId {
+    CarComponent() {
         nextId();
     }
 
-    public long getID(){
-        return id.get();
-    }
-
-    public static void nextId() {
-        id.incrementAndGet();
-    }
 }

@@ -1,8 +1,8 @@
 package fit.nsu.labs.components;
 
-public class CarBody extends CarComponent {
+public class CarEngine extends CarComponent {
     @Override
     public String toString() {
-        return "Car Body: " + getID();
+        return "Car Engine: " + getID();
     }
 }

@@ -1,12 +1,10 @@
 package fit.nsu.labs.storage;
 
-import fit.nsu.labs.components.CarComponent;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class RamStorage implements IStorage<CarComponent>{
-    private final BlockingQueue<CarComponent> components;
+abstract class RamStorage<T> implements IStorage<T> {
+    private final BlockingQueue<T> components;
     private final int capacity;
 
     public RamStorage(int capacity) {
@@ -25,12 +23,12 @@ public class RamStorage implements IStorage<CarComponent>{
     }
 
     @Override
-    public void put(CarComponent newItem) throws InterruptedException {
+    public void put(T newItem) throws InterruptedException {
         components.put(newItem);
     }
 
     @Override
-    public CarComponent get() throws InterruptedException {
+    public T get() throws InterruptedException {
         return components.take();
     }
 }

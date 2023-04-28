@@ -1,9 +1,8 @@
-package fit.nsu.labs.storage;
-
+package fit.nsu.labs.model.storage;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-abstract class RamStorage<T> implements IStorage<T> {
+public class RamStorage<T> implements IStorage<T> {
     private final BlockingQueue<T> components;
     private final int capacity;
 

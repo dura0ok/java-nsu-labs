@@ -1,4 +1,4 @@
-package fit.nsu.labs.storage;
+package fit.nsu.labs.model.storage;
 
 public interface IStorage<T> {
     int getStorageCapacity();

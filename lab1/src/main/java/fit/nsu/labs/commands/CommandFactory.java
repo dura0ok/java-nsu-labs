@@ -1,6 +1,7 @@
 package fit.nsu.labs.commands;
 
 import fit.nsu.labs.CalcLogger;
+import fit.nsu.labs.commands.strategies.*;
 import fit.nsu.labs.exceptions.CalcException;
 import fit.nsu.labs.exceptions.ConfigurationException;
 import fit.nsu.labs.exceptions.FactoryException;
@@ -54,6 +55,17 @@ public class CommandFactory {
                 throw new ConfigurationException("class path " + name + " not found in config");
             }
             Class<?> c = Class.forName(classPath);
+
+            Map<String, Strategy> strategies = Map.of(
+                    "+", new AddStrategy(),
+                    "-", new SubstractStrategy(),
+                    "*", new MultiplyStrategy(),
+                    "/", new DivideStrategy()
+            );
+
+            if(c == BinaryOperation.class){
+                return (AbstractCommand) c.getConstructor(String[].class, Strategy.class).newInstance((Object) args, strategies.get(name));
+            }
             return (AbstractCommand) c.getConstructor(String[].class).newInstance((Object) args);
         } catch (ClassNotFoundException e) {
             throw new FactoryException("Can`t find this command with name " + name + " in available commands");

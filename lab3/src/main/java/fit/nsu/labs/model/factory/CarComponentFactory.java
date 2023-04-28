@@ -1,19 +1,20 @@
-package fit.nsu.labs.components;
+package fit.nsu.labs.model.factory;
 
-import fit.nsu.labs.storage.RamCarComponentStorage;
+import fit.nsu.labs.model.component.CarComponent;
+import fit.nsu.labs.model.storage.RamStorage;
 
 import java.lang.reflect.InvocationTargetException;
 
 public class CarComponentFactory<T extends CarComponent> {
     private final Class<T> componentClass;
-    private final RamCarComponentStorage storage;
+    private final RamStorage<T> storage;
 
-    public CarComponentFactory(Class<T> componentClass, RamCarComponentStorage storage) {
+    public CarComponentFactory(Class<T> componentClass, RamStorage<T> storage) {
         this.componentClass = componentClass;
         this.storage = storage;
     }
 
-    public RamCarComponentStorage getStorage() {
+    public RamStorage<T> getStorage() {
         return storage;
     }
 
@@ -22,6 +23,7 @@ public class CarComponentFactory<T extends CarComponent> {
             return (T) componentClass.getConstructor().newInstance();
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                  IllegalAccessException e) {
+            System.out.println(componentClass.getName());
             throw new RuntimeException(e);
         }
     }

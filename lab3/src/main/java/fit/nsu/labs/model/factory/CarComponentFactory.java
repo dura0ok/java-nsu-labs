@@ -31,6 +31,7 @@ public class CarComponentFactory<T extends CarComponent> {
     public T produceElement() throws InterruptedException {
         var el = createComponent();
         storage.put(el);
+        System.out.println(el);
         return el;
     }
 }

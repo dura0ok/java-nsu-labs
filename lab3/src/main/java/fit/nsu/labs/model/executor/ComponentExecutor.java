@@ -1,29 +1,26 @@
 package fit.nsu.labs.model.executor;
 
 import fit.nsu.labs.model.component.CarComponent;
+import fit.nsu.labs.model.config.ConfigKeysManager;
+import fit.nsu.labs.model.exceptions.ManufactoryException;
 import fit.nsu.labs.model.factory.CarComponentFactory;
 import fit.nsu.labs.model.storage.RamStorage;
 import fit.nsu.labs.model.tasks.ConsumeComponent;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.*;
 
 public class ComponentExecutor<T extends CarComponent> {
-    private final int rate;
     private final CarComponentFactory<T> factory;
     private final ThreadPoolExecutor executor;
-    private int workersCount;
+    private final Map<String, String> config;
+    private ScheduledFuture<?> future;
 
-    public ComponentExecutor(Class<T> componentClass, int rate, int capacity, int workersCount) {
-        this.rate = rate;
-        this.workersCount = workersCount;
-        factory = new CarComponentFactory<>(componentClass, new RamStorage<>(capacity));
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(workersCount);
+    public ComponentExecutor(Class<T> componentClass) throws ManufactoryException {
+        config = ConfigKeysManager.getComponentKeys(componentClass);
+        factory = new CarComponentFactory<>(componentClass, new RamStorage<>(getCapacity()));
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(getWorkersCount());
         this.executor = (ThreadPoolExecutor) executor;
-        executor.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory)), 0, rate, TimeUnit.SECONDS);
     }
 
 
@@ -33,13 +30,37 @@ public class ComponentExecutor<T extends CarComponent> {
 
 
     public int getWorkersCount() {
-        return workersCount;
+        return Integer.parseInt(System.getProperty(config.get("workersCount")));
     }
 
-    public void setWorkersCount(int newWorkersCount) {
-        this.workersCount = newWorkersCount;
-        executor.setCorePoolSize(this.workersCount);
-        executor.setMaximumPoolSize(this.workersCount);
+    public int getRate() {
+        System.out.println("RATE CONFIG " + config.get("rate"));
+        return Integer.parseInt(System.getProperty(config.get("rate")));
+    }
+
+    public int getCapacity() {
+        return Integer.parseInt(System.getProperty(config.get("capacity")));
+    }
+
+    public void setWorkersCount() {
+        var newCount = getWorkersCount();
+        executor.setCorePoolSize(newCount);
+        executor.setMaximumPoolSize(newCount);
+    }
+
+    public void start() {
+        scheduleExecutor();
+    }
+
+    private void scheduleExecutor() {
+        var scheduler = (ScheduledExecutorService) executor;
+        future = scheduler.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory)), 0, getRate(), TimeUnit.SECONDS);
+    }
+
+    public void reschedule() {
+        System.out.println("NEW RATE " + getRate());
+        future.cancel(false);
+        scheduleExecutor();
     }
 
 

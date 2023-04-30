@@ -23,13 +23,16 @@ public class BuildCar implements Runnable {
     @Override
     public void run() {
         try {
+
             var body = carBodyStorage.get();
             var engine = carEngineStorage.get();
             var accessory = carAccessoryStorage.get();
             var product = new CarProduct((CarBody) body, (CarEngine) engine, (CarAccessory) accessory);
+            Thread.sleep(5000);
 
             carStorage.put(product);
             System.out.println("Build " + product);
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

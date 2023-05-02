@@ -10,7 +10,6 @@ import javax.swing.*;
 public class SliderPanel extends JPanel {
     private final JSlider slider;
     private final JLabel label;
-
     public SliderPanel(String sliderName, CarManufacturer factory, Class<? extends CarComponent> clazz) throws ConfigException {
         super();
         var defaultRate = Integer.parseInt(System.getProperty(ConfigKeysManager.getComponentKeys(clazz).get("rate")));

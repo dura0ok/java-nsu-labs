@@ -23,7 +23,6 @@ public class CarManufacturer implements Observable {
     private final ExecutorService carStorageControllerThread;
     private final ExecutorService dealersExecutor;
     private final List<OnEvent> onEvents = new ArrayList<>();
-
     public CarManufacturer() throws ManufactoryException {
 
         bodyExecutor = new ComponentExecutor<>(CarBody.class, this);
@@ -44,27 +43,21 @@ public class CarManufacturer implements Observable {
         var dealersCount = getDealersCount();
         dealersExecutor = Executors.newScheduledThreadPool(dealersCount);
     }
-
     private static int getDealersCount() {
         return Integer.parseInt(System.getProperty("WORKERS_SELL_CAR_COUNT"));
     }
-
     private static int getSellCarSpeedRate() {
         return Integer.parseInt(System.getProperty("SELL_CAR_SPEED_RATE"));
     }
-
     public ComponentExecutor<CarBody> getBodyExecutor() {
         return bodyExecutor;
     }
-
     public ComponentExecutor<CarEngine> getEngineExecutor() {
         return engineExecutor;
     }
-
     public ComponentExecutor<CarAccessory> getAccessoryExecutor() {
         return accessoryExecutor;
     }
-
     public void start() {
         bodyExecutor.start();
         engineExecutor.start();
@@ -76,12 +69,10 @@ public class CarManufacturer implements Observable {
 
 
     }
-
     @Override
     public void registerObserver(OnEvent o) {
         onEvents.add(o);
     }
-
     public void notifyObservers(Event event) {
         for (var onEvent : onEvents) {
             onEvent.notification(event);

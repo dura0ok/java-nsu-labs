@@ -9,14 +9,12 @@ import fit.nsu.labs.model.component.CarEngine;
 import fit.nsu.labs.model.factory.CarComponentFactory;
 import fit.nsu.labs.model.storage.RamStorage;
 
-
 public class BuildCar implements Runnable {
     private final CarComponentFactory<CarBody> carBodyStorage;
     private final CarComponentFactory<CarEngine> carEngineStorage;
     private final CarComponentFactory<CarAccessory> carAccessoryStorage;
     private final RamStorage<CarProduct> carStorage;
     private final CarManufacturer model;
-
     public BuildCar(CarComponentFactory<CarBody> carBodyStorage, CarComponentFactory<CarEngine> carEngineStorage,
                     CarComponentFactory<CarAccessory> carAccessoryStorage, RamStorage<CarProduct> carStorage, CarManufacturer model) {
         this.carBodyStorage = carBodyStorage;
@@ -25,7 +23,6 @@ public class BuildCar implements Runnable {
         this.carStorage = carStorage;
         this.model = model;
     }
-
     @Override
     public void run() {
         try {

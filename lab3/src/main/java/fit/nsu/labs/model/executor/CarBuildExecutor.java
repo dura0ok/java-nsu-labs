@@ -15,11 +15,9 @@ public class CarBuildExecutor implements Runnable {
     private final CarComponentFactory<CarBody> carBodyFactory;
     private final CarComponentFactory<CarEngine> carEngineFactory;
     private final CarComponentFactory<CarAccessory> carAccessoryFactory;
-
     private final RamStorage<CarProduct> carStorage;
     private final ThreadPoolExecutor executor;
     private final CarManufacturer model;
-
     private CarBuildExecutor(Builder builder) {
         System.out.println(builder.workersCount);
         int workersCount = builder.workersCount;
@@ -52,13 +50,12 @@ public class CarBuildExecutor implements Runnable {
     }
 
     public static class Builder {
-        public CarManufacturer model;
         private final int workersCount = Integer.parseInt(System.getProperty("WORKERS_BUILD_CAR_COUNT"));
+        private final RamStorage<CarProduct> carStorage = new RamStorage<>(Integer.parseInt(System.getProperty("STORAGE_CARS_CAPACITY")));
+        public CarManufacturer model;
         private CarComponentFactory<CarBody> carBodyFactory;
         private CarComponentFactory<CarEngine> carEngineFactory;
         private CarComponentFactory<CarAccessory> carAccessoryFactory;
-        private final RamStorage<CarProduct> carStorage = new RamStorage<>(Integer.parseInt(System.getProperty("STORAGE_CARS_CAPACITY")));
-
         public Builder withCarBodyFactory(CarComponentFactory<CarBody> carBodyFactory) {
             this.carBodyFactory = carBodyFactory;
             return this;
@@ -68,25 +65,17 @@ public class CarBuildExecutor implements Runnable {
             this.carEngineFactory = carEngineFactory;
             return this;
         }
-
         public Builder withCarAccessoryFactory(CarComponentFactory<CarAccessory> carAccessoryFactory) {
             this.carAccessoryFactory = carAccessoryFactory;
             return this;
         }
-
-
         public Builder withModel(CarManufacturer model) {
             this.model = model;
             return this;
         }
-
-
         public CarBuildExecutor build() {
 
             return new CarBuildExecutor(this);
         }
-
-
     }
-
 }

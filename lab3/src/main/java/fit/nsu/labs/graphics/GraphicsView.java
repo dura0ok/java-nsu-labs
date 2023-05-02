@@ -18,7 +18,6 @@ public class GraphicsView extends JFrame implements OnEvent {
     private final StatisticPanel engineStat;
     private final StatisticPanel accessoryStat;
     private final StatisticPanel carStat;
-
     public GraphicsView(CarManufacturer carManuFacturer) throws ConfigException {
         carManuFacturer.registerObserver(this);
         Dotenv dotenv = Dotenv.configure().load();

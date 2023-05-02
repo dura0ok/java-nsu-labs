@@ -8,11 +8,9 @@ import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
 import fit.nsu.labs.model.factory.CarComponentFactory;
 import fit.nsu.labs.model.storage.RamStorage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 public class BuildCar implements Runnable {
-    private static final Logger LOGGER = LogManager.getLogger();
     private final CarComponentFactory<CarBody> carBodyStorage;
     private final CarComponentFactory<CarEngine> carEngineStorage;
     private final CarComponentFactory<CarAccessory> carAccessoryStorage;
@@ -38,7 +36,7 @@ public class BuildCar implements Runnable {
             var product = new CarProduct(body, engine, accessory);
 
             carStorage.put(product);
-            System.out.println("[Build Car] " + product);
+            //System.out.println("[Build Car] " + product);
             model.notifyObservers(new Event(CarBody.class, carBodyStorage.getTotalProduced(), carBodyStorage.getStorageSize()));
             model.notifyObservers(new Event(CarEngine.class, carEngineStorage.getTotalProduced(), carEngineStorage.getStorageSize()));
             model.notifyObservers(new Event(CarAccessory.class, carAccessoryStorage.getTotalProduced(), carAccessoryStorage.getStorageSize()));

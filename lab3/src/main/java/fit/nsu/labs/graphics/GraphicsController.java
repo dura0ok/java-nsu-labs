@@ -22,7 +22,7 @@ public class GraphicsController implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider slider = (JSlider) e.getSource();
-        System.setProperty(key, String.valueOf(slider.getValue()));
+        //System.setProperty(key, String.valueOf(slider.getValue()));
         setLabelText(slider);
         if (name.equalsIgnoreCase("body")) {
             factory.getBodyExecutor().reschedule();

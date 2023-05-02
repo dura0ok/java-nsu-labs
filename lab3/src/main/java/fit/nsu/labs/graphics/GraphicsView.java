@@ -73,7 +73,7 @@ public class GraphicsView extends JFrame implements OnEvent {
 
     @Override
     public void notification(Event event) {
-        System.out.println(event);
+        //System.out.println(event);
         if (event.type() == CarBody.class) {
             bodyStat.setStorageSize(event.storageSize());
             bodyStat.updateProducedNumber(event.totalProduced());

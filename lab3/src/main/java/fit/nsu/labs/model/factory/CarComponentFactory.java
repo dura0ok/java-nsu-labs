@@ -50,7 +50,7 @@ public class CarComponentFactory<T extends CarComponent> {
     public T produceElement() throws InterruptedException {
         var el = createComponent();
         storage.put(el);
-        System.out.println("[Produce component] " + el);
+        //System.out.println("[Produce component] " + el);
         totalProduced++;
         return el;
     }

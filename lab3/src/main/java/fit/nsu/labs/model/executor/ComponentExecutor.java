@@ -59,7 +59,7 @@ public class ComponentExecutor<T extends CarComponent> {
     }
 
     public void reschedule() {
-        System.out.println("NEW RATE " + getRate());
+        //System.out.println("NEW RATE " + getRate());
         future.cancel(false);
         scheduleExecutor();
     }

@@ -19,7 +19,7 @@ public class ConsumeComponent<T extends CarComponent> implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.printf("%s Capacity %d Size %d\n", factory.getProductClass().getName(), factory.getStorage().getStorageCapacity(), factory.getStorage().getSize());
+            //System.out.printf("%s Capacity %d Size %d\n", factory.getProductClass().getName(), factory.getStorage().getStorageCapacity(), factory.getStorage().getSize());
             factory.produceElement();
             model.notifyObservers(new Event(factory.getProductClass(), factory.getTotalProduced(), factory.getStorageSize()));
 

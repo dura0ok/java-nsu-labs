@@ -1,6 +1,6 @@
 package fit.nsu.labs.model;
 
-import fit.nsu.labs.model.component.CarComponent;
+import fit.nsu.labs.model.component.ComponentInfo;
 
-public record Event(Class<? extends CarComponent> type, int totalProduced, int storageSize) {
+public record Event(Class<? extends ComponentInfo> type, int totalProduced, int storageSize) {
 }

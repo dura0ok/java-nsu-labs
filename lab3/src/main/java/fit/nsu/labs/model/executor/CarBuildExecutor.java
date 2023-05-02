@@ -56,7 +56,7 @@ public class CarBuildExecutor implements Runnable {
         private CarComponentFactory<CarBody> carBodyFactory;
         private CarComponentFactory<CarEngine> carEngineFactory;
         private CarComponentFactory<CarAccessory> carAccessoryFactory;
-        private RamStorage<CarProduct> carStorage = new RamStorage<>(Integer.parseInt(System.getProperty("STORAGE_CARS_CAPACITY")));
+        private final RamStorage<CarProduct> carStorage = new RamStorage<>(Integer.parseInt(System.getProperty("STORAGE_CARS_CAPACITY")));
         private int rate;
 
         public Builder withCarBodyFactory(CarComponentFactory<CarBody> carBodyFactory) {
@@ -74,10 +74,6 @@ public class CarBuildExecutor implements Runnable {
             return this;
         }
 
-        public Builder withCarStorage(RamStorage<CarProduct> carStorage) {
-            this.carStorage = carStorage;
-            return this;
-        }
 
         public Builder withModel(CarManufacturer model) {
             this.model = model;

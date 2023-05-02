@@ -1,9 +1,9 @@
 package fit.nsu.labs.model.component;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CarEngine extends CarComponent {
-    private static final AtomicLong id = new AtomicLong(0);
+    private static final AtomicInteger id = new AtomicInteger(0);
 
     public CarEngine() {
         id.incrementAndGet();

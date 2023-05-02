@@ -1,6 +1,7 @@
 package fit.nsu.labs.graphics;
 
 import fit.nsu.labs.model.CarManufacturer;
+import fit.nsu.labs.model.CarProduct;
 import fit.nsu.labs.model.Event;
 import fit.nsu.labs.model.OnEvent;
 import fit.nsu.labs.model.component.CarAccessory;
@@ -18,6 +19,7 @@ public class GraphicsView extends JFrame implements OnEvent {
     private final StatisticPanel bodyStat;
     private final StatisticPanel engineStat;
     private final StatisticPanel accessoryStat;
+    private final StatisticPanel carStat;
 
     public GraphicsView(CarManufacturer carManuFacturer) throws ConfigException {
         this.model = carManuFacturer;
@@ -51,6 +53,9 @@ public class GraphicsView extends JFrame implements OnEvent {
 
         accessoryStat = new StatisticPanel("accessory stat");
         add(accessoryStat);
+
+        carStat = new StatisticPanel("car stat");
+        add(carStat);
         model.start();
     }
 
@@ -82,6 +87,11 @@ public class GraphicsView extends JFrame implements OnEvent {
         if (event.type() == CarAccessory.class) {
             accessoryStat.setStorageSize(event.storageSize());
             accessoryStat.updateProducedNumber(event.totalProduced());
+        }
+
+        if (event.type() == CarProduct.class) {
+            carStat.setStorageSize(event.storageSize());
+            carStat.updateProducedNumber(event.totalProduced());
         }
     }
 }

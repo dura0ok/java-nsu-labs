@@ -3,11 +3,12 @@ package fit.nsu.labs.model;
 import fit.nsu.labs.model.component.CarAccessory;
 import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
+import fit.nsu.labs.model.component.ComponentInfo;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class CarProduct {
-    private static final AtomicLong id = new AtomicLong(0);
+public class CarProduct extends ComponentInfo {
+    private static final AtomicInteger id = new AtomicInteger(0);
     private final CarBody body;
     private final CarEngine engine;
     private final CarAccessory accessory;
@@ -27,5 +28,9 @@ public class CarProduct {
                 ", engine=" + engine +
                 ", accessory=" + accessory +
                 '}';
+    }
+
+    public static int getID(){
+        return (int)id.get();
     }
 }

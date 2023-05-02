@@ -42,6 +42,7 @@ public class BuildCar implements Runnable {
             model.notifyObservers(new Event(CarBody.class, carBodyStorage.getTotalProduced(), carBodyStorage.getStorageSize()));
             model.notifyObservers(new Event(CarEngine.class, carEngineStorage.getTotalProduced(), carEngineStorage.getStorageSize()));
             model.notifyObservers(new Event(CarAccessory.class, carAccessoryStorage.getTotalProduced(), carAccessoryStorage.getStorageSize()));
+            model.notifyObservers(new Event(CarProduct.class, CarProduct.getID(), carStorage.getSize()));
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

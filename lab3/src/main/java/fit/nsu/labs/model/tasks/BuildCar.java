@@ -34,6 +34,7 @@ public class BuildCar implements Runnable {
             var engine = carEngineStorage.getStorage().get();
             var accessory = carAccessoryStorage.getStorage().get();
             var product = new CarProduct(body, engine, accessory);
+            Thread.sleep(Integer.parseInt(System.getProperty("CAR_BUILD_SPEED_RATE")) * 1000L);
 
             carStorage.put(product);
             //System.out.println("[Build Car] " + product);

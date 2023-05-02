@@ -7,7 +7,6 @@ import fit.nsu.labs.model.OnEvent;
 import fit.nsu.labs.model.component.CarAccessory;
 import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
-import fit.nsu.labs.model.config.ConfigKeysManager;
 import fit.nsu.labs.model.exceptions.ConfigException;
 import fit.nsu.labs.model.exceptions.ManufactoryException;
 import io.github.cdimascio.dotenv.Dotenv;

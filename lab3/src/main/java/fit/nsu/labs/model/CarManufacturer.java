@@ -72,7 +72,7 @@ public class CarManufacturer implements Observable {
         carBuildExecutor.start(carStorageControllerThread);
         var dealersScheduler = (ScheduledExecutorService) dealersExecutor;
         var dealersRate = getSellCarSpeedRate();
-        dealersScheduler.scheduleAtFixedRate(new SellCar(carBuildExecutor.getCarStorage()), 0, dealersRate, TimeUnit.SECONDS);
+        dealersScheduler.scheduleAtFixedRate(new SellCar(carBuildExecutor.getCarStorage(), this), 0, dealersRate, TimeUnit.SECONDS);
 
 
     }

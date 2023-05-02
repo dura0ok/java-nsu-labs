@@ -21,6 +21,7 @@ public class CarBuildExecutor implements Runnable {
     private final CarManufacturer model;
 
     private CarBuildExecutor(Builder builder) {
+        System.out.println(builder.workersCount);
         int workersCount = builder.workersCount;
         this.carBodyFactory = builder.carBodyFactory;
         this.carEngineFactory = builder.carEngineFactory;
@@ -52,6 +53,7 @@ public class CarBuildExecutor implements Runnable {
 
     public static class Builder {
         public CarManufacturer model;
+        private final int workersCount = Integer.parseInt(System.getProperty("WORKERS_BUILD_CAR_COUNT"));
         private CarComponentFactory<CarBody> carBodyFactory;
         private CarComponentFactory<CarEngine> carEngineFactory;
         private CarComponentFactory<CarAccessory> carAccessoryFactory;
@@ -80,6 +82,7 @@ public class CarBuildExecutor implements Runnable {
 
 
         public CarBuildExecutor build() {
+
             return new CarBuildExecutor(this);
         }
 

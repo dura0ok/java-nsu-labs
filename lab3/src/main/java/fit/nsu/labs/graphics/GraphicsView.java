@@ -15,20 +15,15 @@ import io.github.cdimascio.dotenv.Dotenv;
 import javax.swing.*;
 
 public class GraphicsView extends JFrame implements OnEvent {
-    private final CarManufacturer model;
     private final StatisticPanel bodyStat;
     private final StatisticPanel engineStat;
     private final StatisticPanel accessoryStat;
     private final StatisticPanel carStat;
 
     public GraphicsView(CarManufacturer carManuFacturer) throws ConfigException {
-        this.model = carManuFacturer;
-        model.registerObserver(this);
+        carManuFacturer.registerObserver(this);
         Dotenv dotenv = Dotenv.configure().load();
         dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
-        var bodyConfig = ConfigKeysManager.getComponentKeys(CarBody.class);
-        var engineConfig = ConfigKeysManager.getComponentKeys(CarEngine.class);
-        var accessoryConfig = ConfigKeysManager.getComponentKeys(CarBody.class);
         JPanel bodySpeedSlider = new SliderPanel("body rate", carManuFacturer, CarBody.class);
         JPanel engineSpeedSlider = new SliderPanel("engine rate", carManuFacturer, CarEngine.class);
         JPanel accesorySpeedSlider = new SliderPanel("accessory rate", carManuFacturer, CarAccessory.class);
@@ -56,7 +51,7 @@ public class GraphicsView extends JFrame implements OnEvent {
 
         carStat = new StatisticPanel("car stat");
         add(carStat);
-        model.start();
+        carManuFacturer.start();
     }
 
     public static void main(String[] args) {

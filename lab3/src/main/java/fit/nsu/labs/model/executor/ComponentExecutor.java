@@ -39,16 +39,6 @@ public class ComponentExecutor<T extends CarComponent> {
         return Integer.parseInt(System.getProperty(config.get("rate")));
     }
 
-    public int getCapacity() {
-        return Integer.parseInt(System.getProperty(config.get("capacity")));
-    }
-
-    public void setWorkersCount() {
-        var newCount = getWorkersCount();
-        executor.setCorePoolSize(newCount);
-        executor.setMaximumPoolSize(newCount);
-    }
-
     public void start() {
         scheduleExecutor();
     }

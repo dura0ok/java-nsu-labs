@@ -52,12 +52,10 @@ public class CarBuildExecutor implements Runnable {
 
     public static class Builder {
         public CarManufacturer model;
-        private int workersCount;
         private CarComponentFactory<CarBody> carBodyFactory;
         private CarComponentFactory<CarEngine> carEngineFactory;
         private CarComponentFactory<CarAccessory> carAccessoryFactory;
         private final RamStorage<CarProduct> carStorage = new RamStorage<>(Integer.parseInt(System.getProperty("STORAGE_CARS_CAPACITY")));
-        private int rate;
 
         public Builder withCarBodyFactory(CarComponentFactory<CarBody> carBodyFactory) {
             this.carBodyFactory = carBodyFactory;

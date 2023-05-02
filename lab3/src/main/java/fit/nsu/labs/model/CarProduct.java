@@ -31,6 +31,6 @@ public class CarProduct extends ComponentInfo {
     }
 
     public static int getID(){
-        return (int)id.get();
+        return id.get();
     }
 }

@@ -29,9 +29,9 @@ public class GraphicsView extends JFrame implements OnEvent {
         var bodyConfig = ConfigKeysManager.getComponentKeys(CarBody.class);
         var engineConfig = ConfigKeysManager.getComponentKeys(CarEngine.class);
         var accessoryConfig = ConfigKeysManager.getComponentKeys(CarBody.class);
-        JPanel bodySpeedSlider = new SliderPanel(carManuFacturer, "Body", bodyConfig.get("rate"));
-        JPanel engineSpeedSlider = new SliderPanel(carManuFacturer, "Engine", engineConfig.get("rate"));
-        JPanel accesorySpeedSlider = new SliderPanel(carManuFacturer, "Accessory", accessoryConfig.get("rate"));
+        JPanel bodySpeedSlider = new SliderPanel("body rate", carManuFacturer, CarBody.class);
+        JPanel engineSpeedSlider = new SliderPanel("engine rate", carManuFacturer, CarEngine.class);
+        JPanel accesorySpeedSlider = new SliderPanel("accessory rate", carManuFacturer, CarAccessory.class);
         // Set up the JFrame
         setTitle("Factory");
 

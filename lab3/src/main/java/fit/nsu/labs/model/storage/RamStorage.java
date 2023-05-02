@@ -19,11 +19,11 @@ public class RamStorage<T> implements IStorage<T> {
 
     @Override
     public int getRemainingCapacity() {
-        return capacity - components.size();
+        return components.remainingCapacity();
     }
 
     @Override
-    public int getLength() {
+    public int getSize() {
         return components.size();
     }
 

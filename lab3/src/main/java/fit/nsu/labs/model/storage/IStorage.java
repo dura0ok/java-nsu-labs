@@ -5,9 +5,9 @@ public interface IStorage<T> {
 
     int getRemainingCapacity();
 
-    int getLength();
+    int getSize();
 
     void put(T newItem) throws InterruptedException;
 
-    public T get() throws InterruptedException;
+    T get() throws InterruptedException;
 }

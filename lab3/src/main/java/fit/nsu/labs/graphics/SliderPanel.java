@@ -12,7 +12,7 @@ public class SliderPanel extends JPanel {
     public SliderPanel(CarManufacturer factory, String name, String key) {
         super();
         this.name = name;
-        slider = new JSlider(JSlider.HORIZONTAL, 1, 100, Integer.parseInt(System.getProperty(key)));
+        slider = new JSlider(JSlider.HORIZONTAL, 1, 30, Integer.parseInt(System.getProperty(key)));
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         label = new JLabel();
         setLabelText();

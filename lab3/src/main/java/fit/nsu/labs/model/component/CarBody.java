@@ -13,4 +13,6 @@ public class CarBody extends CarComponent {
     public String toString() {
         return "Car Body: " + id.get();
     }
+
 }
+

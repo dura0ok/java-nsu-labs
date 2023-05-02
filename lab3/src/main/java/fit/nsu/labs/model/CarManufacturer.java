@@ -6,35 +6,40 @@ import fit.nsu.labs.model.component.CarEngine;
 import fit.nsu.labs.model.exceptions.ManufactoryException;
 import fit.nsu.labs.model.executor.CarBuildExecutor;
 import fit.nsu.labs.model.executor.ComponentExecutor;
-import fit.nsu.labs.model.factory.CarComponentFactory;
 import fit.nsu.labs.model.tasks.SellCar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CarManufacturer {
+public class CarManufacturer implements Observable {
     private final CarBuildExecutor carBuildExecutor;
     private final ComponentExecutor<CarBody> bodyExecutor;
     private final ComponentExecutor<CarEngine> engineExecutor;
     private final ComponentExecutor<CarAccessory> accessoryExecutor;
     private final ExecutorService carStorageControllerThread;
     private final ExecutorService dealersExecutor;
+    private final List<OnEvent> onEvents = new ArrayList<>();
+
     public CarManufacturer() throws ManufactoryException {
 
-        bodyExecutor = new ComponentExecutor<>(CarBody.class);
-        engineExecutor = new ComponentExecutor<>(CarEngine.class);
-        accessoryExecutor = new ComponentExecutor<>(CarAccessory.class);
+        bodyExecutor = new ComponentExecutor<>(CarBody.class, this);
+        engineExecutor = new ComponentExecutor<>(CarEngine.class, this);
+        accessoryExecutor = new ComponentExecutor<>(CarAccessory.class, this);
 
         carBuildExecutor = new CarBuildExecutor.Builder()
-                .withCarBodyFactory(new CarComponentFactory<>(CarBody.class, bodyExecutor.getFactory().getStorage()))
-                .withCarEngineFactory(new CarComponentFactory<>(CarEngine.class, engineExecutor.getFactory().getStorage()))
-                .withCarAccessoryFactory(new CarComponentFactory<>(CarAccessory.class, accessoryExecutor.getFactory().getStorage()))
+                .withCarBodyFactory(bodyExecutor.getFactory())
+                .withCarEngineFactory(engineExecutor.getFactory())
+                .withCarAccessoryFactory(accessoryExecutor.getFactory())
+                .withModel(this)
                 .build();
 
 
         carStorageControllerThread = Executors.newSingleThreadScheduledExecutor();
+        carBuildExecutor.start(carStorageControllerThread);
 
         var dealersCount = getDealersCount();
         dealersExecutor = Executors.newScheduledThreadPool(dealersCount);
@@ -68,5 +73,18 @@ public class CarManufacturer {
         var dealersScheduler = (ScheduledExecutorService) dealersExecutor;
         var dealersRate = getSellCarSpeedRate();
         dealersScheduler.scheduleAtFixedRate(new SellCar(carBuildExecutor.getCarStorage()), 0, dealersRate, TimeUnit.SECONDS);
+
+
+    }
+
+    @Override
+    public void registerObserver(OnEvent o) {
+        onEvents.add(o);
+    }
+
+    public void notifyObservers(Event event) {
+        for (var onEvent : onEvents) {
+            onEvent.notification(event);
+        }
     }
 }

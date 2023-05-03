@@ -7,19 +7,25 @@ import fit.nsu.labs.model.OnEvent;
 import fit.nsu.labs.model.component.CarAccessory;
 import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
+import fit.nsu.labs.model.component.ComponentInfo;
 import fit.nsu.labs.model.exceptions.ConfigException;
 import fit.nsu.labs.model.exceptions.ManufactoryException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraphicsView extends JFrame implements OnEvent {
-    private final StatisticPanel bodyStat;
-    private final StatisticPanel engineStat;
-    private final StatisticPanel accessoryStat;
-    private final StatisticPanel carStat;
+    private final StatisticPanel bodyStat = new StatisticPanel("body stat");
+    private final StatisticPanel engineStat = new StatisticPanel("engine stat");
+    private final StatisticPanel accessoryStat = new StatisticPanel("accessory stat");
+    private final StatisticPanel carStat = new StatisticPanel("car stat");
+
+    private final Map<Class<? extends ComponentInfo>, StatisticPanel> eventHandlerPlace = new HashMap<>();
 
     public GraphicsView(CarManufacturer carManuFacturer) throws ConfigException {
+        initHandlers();
         carManuFacturer.registerObserver(this);
         JPanel bodySpeedSlider = new SliderPanel("body rate", carManuFacturer, CarBody.class);
         JPanel engineSpeedSlider = new SliderPanel("engine rate", carManuFacturer, CarEngine.class);
@@ -34,21 +40,19 @@ public class GraphicsView extends JFrame implements OnEvent {
         add(bodySpeedSlider);
         add(engineSpeedSlider);
         add(accesorySpeedSlider);
-        setVisible(true);
-
-
-        bodyStat = new StatisticPanel("body stat");
         add(bodyStat);
-
-        engineStat = new StatisticPanel("engine stat");
         add(engineStat);
-
-        accessoryStat = new StatisticPanel("accessory stat");
         add(accessoryStat);
-
-        carStat = new StatisticPanel("car stat");
         add(carStat);
+        setVisible(true);
         carManuFacturer.start();
+    }
+
+    private void initHandlers() {
+        eventHandlerPlace.put(CarBody.class, bodyStat);
+        eventHandlerPlace.put(CarEngine.class, engineStat);
+        eventHandlerPlace.put(CarAccessory.class, accessoryStat);
+        eventHandlerPlace.put(CarProduct.class, carStat);
     }
 
     public static void main(String[] args) {
@@ -65,25 +69,8 @@ public class GraphicsView extends JFrame implements OnEvent {
 
     @Override
     public void notification(Event event) {
-        //System.out.println(event);
-        if (event.type() == CarBody.class) {
-            bodyStat.setStorageSize(event.storageSize());
-            bodyStat.updateProducedNumber(event.totalProduced());
-        }
-
-        if (event.type() == CarEngine.class) {
-            engineStat.setStorageSize(event.storageSize());
-            engineStat.updateProducedNumber(event.totalProduced());
-        }
-
-        if (event.type() == CarAccessory.class) {
-            accessoryStat.setStorageSize(event.storageSize());
-            accessoryStat.updateProducedNumber(event.totalProduced());
-        }
-
-        if (event.type() == CarProduct.class) {
-            carStat.setStorageSize(event.storageSize());
-            carStat.updateProducedNumber(event.totalProduced());
-        }
+        var handler = eventHandlerPlace.get(event.type());
+        handler.setStorageSize(event.storageSize());
+        handler.updateProducedNumber(event.totalProduced());
     }
 }

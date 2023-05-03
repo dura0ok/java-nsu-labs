@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class CommandFactory {
     private final Map<String, String> commandsSources = new HashMap<>();
     private final Logger logger = CalcLogger.getLogger(this.getClass());
+    private final ArithmeticCommand arithmeticCommand = new ArithmeticCommand();
 
     public CommandFactory() throws CalcException {
         try (BufferedReader dataReader = getCommandsReaders()) {
@@ -64,7 +65,9 @@ public class CommandFactory {
             );
 
             if(c == BinaryOperation.class){
-                return (AbstractCommand) c.getConstructor(String[].class, Strategy.class).newInstance((Object) args, strategies.get(name));
+                arithmeticCommand.setCommandName(name);
+                return arithmeticCommand;
+                //return (AbstractCommand) c.getConstructor(String[].class, Strategy.class).newInstance(args, strategies.get(name));
             }
             return (AbstractCommand) c.getConstructor(String[].class).newInstance((Object) args);
         } catch (ClassNotFoundException e) {

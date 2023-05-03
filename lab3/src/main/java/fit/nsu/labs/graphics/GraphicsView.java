@@ -18,10 +18,9 @@ public class GraphicsView extends JFrame implements OnEvent {
     private final StatisticPanel engineStat;
     private final StatisticPanel accessoryStat;
     private final StatisticPanel carStat;
+
     public GraphicsView(CarManufacturer carManuFacturer) throws ConfigException {
         carManuFacturer.registerObserver(this);
-        Dotenv dotenv = Dotenv.configure().load();
-        dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
         JPanel bodySpeedSlider = new SliderPanel("body rate", carManuFacturer, CarBody.class);
         JPanel engineSpeedSlider = new SliderPanel("engine rate", carManuFacturer, CarEngine.class);
         JPanel accesorySpeedSlider = new SliderPanel("accessory rate", carManuFacturer, CarAccessory.class);
@@ -53,7 +52,7 @@ public class GraphicsView extends JFrame implements OnEvent {
     }
 
     public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.configure().load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
         SwingUtilities.invokeLater(() -> {
             try {

@@ -15,6 +15,7 @@ public class BuildCar implements Runnable {
     private final CarComponentFactory<CarAccessory> carAccessoryStorage;
     private final RamStorage<CarProduct> carStorage;
     private final CarManufacturer model;
+
     public BuildCar(CarComponentFactory<CarBody> carBodyStorage, CarComponentFactory<CarEngine> carEngineStorage,
                     CarComponentFactory<CarAccessory> carAccessoryStorage, RamStorage<CarProduct> carStorage, CarManufacturer model) {
         this.carBodyStorage = carBodyStorage;
@@ -23,6 +24,7 @@ public class BuildCar implements Runnable {
         this.carStorage = carStorage;
         this.model = model;
     }
+
     @Override
     public void run() {
         try {

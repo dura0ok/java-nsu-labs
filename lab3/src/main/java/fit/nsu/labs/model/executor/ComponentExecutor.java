@@ -16,6 +16,7 @@ public class ComponentExecutor<T extends CarComponent> {
     private final Map<String, String> config;
     private final CarManufacturer model;
     private ScheduledFuture<?> future;
+
     public ComponentExecutor(Class<T> componentClass, CarManufacturer model) throws ManufactoryException {
         config = ConfigKeysManager.getComponentKeys(componentClass);
         this.model = model;
@@ -23,24 +24,30 @@ public class ComponentExecutor<T extends CarComponent> {
         this.executor = (ThreadPoolExecutor) executor;
         factory = new CarComponentFactory<>(componentClass);
     }
+
     public CarComponentFactory<T> getFactory() {
         return factory;
     }
+
     public int getWorkersCount() {
         return Integer.parseInt(System.getProperty(config.get("workersCount")));
     }
+
     public void start() {
         scheduleExecutor();
     }
+
     private void scheduleExecutor() {
         var scheduler = (ScheduledExecutorService) executor;
         future = scheduler.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory, model)), 0, getRate(), TimeUnit.SECONDS);
     }
+
     public void reschedule() {
         //System.out.println("NEW RATE " + getRate());
         future.cancel(false);
         scheduleExecutor();
     }
+
     public int getRate() {
         return Integer.parseInt(System.getProperty(config.get("rate")));
     }

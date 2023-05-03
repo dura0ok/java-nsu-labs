@@ -18,8 +18,9 @@ public class CarBuildExecutor implements Runnable {
     private final RamStorage<CarProduct> carStorage;
     private final ThreadPoolExecutor executor;
     private final CarManufacturer model;
+
     private CarBuildExecutor(Builder builder) {
-        System.out.println(builder.workersCount);
+        //System.out.println(builder.workersCount);
         int workersCount = builder.workersCount;
         this.carBodyFactory = builder.carBodyFactory;
         this.carEngineFactory = builder.carEngineFactory;
@@ -56,6 +57,7 @@ public class CarBuildExecutor implements Runnable {
         private CarComponentFactory<CarBody> carBodyFactory;
         private CarComponentFactory<CarEngine> carEngineFactory;
         private CarComponentFactory<CarAccessory> carAccessoryFactory;
+
         public Builder withCarBodyFactory(CarComponentFactory<CarBody> carBodyFactory) {
             this.carBodyFactory = carBodyFactory;
             return this;
@@ -65,14 +67,17 @@ public class CarBuildExecutor implements Runnable {
             this.carEngineFactory = carEngineFactory;
             return this;
         }
+
         public Builder withCarAccessoryFactory(CarComponentFactory<CarAccessory> carAccessoryFactory) {
             this.carAccessoryFactory = carAccessoryFactory;
             return this;
         }
+
         public Builder withModel(CarManufacturer model) {
             this.model = model;
             return this;
         }
+
         public CarBuildExecutor build() {
 
             return new CarBuildExecutor(this);

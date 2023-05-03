@@ -12,15 +12,18 @@ public class CarProduct extends ComponentInfo {
     private final CarBody body;
     private final CarEngine engine;
     private final CarAccessory accessory;
+
     public CarProduct(CarBody body, CarEngine engine, CarAccessory accessory) {
         this.body = body;
         this.engine = engine;
         this.accessory = accessory;
         id.incrementAndGet();
     }
+
     public static int getID() {
         return id.get();
     }
+
     @Override
     public String toString() {
         return "CarProduct{" +

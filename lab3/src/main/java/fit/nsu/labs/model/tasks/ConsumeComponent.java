@@ -8,10 +8,12 @@ import fit.nsu.labs.model.factory.CarComponentFactory;
 public class ConsumeComponent<T extends CarComponent> implements Runnable {
     private final CarComponentFactory<T> factory;
     private final CarManufacturer model;
+
     public ConsumeComponent(CarComponentFactory<T> factory, CarManufacturer model) {
         this.factory = factory;
         this.model = model;
     }
+
     @Override
     public void run() {
         try {

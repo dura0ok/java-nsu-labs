@@ -10,11 +10,13 @@ public class GraphicsController implements ChangeListener {
     private final String name;
     private final JLabel label;
     private final CarManufacturer factory;
+
     public GraphicsController(CarManufacturer factory, JLabel label, String name) {
         this.name = name;
         this.label = label;
         this.factory = factory;
     }
+
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider slider = (JSlider) e.getSource();
@@ -32,6 +34,7 @@ public class GraphicsController implements ChangeListener {
             factory.getAccessoryExecutor().reschedule();
         }
     }
+
     private void setLabelText(JSlider slider) {
         label.setText(name + ": " + slider.getValue());
     }

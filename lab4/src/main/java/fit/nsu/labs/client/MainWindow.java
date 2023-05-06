@@ -1,7 +1,11 @@
 package fit.nsu.labs.client;
 
+import fit.nsu.labs.client.protocol.ChatClientProtocol;
+import fit.nsu.labs.client.protocol.SerializationBased;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MainWindow extends JFrame {
     private JTextArea chatHistory;
@@ -10,16 +14,28 @@ public class MainWindow extends JFrame {
     private JButton sendButton;
     private JList<String> memberList;
     private JLabel usernameLabel;
+    private ChatClientProtocol model;
 
     public MainWindow() {
         String name;
         name = JOptionPane.showInputDialog("Enter your name: ");
-        if(name == null || name.isBlank()){
+        if (name == null || name.isBlank()) {
             return;
         }
         userName = name;
+        try {
+            model = new SerializationBased(new SocketConnection());
+            model.Login(userName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         initUI();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MainWindow::new);
     }
 
     private void initUI() {
@@ -62,10 +78,6 @@ public class MainWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainWindow::new);
-
-    }
 }
 
+    

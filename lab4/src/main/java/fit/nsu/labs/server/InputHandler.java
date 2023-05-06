@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-class InputHandler implements Runnable {
+public class InputHandler implements Runnable {
     private Socket clientSocket;
 
     public InputHandler(Socket socket) {

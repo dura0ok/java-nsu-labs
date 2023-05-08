@@ -62,7 +62,7 @@
                     <!--                    <appendAssemblyId>false</appendAssemblyId>-->
                     <archive>
                         <manifest>
-                            <mainClass>fit.nsu.labs.Main</mainClass>
+                            <mainClass>fit.nsu.labs.client.MainWindow</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

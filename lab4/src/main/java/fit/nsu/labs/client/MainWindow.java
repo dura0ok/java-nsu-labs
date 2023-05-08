@@ -1,20 +1,21 @@
 package fit.nsu.labs.client;
 
-import fit.nsu.labs.client.protocol.ChatClientProtocol;
-import fit.nsu.labs.client.protocol.SerializationBased;
+
+import fit.nsu.labs.client.model.Event;
+import fit.nsu.labs.client.model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements OnEvent {
     private JTextArea chatHistory;
     private String userName;
     private JTextField chatInput;
     private JButton sendButton;
     private JList<String> memberList;
     private JLabel usernameLabel;
-    private ChatClientProtocol model;
+    private ChatClientModel model;
+    private DefaultListModel<String> memberListModel;
 
     public MainWindow() {
         String name;
@@ -23,14 +24,8 @@ public class MainWindow extends JFrame {
             return;
         }
         userName = name;
-        try {
-            model = new SerializationBased(new SocketConnection());
-            model.Login(userName);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        model = new SerializationModel(userName);
+        model.registerObserver(this);
         initUI();
     }
 
@@ -50,11 +45,13 @@ public class MainWindow extends JFrame {
         add(usernameLabel, BorderLayout.NORTH);
 
         // Create member list
-        DefaultListModel<String> memberListModel = new DefaultListModel<>();
+        memberListModel = new DefaultListModel<>();
         memberListModel.addElement("Alice");
-        memberListModel.addElement("Bob");
-        memberListModel.addElement("Charlie");
+//        memberListModel.addElement("Bob");
+//        memberListModel.addElement("Charlie");
         memberList = new JList<>(memberListModel);
+
+
         JScrollPane memberScrollPane = new JScrollPane(memberList);
         add(memberScrollPane, BorderLayout.WEST);
 
@@ -78,6 +75,15 @@ public class MainWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    @Override
+    public void notification(Event event) {
+        if (event.type() == EventType.USERS_UPDATE) {
+            var users = event.data().getUsers();
+            System.out.println(users);
+            memberListModel.removeAllElements();
+            memberListModel.addAll(users);
+        }
+    }
 }
 
-    

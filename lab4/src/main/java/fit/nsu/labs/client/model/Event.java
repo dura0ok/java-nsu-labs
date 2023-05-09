@@ -1,5 +1,11 @@
 package fit.nsu.labs.client.model;
 
-public record Event(EventType type, ChatClientModel.ModelData data) {
+import java.util.ArrayList;
+import java.util.List;
 
+public record Event(EventType type, List<String> data) {
+    public enum EventType {
+        MEMBERS_UPDATED,
+        MESSAGE_UPDATED
+    }
 }

@@ -5,18 +5,18 @@ import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
 import fit.nsu.labs.common.TextMessage;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 
 public class SerializationInput extends InputHandler {
     private final static AtomicInteger sessionID = new AtomicInteger(1);
     private static final Map<Socket, String> clients = new HashMap<>();
-
 
 
     public SerializationInput(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
@@ -27,14 +27,11 @@ public class SerializationInput extends InputHandler {
     @Override
     public void run() {
 
-        while(true){
+        while (true) {
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
                 ClientMessage inputObject = (ClientMessage) objectInputStream.readObject();
-                var res = handleMessage(inputObject);
-                if(res != null){
-                    notifier.notifyOutput(clientSocket, res);
-                }
+                handleMessage(inputObject);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -42,39 +39,43 @@ public class SerializationInput extends InputHandler {
 
     }
 
-    public ServerMessage handleMessage(ClientMessage message) {
+    public void handleMessage(ClientMessage message) {
         switch (message.type()) {
             case LOGIN -> {
                 clients.put(clientSocket, message.body());
-                return new ServerMessage(
+
+                var loginResponse = new ServerMessage(
                         ServerMessage.Error.SUCCESS, ServerMessage.Type.LOGIN_RESPONSE,
                         Collections.singletonList(String.valueOf(sessionID.getAndIncrement())));
+                notifier.notifyOutput(clientSocket, loginResponse);
+
+                var lastMessages = getLastNMessages(Integer.parseInt(System.getProperty("LAST_MESSAGES_SEND")));
+                System.out.println("last messages =====");
+                for (var lastElement : lastMessages) {
+                    notifier.notifyOutput(clientSocket, generateNewMessageResponse(lastElement));
+                }
             }
             case MESSAGE -> {
-                messages.add(new TextMessage(clients.get(clientSocket), message.body()));
-                var data = messages.stream()
-                        .map(msg -> msg.name() + ": " + msg.text())
-                        .toList();
-                for(var client: clients.keySet()){
-                    notifier.notifyOutput(client, new ServerMessage(ServerMessage.Error.SUCCESS, ServerMessage.Type.MESSAGE_LIST_UPDATED, data));
+                var newMessage = new TextMessage(clients.get(clientSocket), message.body());
+                messages.add(newMessage);
+                for (var client : clients.keySet()) {
+                    notifier.notifyOutput(client, generateNewMessageResponse(newMessage));
                 }
-                return null;
             }
             case LIST -> {
                 System.out.println("LIST " + clients);
                 var data = new ArrayList<>(clients.values());
-                return new ServerMessage(ServerMessage.Error.SUCCESS, ServerMessage.Type.MEMBERS_LIST_UPDATED, data);
+                var listResponse = new ServerMessage(ServerMessage.Error.SUCCESS, ServerMessage.Type.MEMBERS_LIST_UPDATED, data);
+                notifier.notifyOutput(clientSocket, listResponse);
             }
             case LOGOUT -> {
                 System.out.println("LOGOUT");
                 clients.remove(clientSocket);
-                return null;
             }
 
             default -> throw new RuntimeException("Strange message");
         }
     }
-
 
 
 }

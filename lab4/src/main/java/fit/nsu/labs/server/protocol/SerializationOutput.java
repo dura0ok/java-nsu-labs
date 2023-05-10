@@ -12,6 +12,7 @@ import static fit.nsu.labs.Utils.serializeMessage;
 public class SerializationOutput extends OutputHandler {
     private final Set<Socket> connectedClients;
     private final StaticOutput<ServerMessage> notifier;
+
     public SerializationOutput(Socket clientSocket, Set<Socket> connectedClients, StaticOutput<ServerMessage> notifier) {
         super(clientSocket);
         this.connectedClients = connectedClients;
@@ -23,7 +24,7 @@ public class SerializationOutput extends OutputHandler {
         try {
             while (true) {
                 var res = notifier.getOutput(getClientSocket());
-                System.out.println(res);
+                System.out.println("!!!!!!!!!!!!!!!!! Output " + res);
                 getClientSocket().getOutputStream().write(serializeMessage(res));
                 getClientSocket().getOutputStream().flush();
                 System.out.println(connectedClients);

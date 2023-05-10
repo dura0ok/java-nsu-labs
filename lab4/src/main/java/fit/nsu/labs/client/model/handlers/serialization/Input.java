@@ -8,9 +8,8 @@ import fit.nsu.labs.common.StaticOutput;
 
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.Collections;
 
-public class Input implements Runnable{
+public class Input implements Runnable {
     private final StaticOutput<ClientMessage> notifier;
     private final Socket clientSocket;
     private final ChatClientModel model;
@@ -28,8 +27,8 @@ public class Input implements Runnable{
                 ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
                 ServerMessage inputObject = (ServerMessage) objectInputStream.readObject();
                 System.out.println(inputObject);
-                switch (inputObject.eventName()){
-                    case LOGIN_RESPONSE ->  {
+                switch (inputObject.eventName()) {
+                    case LOGIN_RESPONSE -> {
                         System.out.println("you logged in");
                         model.setSessionID(Integer.parseInt(inputObject.data().get(0)));
                     }
@@ -47,7 +46,6 @@ public class Input implements Runnable{
             e.printStackTrace();
         }
     }
-
 
 
 }

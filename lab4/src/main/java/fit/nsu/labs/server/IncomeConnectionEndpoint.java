@@ -42,6 +42,11 @@ public class IncomeConnectionEndpoint {
                     new Thread(new SerializationInput(socket, notifier)).start();
 
                 }
+//                if (System.getProperty("PROTOCOL").equals("XML")) {
+//                    var output = new XMLOutput(socket, connectedClients, notifier);
+//                    new Thread(output).start();
+//                    new Thread(new XMLInput(socket, notifier)).start();
+//                }
 
             } catch (IOException e) {
                 e.printStackTrace();

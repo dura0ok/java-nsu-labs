@@ -3,19 +3,18 @@ package fit.nsu.labs.client.model;
 import fit.nsu.labs.Configuration;
 import fit.nsu.labs.client.model.handlers.serialization.Input;
 import fit.nsu.labs.client.model.handlers.serialization.Output;
-import fit.nsu.labs.server.protocol.InputHandler;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public abstract class ChatClientModel implements Observable{
+public abstract class ChatClientModel implements Observable {
+    protected final Output outputHandler;
     private final String name;
     private final Configuration configuration = new Configuration();
     private final Socket clientSocket;
     private final Input inputHandler;
-    protected final Output outputHandler;
-
+    private final ArrayList<OnEvent> onEvents = new ArrayList<>();
     private Integer sessionID;
 
     ChatClientModel(String name) throws IOException {
@@ -24,7 +23,7 @@ public abstract class ChatClientModel implements Observable{
         outputHandler = new Output(clientSocket);
         inputHandler = new Input(clientSocket, this, outputHandler.getNotifier());
     }
-    private final ArrayList<OnEvent> onEvents = new ArrayList<>();
+
     @Override
     public void registerObserver(OnEvent o) {
         onEvents.add(o);
@@ -50,12 +49,12 @@ public abstract class ChatClientModel implements Observable{
 
     public abstract void logout();
 
-    public void setSessionID(int id){
-        sessionID = id;
-    }
-
     public Integer getSessionID() {
         return sessionID;
+    }
+
+    public void setSessionID(int id) {
+        sessionID = id;
     }
 
     public abstract void sendTextMessage(String text);

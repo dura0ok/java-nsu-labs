@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import static fit.nsu.labs.Utils.serializeMessage;
 
-public class Output implements Runnable{
+public class Output implements Runnable {
     private final Socket cientSocket;
     private final StaticOutput<ClientMessage> notifier = new StaticOutput<>();
 
@@ -18,11 +18,11 @@ public class Output implements Runnable{
 
     @Override
     public void run() {
-        while (true){
-            try{
+        while (true) {
+            try {
                 var res = notifier.getOutput(cientSocket);
                 sendMessage(res);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

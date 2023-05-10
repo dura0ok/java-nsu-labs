@@ -6,7 +6,7 @@ import fit.nsu.labs.common.ClientMessage;
 
 import java.io.IOException;
 
-public class SerializationModel extends ChatClientModel{
+public class SerializationModel extends ChatClientModel {
 
     public SerializationModel(String name) throws IOException {
         super(name);
@@ -20,8 +20,8 @@ public class SerializationModel extends ChatClientModel{
     void login() {
         try {
             outputHandler.sendMessage(new ClientMessage(ClientMessage.MessageType.LOGIN, null, getName()));
-        }catch (Exception e){
-          throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -31,7 +31,7 @@ public class SerializationModel extends ChatClientModel{
             var msg = new ClientMessage(ClientMessage.MessageType.LIST, getSessionID(), null);
             System.out.println("try to send " + msg);
             outputHandler.sendMessage(msg);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -42,7 +42,7 @@ public class SerializationModel extends ChatClientModel{
             var msg = new ClientMessage(ClientMessage.MessageType.LOGOUT, getSessionID(), null);
             System.out.println("try to send logout" + msg);
             outputHandler.sendMessage(msg);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -53,7 +53,7 @@ public class SerializationModel extends ChatClientModel{
             var msg = new ClientMessage(ClientMessage.MessageType.MESSAGE, getSessionID(), text);
             System.out.println("try to send new message to server!!! " + msg);
             outputHandler.sendMessage(msg);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

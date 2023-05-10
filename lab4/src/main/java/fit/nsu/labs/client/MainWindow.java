@@ -1,7 +1,9 @@
 package fit.nsu.labs.client;
 
-import fit.nsu.labs.client.model.*;
+import fit.nsu.labs.client.model.ChatClientModel;
 import fit.nsu.labs.client.model.Event;
+import fit.nsu.labs.client.model.OnEvent;
+import fit.nsu.labs.client.model.SerializationModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class MainWindow extends JFrame implements OnEvent {
+    private final DefaultListModel<String> memberListModel = new DefaultListModel<>();
     private JTextArea chatHistory;
     private JTextField chatInput;
     private JButton sendButton;
@@ -19,9 +22,8 @@ public class MainWindow extends JFrame implements OnEvent {
     private JLabel usernameLabel;
     private ChatClientModel model;
     private String userName;
-    private final DefaultListModel<String> memberListModel = new DefaultListModel<>();
 
-    public MainWindow() throws IOException{
+    public MainWindow() throws IOException {
         String name;
         name = JOptionPane.showInputDialog("Enter your name: ");
         if (name == null || name.isBlank()) {
@@ -63,7 +65,7 @@ public class MainWindow extends JFrame implements OnEvent {
             @Override
             public void actionPerformed(ActionEvent e) {
                 var text = chatInput.getText();
-                if(text.isEmpty()){
+                if (text.isEmpty()) {
                     return;
                 }
                 model.sendTextMessage(text);
@@ -103,6 +105,10 @@ public class MainWindow extends JFrame implements OnEvent {
         setVisible(true);
     }
 
+    public static void main(String[] args) throws IOException {
+        new MainWindow();
+    }
+
     @Override
     public void notification(Event event) {
         if (event.type() == Event.EventType.MEMBERS_UPDATED) {
@@ -111,10 +117,8 @@ public class MainWindow extends JFrame implements OnEvent {
         }
 
         if (event.type() == Event.EventType.MESSAGE_UPDATED) {
-            chatHistory.setText(String.join("\n", event.data()));
+            var lastText = chatHistory.getText();
+            chatHistory.setText(lastText + "\n" + String.join("\n", event.data()));
         }
-    }
-    public static void main(String[] args) throws IOException {
-        new MainWindow();
     }
 }

@@ -1,18 +1,23 @@
 package fit.nsu.labs.common;
 
-import fit.nsu.labs.common.ServerMessage;
-
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class StaticOutput<T> {
-    private static final Object lock = new Object();
-    private final Map<Socket, T> outputMap = new HashMap<>();
+    private final Object lock = new Object();
+    private final ConcurrentHashMap<Socket, T> outputMap = new ConcurrentHashMap<>();
 
     public void notifyOutput(Socket socket, T data) {
         synchronized (lock) {
+            while (outputMap.containsKey(socket)) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
             outputMap.put(socket, data);
             lock.notifyAll();
         }
@@ -23,8 +28,9 @@ public class StaticOutput<T> {
             while (!outputMap.containsKey(socket)) {
                 lock.wait();
             }
-            var output = outputMap.get(socket);
+            T output = outputMap.get(socket);
             outputMap.remove(socket);
+            lock.notifyAll();
             return output;
         }
     }

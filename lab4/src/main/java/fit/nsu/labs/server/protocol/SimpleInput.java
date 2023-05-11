@@ -14,12 +14,12 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class SerializationInput extends InputHandler {
+public class SimpleInput extends InputHandler {
     private final static AtomicInteger sessionID = new AtomicInteger(1);
     private static final Map<Socket, String> clients = new HashMap<>();
 
 
-    public SerializationInput(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
+    public SimpleInput(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
         super(clientSocket, notifier);
     }
 

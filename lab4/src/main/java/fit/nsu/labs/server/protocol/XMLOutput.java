@@ -4,11 +4,15 @@ import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
 
 import java.net.Socket;
+import com.thoughtworks.xstream.XStream;
 import java.util.Set;
+
+import static fit.nsu.labs.Utils.serializeMessage;
 
 public class XMLOutput extends OutputHandler {
     private final Set<Socket> connectedClients;
     private final StaticOutput<ServerMessage> notifier;
+    private final XStream xstream = new XStream();
 
     public XMLOutput(Socket clientSocket, Set<Socket> connectedClients, StaticOutput<ServerMessage> notifier) {
         super(clientSocket);
@@ -21,8 +25,11 @@ public class XMLOutput extends OutputHandler {
         try {
             while (true) {
                 var res = notifier.getOutput(getClientSocket());
-                System.out.println(res);
+                var serialized = xstream.toXML(res);
+                System.out.println(serialized);
 
+                getClientSocket().getOutputStream().write(serialized.getBytes());
+                getClientSocket().getOutputStream().flush();
             }
         } catch (Exception e) {
             e.printStackTrace();

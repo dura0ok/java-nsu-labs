@@ -3,8 +3,9 @@ package fit.nsu.labs.server;
 import fit.nsu.labs.Configuration;
 import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
-import fit.nsu.labs.server.protocol.SerializationInput;
+import fit.nsu.labs.server.protocol.SimpleInput;
 import fit.nsu.labs.server.protocol.SerializationOutput;
+import fit.nsu.labs.server.protocol.XMLOutput;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -39,14 +40,14 @@ public class IncomeConnectionEndpoint {
                 if (System.getProperty("PROTOCOL").equals("SERIALIZATION")) {
                     var output = new SerializationOutput(socket, connectedClients, notifier);
                     new Thread(output).start();
-                    new Thread(new SerializationInput(socket, notifier)).start();
+                    new Thread(new SimpleInput(socket, notifier)).start();
 
                 }
-//                if (System.getProperty("PROTOCOL").equals("XML")) {
-//                    var output = new XMLOutput(socket, connectedClients, notifier);
-//                    new Thread(output).start();
-//                    new Thread(new XMLInput(socket, notifier)).start();
-//                }
+                if (System.getProperty("PROTOCOL").equals("XML")) {
+                    var output = new XMLOutput(socket, connectedClients, notifier);
+                    new Thread(output).start();
+                    new Thread(new SimpleInput(socket, notifier)).start();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -6,7 +6,6 @@ import fit.nsu.labs.common.TextMessage;
 
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 abstract public class InputHandler implements Runnable {
@@ -28,10 +27,6 @@ abstract public class InputHandler implements Runnable {
     }
 
     protected ServerMessage generateNewMessageResponse(TextMessage message) {
-        return new ServerMessage(
-                ServerMessage.Error.SUCCESS,
-                ServerMessage.Type.MESSAGE_LIST_UPDATED,
-                Collections.singletonList(message.toString())
-        );
+        return new ServerMessage.NewMessage(message);
     }
 }

@@ -19,7 +19,7 @@ public class SerializationModel extends ChatClientModel {
     @Override
     void login() {
         try {
-            outputHandler.sendMessage(new ClientMessage(ClientMessage.MessageType.LOGIN, null, getName()));
+            outputHandler.sendMessage(new ClientMessage.LoginRequest(getName()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +28,7 @@ public class SerializationModel extends ChatClientModel {
     @Override
     public void updateMembersRequest() {
         try {
-            var msg = new ClientMessage(ClientMessage.MessageType.LIST, getSessionID(), null);
+            var msg = new ClientMessage.ListMembers(getSessionID());
             System.out.println("try to send " + msg);
             outputHandler.sendMessage(msg);
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class SerializationModel extends ChatClientModel {
     @Override
     public void logout() {
         try {
-            var msg = new ClientMessage(ClientMessage.MessageType.LOGOUT, getSessionID(), null);
+            var msg = new ClientMessage.Logout(getSessionID());
             System.out.println("try to send logout" + msg);
             outputHandler.sendMessage(msg);
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class SerializationModel extends ChatClientModel {
     @Override
     public void sendTextMessage(String text) {
         try {
-            var msg = new ClientMessage(ClientMessage.MessageType.MESSAGE, getSessionID(), text);
+            var msg = new ClientMessage.Message(text, getSessionID());
             System.out.println("try to send new message to server!!! " + msg);
             outputHandler.sendMessage(msg);
         } catch (Exception e) {

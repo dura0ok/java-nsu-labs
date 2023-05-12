@@ -5,9 +5,11 @@ import fit.nsu.labs.client.model.Event;
 import fit.nsu.labs.common.ClientMessage;
 import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
+import fit.nsu.labs.common.User;
 
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Collections;
 
 public class Input implements Runnable {
     private final StaticOutput<ClientMessage> notifier;
@@ -27,19 +29,24 @@ public class Input implements Runnable {
                 ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
                 ServerMessage inputObject = (ServerMessage) objectInputStream.readObject();
                 System.out.println(inputObject);
-                switch (inputObject.eventName()) {
-                    case LOGIN_RESPONSE -> {
-                        System.out.println("you logged in");
-                        model.setSessionID(Integer.parseInt(inputObject.data().get(0)));
-                    }
-                    case MEMBERS_LIST_UPDATED -> {
-                        System.out.println("response from server " + inputObject);
-                        model.notifyObservers(new Event(Event.EventType.MEMBERS_UPDATED, inputObject.data()));
-                    }
-                    case MESSAGE_LIST_UPDATED -> {
-                        model.notifyObservers(new Event(Event.EventType.MESSAGE_UPDATED, inputObject.data()));
-                    }
-                    default -> throw new RuntimeException("asd");
+                if (inputObject.getClass().equals(ServerMessage.LoginResponse.class)) {
+                    System.out.println("you logged in");
+                    model.setSessionID(((ServerMessage.LoginResponse) inputObject).getSessionID());
+                } else if (inputObject.getClass().equals(ServerMessage.ListMembers.class)) {
+                    System.out.println("response from server " + inputObject);
+                    var userList = ((ServerMessage.ListMembers) inputObject).getUserList();
+                    System.out.println(userList);
+                    var nameList = userList.stream()
+                            .map(User::name)
+                            .toList();
+
+                    model.notifyObservers(new Event(Event.EventType.MEMBERS_UPDATED, nameList));
+
+                } else if (inputObject.getClass().equals(ServerMessage.NewMessage.class)) {
+                    var messageOutput = ((ServerMessage.NewMessage) inputObject).getMessage();
+                    model.notifyObservers(new Event(Event.EventType.MESSAGE_UPDATED, Collections.singletonList(messageOutput.toString())));
+                } else {
+                    throw new RuntimeException("asd");
                 }
             }
         } catch (Exception e) {

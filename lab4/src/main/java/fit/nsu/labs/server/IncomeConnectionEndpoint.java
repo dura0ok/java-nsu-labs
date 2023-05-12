@@ -3,8 +3,8 @@ package fit.nsu.labs.server;
 import fit.nsu.labs.Configuration;
 import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
-import fit.nsu.labs.server.protocol.SimpleInput;
 import fit.nsu.labs.server.protocol.SerializationOutput;
+import fit.nsu.labs.server.protocol.SimpleInput;
 import fit.nsu.labs.server.protocol.XMLOutput;
 
 import java.io.IOException;

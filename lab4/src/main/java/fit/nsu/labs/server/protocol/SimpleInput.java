@@ -1,14 +1,10 @@
 package fit.nsu.labs.server.protocol;
 
-import fit.nsu.labs.common.ClientMessage;
-import fit.nsu.labs.common.ServerMessage;
-import fit.nsu.labs.common.StaticOutput;
-import fit.nsu.labs.common.TextMessage;
+import fit.nsu.labs.common.*;
 
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleInput extends InputHandler {
     private final static AtomicInteger sessionID = new AtomicInteger(1);
-    private static final Map<Socket, String> clients = new HashMap<>();
+    private static final Map<Socket, User> clients = new HashMap<>();
 
 
     public SimpleInput(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
@@ -40,40 +36,32 @@ public class SimpleInput extends InputHandler {
     }
 
     public void handleMessage(ClientMessage message) {
-        switch (message.type()) {
-            case LOGIN -> {
-                clients.put(clientSocket, message.body());
+        if (message.getClass().equals(ClientMessage.LoginRequest.class)) {
+            var loginResponse = new ServerMessage.LoginResponse(sessionID.getAndIncrement());
+            clients.put(clientSocket, new User(((ClientMessage.LoginRequest) message).getUserName(), loginResponse.getSessionID()));
+            notifier.notifyOutput(clientSocket, loginResponse);
 
-                var loginResponse = new ServerMessage(
-                        ServerMessage.Error.SUCCESS, ServerMessage.Type.LOGIN_RESPONSE,
-                        Collections.singletonList(String.valueOf(sessionID.getAndIncrement())));
-                notifier.notifyOutput(clientSocket, loginResponse);
-
-                var lastMessages = getLastNMessages(Integer.parseInt(System.getProperty("LAST_MESSAGES_SEND")));
-                System.out.println("last messages =====");
-                for (var lastElement : lastMessages) {
-                    notifier.notifyOutput(clientSocket, generateNewMessageResponse(lastElement));
-                }
+            var lastMessages = getLastNMessages(Integer.parseInt(System.getProperty("LAST_MESSAGES_SEND")));
+            System.out.println("last messages =====");
+            for (var lastElement : lastMessages) {
+                notifier.notifyOutput(clientSocket, generateNewMessageResponse(lastElement));
             }
-            case MESSAGE -> {
-                var newMessage = new TextMessage(clients.get(clientSocket), message.body());
-                messages.add(newMessage);
-                for (var client : clients.keySet()) {
-                    notifier.notifyOutput(client, generateNewMessageResponse(newMessage));
-                }
+        } else if (message.getClass().equals(ClientMessage.Message.class)) {
+            var newMessage = new TextMessage(clients.get(clientSocket).name(), ((ClientMessage.Message) message).getMessageText());
+            messages.add(newMessage);
+            for (var client : clients.keySet()) {
+                notifier.notifyOutput(client, generateNewMessageResponse(newMessage));
             }
-            case LIST -> {
-                System.out.println("LIST " + clients);
-                var data = new ArrayList<>(clients.values());
-                var listResponse = new ServerMessage(ServerMessage.Error.SUCCESS, ServerMessage.Type.MEMBERS_LIST_UPDATED, data);
-                notifier.notifyOutput(clientSocket, listResponse);
-            }
-            case LOGOUT -> {
-                System.out.println("LOGOUT");
-                clients.remove(clientSocket);
-            }
-
-            default -> throw new RuntimeException("Strange message");
+        } else if (message.getClass().equals(ClientMessage.ListMembers.class)) {
+            System.out.println("LIST " + clients);
+            var data = new ArrayList<>(clients.values());
+            var listResponse = new ServerMessage.ListMembers(data);
+            notifier.notifyOutput(clientSocket, listResponse);
+        } else if (message.getClass().equals(ClientMessage.Logout.class)) {
+            System.out.println("LOGOUT");
+            clients.remove(clientSocket);
+        } else {
+            throw new RuntimeException("Strange message");
         }
     }
 

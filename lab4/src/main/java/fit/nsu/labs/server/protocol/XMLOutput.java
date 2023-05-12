@@ -1,13 +1,11 @@
 package fit.nsu.labs.server.protocol;
 
+import com.thoughtworks.xstream.XStream;
 import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
 
 import java.net.Socket;
-import com.thoughtworks.xstream.XStream;
 import java.util.Set;
-
-import static fit.nsu.labs.Utils.serializeMessage;
 
 public class XMLOutput extends OutputHandler {
     private final Set<Socket> connectedClients;

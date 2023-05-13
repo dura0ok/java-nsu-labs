@@ -15,6 +15,7 @@ public abstract sealed class ClientMessage implements Serializable permits Clien
     public Type getType() {
         return type;
     }
+
     ;
 
     public String getName() {

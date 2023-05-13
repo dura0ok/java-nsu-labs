@@ -1,15 +1,22 @@
 package fit.nsu.labs.common;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.io.Serializable;
 import java.util.List;
 
 public abstract sealed class ServerMessage implements Serializable
         permits ServerMessage.EmptySuccess, ServerMessage.Error, ServerMessage.ListMembers,
         ServerMessage.ListMessages, ServerMessage.LoginResponse, ServerMessage.NewMessage {
-    protected final ErrorType errorType;
+    @XStreamOmitField
+    private final ErrorType errorType;
 
     protected ServerMessage(ErrorType errorType) {
         this.errorType = errorType;
+    }
+
+    public ErrorType getErrorType() {
+        return errorType;
     }
 
     public enum ErrorType {

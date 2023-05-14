@@ -1,4 +1,4 @@
-package fit.nsu.labs.server.protocol;
+package fit.nsu.labs.server;
 
 import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
@@ -13,7 +13,7 @@ abstract public class InputHandler implements Runnable {
     protected final Socket clientSocket;
     protected final StaticOutput<ServerMessage> notifier;
 
-    InputHandler(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
+    public InputHandler(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
         this.clientSocket = clientSocket;
         this.notifier = notifier;
     }

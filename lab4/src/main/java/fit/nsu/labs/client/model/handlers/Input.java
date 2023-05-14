@@ -1,5 +1,7 @@
-package fit.nsu.labs.client.model.handlers.serialization;
+package fit.nsu.labs.client.model.handlers;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import fit.nsu.labs.client.model.ChatClientModel;
 import fit.nsu.labs.client.model.Event;
 import fit.nsu.labs.common.ClientMessage;
@@ -7,7 +9,7 @@ import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
 import fit.nsu.labs.common.User;
 
-import java.io.ObjectInputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Collections;
 
@@ -15,8 +17,9 @@ public class Input implements Runnable {
     private final StaticOutput<ClientMessage> notifier;
     private final Socket clientSocket;
     private final ChatClientModel model;
+    private final XStream xStream = new XStream(new StaxDriver());
 
-    public Input(Socket clientSocket, ChatClientModel model, StaticOutput<ClientMessage> notifier) {
+    public Input(Socket clientSocket, ChatClientModel model, StaticOutput<ClientMessage> notifier) throws IOException {
         this.clientSocket = clientSocket;
         this.model = model;
         this.notifier = notifier;
@@ -26,9 +29,9 @@ public class Input implements Runnable {
     public void run() {
         try {
             while (true) {
-                ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
-                ServerMessage inputObject = (ServerMessage) objectInputStream.readObject();
-                System.out.println(inputObject);
+
+                var inputObject = ServerMessage.deserialize(clientSocket.getInputStream());
+
                 if (inputObject.getClass().equals(ServerMessage.LoginResponse.class)) {
                     System.out.println("you logged in");
                     model.setSessionID(((ServerMessage.LoginResponse) inputObject).getSessionID());
@@ -53,6 +56,5 @@ public class Input implements Runnable {
             e.printStackTrace();
         }
     }
-
 
 }

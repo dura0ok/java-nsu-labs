@@ -1,27 +1,31 @@
 package fit.nsu.labs.client.model;
 
 import fit.nsu.labs.Configuration;
-import fit.nsu.labs.client.model.handlers.serialization.Input;
-import fit.nsu.labs.client.model.handlers.serialization.Output;
+import fit.nsu.labs.client.model.handlers.Input;
+import fit.nsu.labs.client.model.handlers.Output;
+import fit.nsu.labs.common.ClientMessage;
+import fit.nsu.labs.common.StaticOutput;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public abstract class ChatClientModel implements Observable {
-    protected final Output outputHandler;
+public class ChatClientModel implements Observable {
     private final String name;
     private final Configuration configuration = new Configuration();
     private final Socket clientSocket;
-    private final Input inputHandler;
     private final ArrayList<OnEvent> onEvents = new ArrayList<>();
+    private final StaticOutput<ClientMessage> notifier;
     private Integer sessionID;
 
-    ChatClientModel(String name) throws IOException {
+    public ChatClientModel(String name) throws IOException {
         this.name = name;
         clientSocket = new Socket(configuration.getServerName(), configuration.getPort());
-        outputHandler = new Output(clientSocket);
-        inputHandler = new Input(clientSocket, this, outputHandler.getNotifier());
+        notifier = new StaticOutput<>();
+        var output = new Output(clientSocket, notifier);
+        new Thread(output).start();
+        new Thread(new Input(clientSocket, this, notifier)).start();
+        login();
     }
 
     @Override
@@ -43,11 +47,32 @@ public abstract class ChatClientModel implements Observable {
         return clientSocket;
     }
 
-    abstract void login();
+    void login() {
+        try {
+            System.out.println("login send message!");
+            notifier.notifyOutput(clientSocket, new ClientMessage.LoginRequest(getName()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    public abstract void updateMembersRequest();
+    public void updateMembersRequest() {
+        try {
+            System.out.println("login send message");
+            notifier.notifyOutput(clientSocket, new ClientMessage.ListMembers(getSessionID()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    public abstract void logout();
+    public void logout() {
+        try {
+            System.out.println("login send message");
+            notifier.notifyOutput(clientSocket, new ClientMessage.Logout(getSessionID()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Integer getSessionID() {
         return sessionID;
@@ -57,5 +82,12 @@ public abstract class ChatClientModel implements Observable {
         sessionID = id;
     }
 
-    public abstract void sendTextMessage(String text);
+    public void sendTextMessage(String text) {
+        try {
+            System.out.println("login send message");
+            notifier.notifyOutput(clientSocket, new ClientMessage.Message(getSessionID(), text));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package fit.nsu.labs.server.protocol;
+package fit.nsu.labs.server;
 
 import fit.nsu.labs.common.ServerMessage;
 import fit.nsu.labs.common.StaticOutput;
@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Set;
 
-import static fit.nsu.labs.Utils.serializeMessage;
 
-public class SerializationOutput extends OutputHandler {
+public class Output extends OutputHandler {
     private final Set<Socket> connectedClients;
     private final StaticOutput<ServerMessage> notifier;
 
-    public SerializationOutput(Socket clientSocket, Set<Socket> connectedClients, StaticOutput<ServerMessage> notifier) {
+    public Output(Socket clientSocket, Set<Socket> connectedClients, StaticOutput<ServerMessage> notifier) {
         super(clientSocket);
         this.connectedClients = connectedClients;
         this.notifier = notifier;
@@ -25,7 +24,7 @@ public class SerializationOutput extends OutputHandler {
             while (true) {
                 var res = notifier.getOutput(getClientSocket());
                 System.out.println("!!!!!!!!!!!!!!!!! Output " + res);
-                getClientSocket().getOutputStream().write(serializeMessage(res));
+                getClientSocket().getOutputStream().write(ServerMessage.serialize(res));
                 getClientSocket().getOutputStream().flush();
                 System.out.println(connectedClients);
             }

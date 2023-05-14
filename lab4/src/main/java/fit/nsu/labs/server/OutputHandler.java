@@ -1,4 +1,4 @@
-package fit.nsu.labs.server.protocol;
+package fit.nsu.labs.server;
 
 import java.net.Socket;
 

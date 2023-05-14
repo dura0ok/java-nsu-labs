@@ -1,34 +1,30 @@
-package fit.nsu.labs.server.protocol;
+package fit.nsu.labs.server;
 
 import fit.nsu.labs.common.*;
 
-import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
-public class SimpleInput extends InputHandler {
+public class Input extends InputHandler {
     private final static AtomicInteger sessionID = new AtomicInteger(1);
     private static final Map<Socket, User> clients = new HashMap<>();
 
-
-    public SimpleInput(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
+    public Input(Socket clientSocket, StaticOutput<ServerMessage> notifier) {
         super(clientSocket, notifier);
     }
 
 
     @Override
     public void run() {
-
         while (true) {
             try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
-                ClientMessage inputObject = (ClientMessage) objectInputStream.readObject();
-                handleMessage(inputObject);
+                System.out.println("handle message");
+                handleMessage(ClientMessage.deserialize(clientSocket.getInputStream()));
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 throw new RuntimeException(e);
             }
         }
@@ -36,6 +32,7 @@ public class SimpleInput extends InputHandler {
     }
 
     public void handleMessage(ClientMessage message) {
+        System.out.println(message);
         if (message.getClass().equals(ClientMessage.LoginRequest.class)) {
             var loginResponse = new ServerMessage.LoginResponse(sessionID.getAndIncrement());
             clients.put(clientSocket, new User(((ClientMessage.LoginRequest) message).getUserName(), loginResponse.getSessionID()));

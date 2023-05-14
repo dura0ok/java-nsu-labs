@@ -3,7 +3,6 @@ package fit.nsu.labs.client;
 import fit.nsu.labs.client.model.ChatClientModel;
 import fit.nsu.labs.client.model.Event;
 import fit.nsu.labs.client.model.OnEvent;
-import fit.nsu.labs.client.model.SerializationModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +29,7 @@ public class MainWindow extends JFrame implements OnEvent {
             return;
         }
         userName = name;
-        model = new SerializationModel(name);
+        model = new ChatClientModel(name);
         model.registerObserver(this);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

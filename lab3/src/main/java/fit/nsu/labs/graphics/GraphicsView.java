@@ -1,5 +1,6 @@
 package fit.nsu.labs.graphics;
 
+import fit.nsu.labs.Main;
 import fit.nsu.labs.model.CarManufacturer;
 import fit.nsu.labs.model.CarProduct;
 import fit.nsu.labs.model.Event;
@@ -11,10 +12,12 @@ import fit.nsu.labs.model.component.ComponentInfo;
 import fit.nsu.labs.model.exceptions.ConfigException;
 import fit.nsu.labs.model.exceptions.ManufactoryException;
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvException;
 
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GraphicsView extends JFrame implements OnEvent {
     private final StatisticPanel bodyStat = new StatisticPanel("body stat");
@@ -66,8 +69,12 @@ public class GraphicsView extends JFrame implements OnEvent {
     }
 
     public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
-        dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+        try{
+            Dotenv.configure().systemProperties().load();
+        }catch(DotenvException ignored){
+            Dotenv.configure().directory(Objects.requireNonNull(Main.class.getResource("/")).getPath()).systemProperties().load();
+        }
+
         SwingUtilities.invokeLater(() -> {
             try {
                 new GraphicsView(new CarManufacturer());

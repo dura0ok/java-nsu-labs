@@ -23,7 +23,7 @@ public class Output extends OutputHandler {
         try {
             while (true) {
                 var res = notifier.getOutput(getClientSocket());
-                System.out.println("!!!!!!!!!!!!!!!!! Output " + res);
+                System.out.println("output " + res);
                 getClientSocket().getOutputStream().write(ServerMessage.serialize(res));
                 getClientSocket().getOutputStream().flush();
                 System.out.println(connectedClients);
@@ -32,9 +32,4 @@ public class Output extends OutputHandler {
             e.printStackTrace();
         }
     }
-
-    public StaticOutput<ServerMessage> getNotifier() {
-        return notifier;
-    }
-
 }

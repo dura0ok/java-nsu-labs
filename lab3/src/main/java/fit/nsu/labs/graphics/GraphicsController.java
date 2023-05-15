@@ -20,18 +20,19 @@ public class GraphicsController implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider slider = (JSlider) e.getSource();
-        //System.setProperty(key, String.valueOf(slider.getValue()));
         setLabelText(slider);
-        if (name.equalsIgnoreCase("body")) {
-            factory.getBodyExecutor().reschedule();
+        var componentName = name.split(" ")[0];
+        var newValue = slider.getValue();
+        if (componentName.equalsIgnoreCase("body")) {
+            factory.getBodyExecutor().reschedule(newValue);
         }
 
-        if (name.equalsIgnoreCase("engine")) {
-            factory.getEngineExecutor().reschedule();
+        if (componentName.equalsIgnoreCase("engine")) {
+            factory.getEngineExecutor().reschedule(newValue);
         }
 
-        if (name.equalsIgnoreCase("accessory")) {
-            factory.getAccessoryExecutor().reschedule();
+        if (componentName.equalsIgnoreCase("accessory")) {
+            factory.getAccessoryExecutor().reschedule(newValue);
         }
     }
 

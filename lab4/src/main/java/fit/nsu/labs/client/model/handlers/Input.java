@@ -31,7 +31,7 @@ public class Input implements Runnable {
             while (true) {
 
                 var inputObject = ServerMessage.deserialize(clientSocket.getInputStream());
-
+                System.out.println(inputObject);
                 if (inputObject.getClass().equals(ServerMessage.LoginResponse.class)) {
                     System.out.println("you logged in");
                     model.setSessionID(((ServerMessage.LoginResponse) inputObject).getSessionID());
@@ -47,6 +47,7 @@ public class Input implements Runnable {
 
                 } else if (inputObject.getClass().equals(ServerMessage.NewMessage.class)) {
                     var messageOutput = ((ServerMessage.NewMessage) inputObject).getMessage();
+                    System.out.println(messageOutput);
                     model.notifyObservers(new Event(Event.EventType.MESSAGE_UPDATED, Collections.singletonList(messageOutput.toString())));
                 } else {
                     throw new RuntimeException("asd");

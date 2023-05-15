@@ -48,13 +48,6 @@ public class GraphicsView extends JFrame implements OnEvent {
         carManuFacturer.start();
     }
 
-    private void initHandlers() {
-        eventHandlerPlace.put(CarBody.class, bodyStat);
-        eventHandlerPlace.put(CarEngine.class, engineStat);
-        eventHandlerPlace.put(CarAccessory.class, accessoryStat);
-        eventHandlerPlace.put(CarProduct.class, carStat);
-    }
-
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
@@ -65,6 +58,13 @@ public class GraphicsView extends JFrame implements OnEvent {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private void initHandlers() {
+        eventHandlerPlace.put(CarBody.class, bodyStat);
+        eventHandlerPlace.put(CarEngine.class, engineStat);
+        eventHandlerPlace.put(CarAccessory.class, accessoryStat);
+        eventHandlerPlace.put(CarProduct.class, carStat);
     }
 
     @Override

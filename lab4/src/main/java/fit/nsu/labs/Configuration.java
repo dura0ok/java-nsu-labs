@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class Configuration {
     public Configuration() {
-        try{
+        try {
             Dotenv.configure().systemProperties().load();
-        }catch(DotenvException ignored){
+        } catch (DotenvException ignored) {
             Dotenv.configure().directory(Objects.requireNonNull(getClass().getResource("/")).getPath()).systemProperties().load();
         }
     }

@@ -1,15 +1,17 @@
 package fit.nsu.labs;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvException;
+
+import java.util.Objects;
 
 public class Configuration {
-    private final Dotenv dotenv;
-
     public Configuration() {
-        dotenv = Dotenv.configure()
-                .ignoreIfMissing()
-                .load();
-        dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+        try{
+            Dotenv.configure().systemProperties().load();
+        }catch(DotenvException ignored){
+            Dotenv.configure().directory(Objects.requireNonNull(getClass().getResource("/")).getPath()).systemProperties().load();
+        }
     }
 
     public int getPort() {

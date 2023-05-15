@@ -1,5 +1,6 @@
 package fit.nsu.labs.model.config;
 
+import fit.nsu.labs.model.CarProduct;
 import fit.nsu.labs.model.component.CarAccessory;
 import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
@@ -27,6 +28,12 @@ public class ConfigKeysManager {
             keys.put("rate", "ACCESSORY_SPEED_RATE");
             keys.put("capacity", "STORAGE_ACCESSORY_CAPACITY");
             keys.put("workersCount", "WORKERS_ACCESSORY_COUNT");
+        }
+
+        if (componentClass == CarProduct.class) {
+            keys.put("rate", "CAR_BUILD_SPEED_RATE");
+            keys.put("capacity", "STORAGE_CARS_CAPACITY");
+            keys.put("workersCount", "WORKERS_BUILD_CAR_COUNT");
         }
 
         if (keys.isEmpty()) {

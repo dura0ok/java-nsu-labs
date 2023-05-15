@@ -7,6 +7,8 @@ import fit.nsu.labs.model.exceptions.ManufactoryException;
 import fit.nsu.labs.model.factory.CarComponentFactory;
 import fit.nsu.labs.model.tasks.ConsumeComponent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -15,9 +17,10 @@ public class ComponentExecutor<T extends CarComponent> {
     private final ThreadPoolExecutor executor;
     private final Map<String, String> config;
     private final CarManufacturer model;
-    private ScheduledFuture<?> future;
+    private final List<ScheduledFuture<?>> future = new ArrayList<>();
 
     private int rate;
+    private int workersCount;
 
     public ComponentExecutor(Class<T> componentClass, CarManufacturer model) throws ManufactoryException {
         config = ConfigKeysManager.getComponentKeys(componentClass);
@@ -26,6 +29,7 @@ public class ComponentExecutor<T extends CarComponent> {
         this.executor = (ThreadPoolExecutor) executor;
         factory = new CarComponentFactory<>(componentClass);
         rate = Integer.parseInt(System.getProperty(config.get("rate")));
+        setWorkersCount(Integer.parseInt(System.getProperty(config.get("workersCount"))));
     }
 
     public CarComponentFactory<T> getFactory() {
@@ -33,7 +37,14 @@ public class ComponentExecutor<T extends CarComponent> {
     }
 
     public int getWorkersCount() {
-        return Integer.parseInt(System.getProperty(config.get("workersCount")));
+        return workersCount;
+    }
+
+    public void setWorkersCount(int workersCount) {
+        System.out.println("workers count " + workersCount);
+        this.workersCount = workersCount;
+        executor.setCorePoolSize(workersCount);
+        reschedule(getRate());
     }
 
     public void start() {
@@ -42,12 +53,16 @@ public class ComponentExecutor<T extends CarComponent> {
 
     private void scheduleExecutor() {
         var scheduler = (ScheduledExecutorService) executor;
-        future = scheduler.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory, model)), 0, getRate(), TimeUnit.SECONDS);
+        for (int i = 0; i < getWorkersCount(); i++) {
+            future.add(scheduler.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory, model)), 0, getRate(), TimeUnit.SECONDS));
+        }
     }
 
     public void reschedule(int newRate) {
         setRate(newRate);
-        future.cancel(false);
+        for (var item : future) {
+            item.cancel(false);
+        }
         scheduleExecutor();
     }
 

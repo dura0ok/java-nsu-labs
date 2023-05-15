@@ -30,6 +30,13 @@ public class GraphicsView extends JFrame implements OnEvent {
         JPanel bodySpeedSlider = new SliderPanel("body rate", carManuFacturer, CarBody.class);
         JPanel engineSpeedSlider = new SliderPanel("engine rate", carManuFacturer, CarEngine.class);
         JPanel accesorySpeedSlider = new SliderPanel("accessory rate", carManuFacturer, CarAccessory.class);
+
+        JPanel bodyWorkersSlider = new SliderPanel("body workers", carManuFacturer, CarBody.class);
+        JPanel engineWorkersSlider = new SliderPanel("engine workers", carManuFacturer, CarEngine.class);
+        JPanel accessoryWorkersSlider = new SliderPanel("accessory workers", carManuFacturer, CarAccessory.class);
+
+        JPanel carSpeedSlider = new SliderPanel("car rate", carManuFacturer, CarProduct.class);
+        JPanel carWorkersSlider = new SliderPanel("car workers", carManuFacturer, CarProduct.class);
         // Set up the JFrame
         setTitle("Factory");
 
@@ -40,10 +47,20 @@ public class GraphicsView extends JFrame implements OnEvent {
         add(bodySpeedSlider);
         add(engineSpeedSlider);
         add(accesorySpeedSlider);
+
+
+        add(bodyWorkersSlider);
+        add(engineWorkersSlider);
+        add(accessoryWorkersSlider);
+
         add(bodyStat);
         add(engineStat);
         add(accessoryStat);
+
+        add(carSpeedSlider);
+        add(carWorkersSlider);
         add(carStat);
+
         setVisible(true);
         carManuFacturer.start();
     }

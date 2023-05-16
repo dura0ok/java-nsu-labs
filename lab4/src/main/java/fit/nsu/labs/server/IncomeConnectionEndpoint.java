@@ -16,6 +16,7 @@ public class IncomeConnectionEndpoint {
     private final Set<Socket> connectedClients = new HashSet<>();
 
 
+
     public IncomeConnectionEndpoint() throws IOException {
         this.configuration = new Configuration();
         serverSocket = new ServerSocket(configuration.getPort());

@@ -39,7 +39,7 @@ public class Input extends InputHandler {
             notifier.notifyOutput(clientSocket, loginResponse);
 
             var lastMessages = getLastNMessages(Integer.parseInt(System.getProperty("LAST_MESSAGES_SEND")));
-            System.out.println("last messages =====");
+            System.out.println("last messages =====  ");
             for (var lastElement : lastMessages) {
                 notifier.notifyOutput(clientSocket, generateNewMessageResponse(lastElement));
             }

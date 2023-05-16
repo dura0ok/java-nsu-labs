@@ -1,5 +1,7 @@
 package fit.nsu.labs.model.component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CarEngine extends CarComponent {

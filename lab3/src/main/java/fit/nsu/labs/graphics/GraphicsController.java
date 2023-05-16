@@ -7,6 +7,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class GraphicsController implements ChangeListener {
+    private static final String WORKERS  = "workers";
+    private static final String BODY  = "body";
+    private static final String ENGINE  = "engine";
+    private static final String ACCESSORY  = "accessory";
     private final String name;
     private final JLabel label;
     private final CarManufacturer factory;
@@ -25,29 +29,29 @@ public class GraphicsController implements ChangeListener {
         var components = name.split(" ");
         var componentName = components[0];
         var newValue = slider.getValue();
-        if (components[1].equalsIgnoreCase("workers")) {
-            if (componentName.equalsIgnoreCase("body")) {
+        if (components[1].equalsIgnoreCase(WORKERS)) {
+            if (componentName.equalsIgnoreCase(BODY)) {
                 factory.getBodyExecutor().setWorkersCount(newValue);
             }
 
-            if (componentName.equalsIgnoreCase("engine")) {
+            if (componentName.equalsIgnoreCase(ENGINE)) {
                 factory.getEngineExecutor().setWorkersCount(newValue);
             }
 
-            if (componentName.equalsIgnoreCase("accessory")) {
+            if (componentName.equalsIgnoreCase(ACCESSORY)) {
                 factory.getAccessoryExecutor().setWorkersCount(newValue);
             }
             return;
         }
-        if (componentName.equalsIgnoreCase("body")) {
+        if (componentName.equalsIgnoreCase(BODY)) {
             factory.getBodyExecutor().reschedule(newValue);
         }
 
-        if (componentName.equalsIgnoreCase("engine")) {
+        if (componentName.equalsIgnoreCase(ENGINE)) {
             factory.getEngineExecutor().reschedule(newValue);
         }
 
-        if (componentName.equalsIgnoreCase("accessory")) {
+        if (componentName.equalsIgnoreCase(ACCESSORY)) {
             factory.getAccessoryExecutor().reschedule(newValue);
         }
     }

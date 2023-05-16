@@ -5,6 +5,8 @@ import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
 import fit.nsu.labs.model.component.ComponentInfo;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CarProduct extends ComponentInfo {
@@ -33,4 +35,5 @@ public class CarProduct extends ComponentInfo {
                 ", accessory=" + accessory +
                 '}';
     }
+
 }

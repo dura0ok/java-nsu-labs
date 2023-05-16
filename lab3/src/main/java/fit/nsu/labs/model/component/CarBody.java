@@ -1,5 +1,7 @@
 package fit.nsu.labs.model.component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CarBody extends CarComponent {
@@ -13,6 +15,5 @@ public class CarBody extends CarComponent {
     public String toString() {
         return "Car Body: " + id.get();
     }
-
 }
 

@@ -7,10 +7,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class GraphicsController implements ChangeListener {
-    private static final String WORKERS  = "workers";
-    private static final String BODY  = "body";
-    private static final String ENGINE  = "engine";
-    private static final String ACCESSORY  = "accessory";
+    private static final String WORKERS = "workers";
+    private static final String BODY = "body";
+    private static final String ENGINE = "engine";
+    private static final String ACCESSORY = "accessory";
     private final String name;
     private final JLabel label;
     private final CarManufacturer factory;

@@ -3,14 +3,12 @@ package fit.nsu.labs.common;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.*;
+import java.util.Arrays;
 
 import static fit.nsu.labs.Utils.getBytes;
 
-public abstract sealed class ClientMessage implements Serializable permits ClientMessage.ListMembers, ClientMessage.LoginRequest, ClientMessage.Logout, ClientMessage.Message {
+public abstract sealed class ClientMessage extends SocketMessage implements Serializable permits ClientMessage.ListMembers, ClientMessage.LoginRequest, ClientMessage.Logout, ClientMessage.Message {
     private static final XStream xStream = new XStream();
     private final Type type;
     private final String name;
@@ -23,17 +21,7 @@ public abstract sealed class ClientMessage implements Serializable permits Clien
     }
 
     public static byte[] serialize(ClientMessage message) throws IOException {
-        xStream.addPermission(AnyTypePermission.ANY);
-        switch (System.getProperty("PROTOCOL")) {
-            case "XML" -> {
-                return xStream.toXML(message).getBytes();
-            }
-            case "SERIALIZATION" -> {
-                return getBytes(message);
-            }
-
-            default -> throw new RuntimeException("invalid protocol");
-        }
+        return SocketMessage.serialize(xStream, message);
     }
 
     ;
@@ -45,7 +33,9 @@ public abstract sealed class ClientMessage implements Serializable permits Clien
                 return (ClientMessage) new ObjectInputStream(input).readObject();
             }
             case "XML" -> {
-                return (ClientMessage) xStream.fromXML(input);
+                var nBytes = new DataInputStream(input).readInt();
+                var xml = Arrays.toString(input.readNBytes(nBytes));
+                return (ClientMessage) xStream.fromXML(xml);
             }
 
             default -> throw new RuntimeException("invalid protocol");

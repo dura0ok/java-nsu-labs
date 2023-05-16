@@ -4,15 +4,13 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 import static fit.nsu.labs.Utils.getBytes;
 
-public abstract sealed class ServerMessage implements Serializable
+public abstract sealed class ServerMessage extends SocketMessage implements Serializable
         permits ServerMessage.EmptySuccess, ServerMessage.Error, ServerMessage.ListMembers,
         ServerMessage.ListMessages, ServerMessage.LoginResponse, ServerMessage.NewMessage {
     private static final XStream xStream = new XStream();
@@ -24,19 +22,7 @@ public abstract sealed class ServerMessage implements Serializable
     }
 
     public static byte[] serialize(ServerMessage message) throws IOException {
-        xStream.addPermission(AnyTypePermission.ANY);
-        switch (System.getProperty("PROTOCOL")) {
-            case "XML" -> {
-                var msg = xStream.toXML(message);
-                System.out.println(msg);
-                return msg.getBytes();
-            }
-            case "SERIALIZATION" -> {
-                return getBytes(message);
-            }
-
-            default -> throw new RuntimeException("invalid protocol");
-        }
+        return SocketMessage.serialize(xStream, message);
     }
 
     public static ServerMessage deserialize(InputStream input) throws IOException, ClassNotFoundException {
@@ -48,7 +34,10 @@ public abstract sealed class ServerMessage implements Serializable
                 return (ServerMessage) new ObjectInputStream(input).readObject();
             }
             case "XML" -> {
-                return (ServerMessage) xStream.fromXML(input);
+                var nBytes = new DataInputStream(input).readInt();
+                System.out.println("N bytes " + nBytes);
+                var xml = Arrays.toString(input.readNBytes(nBytes));
+                return (ServerMessage) xStream.fromXML(xml);
             }
 
             default -> throw new RuntimeException("invalid protocol");

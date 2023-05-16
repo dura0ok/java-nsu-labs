@@ -69,9 +69,9 @@ public class GraphicsView extends JFrame implements OnEvent {
     }
 
     public static void main(String[] args) {
-        try{
+        try {
             Dotenv.configure().systemProperties().load();
-        }catch(DotenvException ignored){
+        } catch (DotenvException ignored) {
             Dotenv.configure().directory(Objects.requireNonNull(Main.class.getResource("/")).getPath()).systemProperties().load();
         }
 

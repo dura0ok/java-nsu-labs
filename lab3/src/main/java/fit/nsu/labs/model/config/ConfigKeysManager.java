@@ -4,43 +4,92 @@ import fit.nsu.labs.model.CarProduct;
 import fit.nsu.labs.model.component.CarAccessory;
 import fit.nsu.labs.model.component.CarBody;
 import fit.nsu.labs.model.component.CarEngine;
+import fit.nsu.labs.model.component.ComponentInfo;
 import fit.nsu.labs.model.exceptions.ConfigException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConfigKeysManager {
-    public static Map<String, String> getComponentKeys(Class<?> componentClass) throws ConfigException {
+abstract class ComponentKeysProvider {
+    public abstract Map<String, String> getKeys();
+}
+
+class CarBodyKeysProvider extends ComponentKeysProvider {
+    private static final String RATE_KEY = "rate";
+    private static final String CAPACITY_KEY = "capacity";
+    private static final String WORKERS_COUNT_KEY = "workersCount";
+
+    @Override
+    public Map<String, String> getKeys() {
         Map<String, String> keys = new HashMap<>();
-        if (componentClass == CarBody.class) {
-            keys.put("rate", "BODY_SPEED_RATE");
-            keys.put("capacity", "STORAGE_BODY_CAPACITY");
-            keys.put("workersCount", "WORKERS_BODY_COUNT");
-        }
-
-        if (componentClass == CarEngine.class) {
-            keys.put("rate", "ENGINE_SPEED_RATE");
-            keys.put("capacity", "STORAGE_ENGINE_CAPACITY");
-            keys.put("workersCount", "WORKERS_ENGINE_COUNT");
-        }
-
-        if (componentClass == CarAccessory.class) {
-            keys.put("rate", "ACCESSORY_SPEED_RATE");
-            keys.put("capacity", "STORAGE_ACCESSORY_CAPACITY");
-            keys.put("workersCount", "WORKERS_ACCESSORY_COUNT");
-        }
-
-        if (componentClass == CarProduct.class) {
-            keys.put("rate", "CAR_BUILD_SPEED_RATE");
-            keys.put("capacity", "STORAGE_CARS_CAPACITY");
-            keys.put("workersCount", "WORKERS_BUILD_CAR_COUNT");
-        }
-
-        if (keys.isEmpty()) {
-            throw new ConfigException(componentClass);
-        }
+        keys.put(RATE_KEY, "BODY_SPEED_RATE");
+        keys.put(CAPACITY_KEY, "STORAGE_BODY_CAPACITY");
+        keys.put(WORKERS_COUNT_KEY, "WORKERS_BODY_COUNT");
         return keys;
     }
-
-
 }
+
+class CarEngineKeysProvider extends ComponentKeysProvider {
+    private static final String RATE_KEY = "rate";
+    private static final String CAPACITY_KEY = "capacity";
+    private static final String WORKERS_COUNT_KEY = "workersCount";
+
+    @Override
+    public Map<String, String> getKeys() {
+        Map<String, String> keys = new HashMap<>();
+        keys.put(RATE_KEY, "ENGINE_SPEED_RATE");
+        keys.put(CAPACITY_KEY, "STORAGE_ENGINE_CAPACITY");
+        keys.put(WORKERS_COUNT_KEY, "WORKERS_ENGINE_COUNT");
+        return keys;
+    }
+}
+
+class CarAccessoryKeysProvider extends ComponentKeysProvider {
+    private static final String RATE_KEY = "rate";
+    private static final String CAPACITY_KEY = "capacity";
+    private static final String WORKERS_COUNT_KEY = "workersCount";
+
+    @Override
+    public Map<String, String> getKeys() {
+        Map<String, String> keys = new HashMap<>();
+        keys.put(RATE_KEY, "ACCESSORY_SPEED_RATE");
+        keys.put(CAPACITY_KEY, "STORAGE_ACCESSORY_CAPACITY");
+        keys.put(WORKERS_COUNT_KEY, "WORKERS_ACCESSORY_COUNT");
+        return keys;
+    }
+}
+
+class CarProductKeysProvider extends ComponentKeysProvider {
+    private static final String RATE_KEY = "rate";
+    private static final String CAPACITY_KEY = "capacity";
+    private static final String WORKERS_COUNT_KEY = "workersCount";
+
+    @Override
+    public Map<String, String> getKeys() {
+        Map<String, String> keys = new HashMap<>();
+        keys.put(RATE_KEY, "CAR_BUILD_SPEED_RATE");
+        keys.put(CAPACITY_KEY, "STORAGE_CARS_CAPACITY");
+        keys.put(WORKERS_COUNT_KEY, "WORKERS_BUILD_CAR_COUNT");
+        return keys;
+    }
+}
+
+public class ConfigKeysManager {
+    private static final Map<Class<? extends ComponentInfo>, ComponentKeysProvider> componentKeysMap = new HashMap<>();
+
+    static {
+        componentKeysMap.put(CarBody.class, new CarBodyKeysProvider());
+        componentKeysMap.put(CarEngine.class, new CarEngineKeysProvider());
+        componentKeysMap.put(CarAccessory.class, new CarAccessoryKeysProvider());
+        componentKeysMap.put(CarProduct.class, new CarProductKeysProvider());
+    }
+
+    public static Map<String, String> getComponentKeys(Class<? extends ComponentInfo> componentClass) throws ConfigException {
+        ComponentKeysProvider keysProvider = componentKeysMap.get(componentClass);
+        if (keysProvider == null) {
+            throw new ConfigException(componentClass);
+        }
+        return keysProvider.getKeys();
+    }
+}
+

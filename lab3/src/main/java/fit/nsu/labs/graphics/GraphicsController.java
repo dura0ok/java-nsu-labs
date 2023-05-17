@@ -24,7 +24,7 @@ public class GraphicsController implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider slider = (JSlider) e.getSource();
-        System.out.println(slider);
+        //System.out.println(slider);
         setLabelText(slider);
         var components = name.split(" ");
         var componentName = components[0];

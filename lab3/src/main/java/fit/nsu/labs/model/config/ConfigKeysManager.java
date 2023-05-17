@@ -12,12 +12,13 @@ import java.util.Map;
 
 abstract class ComponentKeysProvider {
     public abstract Map<String, String> getKeys();
+    public static final String RATE_KEY = "rate";
+    public static final String CAPACITY_KEY = "capacity";
+    public static final String WORKERS_COUNT_KEY = "workersCount";
 }
 
 class CarBodyKeysProvider extends ComponentKeysProvider {
-    private static final String RATE_KEY = "rate";
-    private static final String CAPACITY_KEY = "capacity";
-    private static final String WORKERS_COUNT_KEY = "workersCount";
+
 
     @Override
     public Map<String, String> getKeys() {
@@ -30,10 +31,6 @@ class CarBodyKeysProvider extends ComponentKeysProvider {
 }
 
 class CarEngineKeysProvider extends ComponentKeysProvider {
-    private static final String RATE_KEY = "rate";
-    private static final String CAPACITY_KEY = "capacity";
-    private static final String WORKERS_COUNT_KEY = "workersCount";
-
     @Override
     public Map<String, String> getKeys() {
         Map<String, String> keys = new HashMap<>();
@@ -45,10 +42,6 @@ class CarEngineKeysProvider extends ComponentKeysProvider {
 }
 
 class CarAccessoryKeysProvider extends ComponentKeysProvider {
-    private static final String RATE_KEY = "rate";
-    private static final String CAPACITY_KEY = "capacity";
-    private static final String WORKERS_COUNT_KEY = "workersCount";
-
     @Override
     public Map<String, String> getKeys() {
         Map<String, String> keys = new HashMap<>();
@@ -60,10 +53,6 @@ class CarAccessoryKeysProvider extends ComponentKeysProvider {
 }
 
 class CarProductKeysProvider extends ComponentKeysProvider {
-    private static final String RATE_KEY = "rate";
-    private static final String CAPACITY_KEY = "capacity";
-    private static final String WORKERS_COUNT_KEY = "workersCount";
-
     @Override
     public Map<String, String> getKeys() {
         Map<String, String> keys = new HashMap<>();

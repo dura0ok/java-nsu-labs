@@ -39,7 +39,7 @@ public class CarComponentFactory<T extends CarComponent> {
             return componentClass.getConstructor().newInstance();
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                  IllegalAccessException e) {
-            System.out.println(componentClass.getName());
+            //System.out.println(componentClass.getName());
             throw new RuntimeException(e);
         }
     }

@@ -15,7 +15,6 @@ import java.util.concurrent.*;
 public class ComponentExecutor<T extends CarComponent> {
     private final CarComponentFactory<T> factory;
     private final ThreadPoolExecutor executor;
-    private final Map<String, String> config;
     private final CarManufacturer model;
     private final List<ScheduledFuture<?>> future = new ArrayList<>();
 
@@ -23,7 +22,7 @@ public class ComponentExecutor<T extends CarComponent> {
     private int workersCount;
 
     public ComponentExecutor(Class<T> componentClass, CarManufacturer model) throws ManufactoryException {
-        config = ConfigKeysManager.getComponentKeys(componentClass);
+        var config = ConfigKeysManager.getComponentKeys(componentClass);
         this.model = model;
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(getWorkersCount());
         this.executor = (ThreadPoolExecutor) executor;
@@ -41,7 +40,7 @@ public class ComponentExecutor<T extends CarComponent> {
     }
 
     public void setWorkersCount(int workersCount) {
-        System.out.println("workers count " + workersCount);
+        //System.out.println("workers count " + workersCount);
         this.workersCount = workersCount;
         executor.setCorePoolSize(workersCount);
         reschedule(getRate());

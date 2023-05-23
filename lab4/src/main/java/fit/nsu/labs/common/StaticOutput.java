@@ -34,4 +34,9 @@ public class StaticOutput<T> {
             return output;
         }
     }
+
+
+    public boolean isEmpty(Socket socket){
+        return !outputMap.containsKey(socket);
+    }
 }

@@ -16,7 +16,6 @@ public class IncomeConnectionEndpoint {
     private final Set<Socket> connectedClients = new HashSet<>();
 
 
-
     public IncomeConnectionEndpoint() throws IOException {
         this.configuration = new Configuration();
         serverSocket = new ServerSocket(configuration.getPort());
@@ -34,9 +33,18 @@ public class IncomeConnectionEndpoint {
             try {
                 var socket = serverSocket.accept();
                 connectedClients.add(socket);
-                var output = new Output(socket, connectedClients, notifier);
-                new Thread(output).start();
-                new Thread(new Input(socket, notifier)).start();
+                switch (System.getProperty("PROTOCOL")) {
+                    case "XML" -> {
+                        new Thread(new OutputXML(socket, connectedClients, notifier)).start();
+                        new Thread(new InputXML(socket, notifier)).start();
+                    }
+                    case "SERIALIZATION" -> {
+                        new Thread(new OutputSerialization(socket, connectedClients, notifier)).start();
+                        new Thread(new InputSerialization(socket, notifier)).start();
+                    }
+
+                    default -> throw new RuntimeException("invalid protocol");
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

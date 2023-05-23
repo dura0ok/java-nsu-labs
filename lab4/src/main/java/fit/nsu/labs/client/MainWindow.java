@@ -29,6 +29,7 @@ public class MainWindow extends JFrame implements OnEvent {
             return;
         }
         userName = name;
+
         model = new ChatClientModel(name);
         model.registerObserver(this);
 
@@ -99,9 +100,12 @@ public class MainWindow extends JFrame implements OnEvent {
             @Override
             public void windowClosing(WindowEvent e) {
                 model.logout();
+
             }
         });
         setVisible(true);
+
+
     }
 
     public static void main(String[] args) throws IOException {

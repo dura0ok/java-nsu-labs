@@ -38,7 +38,6 @@ public class CarBuildExecutor implements Runnable {
             executor.execute(new BuildCar(carBodyFactory, carEngineFactory, carAccessoryFactory, this.carStorage, model));
 
         }
-        //scheduler.scheduleAtFixedRate(() -> executor.submit(new BuildCar(carBodyFactory.getStorage(), carEngineFactory.getStorage(), carAccessoryFactory.getStorage(), this.carStorage)), 0, rate, TimeUnit.SECONDS);
     }
 
     public RamStorage<CarProduct> getCarStorage() {
@@ -47,7 +46,7 @@ public class CarBuildExecutor implements Runnable {
 
     public void start(ExecutorService carStorageControllerThread) {
         var scheduler = (ScheduledExecutorService) carStorageControllerThread;
-        scheduler.scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     public static class Builder {

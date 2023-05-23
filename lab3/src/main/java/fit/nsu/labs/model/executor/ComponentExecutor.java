@@ -53,7 +53,7 @@ public class ComponentExecutor<T extends CarComponent> {
     private void scheduleExecutor() {
         var scheduler = (ScheduledExecutorService) executor;
         for (int i = 0; i < getWorkersCount(); i++) {
-            future.add(scheduler.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory, model)), 0, getRate(), TimeUnit.SECONDS));
+            future.add(scheduler.scheduleAtFixedRate(() -> executor.submit(new ConsumeComponent<>(factory, model)), 0, getRate() * 50L, TimeUnit.MILLISECONDS));
         }
     }
 

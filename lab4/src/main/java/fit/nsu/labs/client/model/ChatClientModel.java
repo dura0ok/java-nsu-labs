@@ -1,12 +1,16 @@
 package fit.nsu.labs.client.model;
 
 import fit.nsu.labs.Configuration;
-import fit.nsu.labs.client.model.handlers.Input;
-import fit.nsu.labs.client.model.handlers.Output;
+import fit.nsu.labs.client.model.handlers.InputSerialization;
+import fit.nsu.labs.client.model.handlers.InputXML;
+import fit.nsu.labs.client.model.handlers.OutputSerialization;
+import fit.nsu.labs.client.model.handlers.OutputXML;
 import fit.nsu.labs.common.ClientMessage;
 import fit.nsu.labs.common.StaticOutput;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -22,9 +26,19 @@ public class ChatClientModel implements Observable {
         this.name = name;
         clientSocket = new Socket(configuration.getServerName(), configuration.getPort());
         notifier = new StaticOutput<>();
-        var output = new Output(clientSocket, notifier);
-        new Thread(output).start();
-        new Thread(new Input(clientSocket, this, notifier)).start();
+        switch (System.getProperty("PROTOCOL")) {
+            case "XML" -> {
+                new Thread(new InputXML(clientSocket, this, notifier)).start();
+                new Thread(new OutputXML(clientSocket, notifier)).start();
+            }
+            case "SERIALIZATION" -> {
+                new Thread(new OutputSerialization(clientSocket, notifier)).start();
+                new Thread(new InputSerialization(clientSocket, this, notifier)).start();
+            }
+            default -> throw new RuntimeException("invalid protocol");
+        }
+
+
         login();
     }
 
@@ -43,13 +57,8 @@ public class ChatClientModel implements Observable {
         }
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
-    }
-
     void login() {
         try {
-            System.out.println("login send message!");
             notifier.notifyOutput(clientSocket, new ClientMessage.LoginRequest(getName()));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -58,7 +67,6 @@ public class ChatClientModel implements Observable {
 
     public void updateMembersRequest() {
         try {
-            System.out.println("login send message");
             notifier.notifyOutput(clientSocket, new ClientMessage.ListMembers(getSessionID()));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -66,9 +74,18 @@ public class ChatClientModel implements Observable {
     }
 
     public void logout() {
+        System.out.println("logout");
         try {
-            System.out.println("login send message");
             notifier.notifyOutput(clientSocket, new ClientMessage.Logout(getSessionID()));
+
+
+            while(!notifier.isEmpty(clientSocket)){
+                System.out.println(notifier.isEmpty(clientSocket));
+                Thread.sleep(100);
+            }
+
+
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -84,7 +101,6 @@ public class ChatClientModel implements Observable {
 
     public void sendTextMessage(String text) {
         try {
-            System.out.println("login send message");
             notifier.notifyOutput(clientSocket, new ClientMessage.Message(getSessionID(), text));
         } catch (Exception e) {
             throw new RuntimeException(e);

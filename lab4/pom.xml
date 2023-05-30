@@ -6,13 +6,11 @@
 
     <groupId>fit.nsu.labs</groupId>
     <artifactId>lab4</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>lab4-common</module>
-        <module>lab4-codec-object</module>
-        <module>lab4-codec-xml</module>
+        <module>lab4-messages</module>
         <module>lab4-client</module>
         <module>lab4-server</module>
     </modules>

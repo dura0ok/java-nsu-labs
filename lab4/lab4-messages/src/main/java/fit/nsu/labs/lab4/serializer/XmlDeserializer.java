@@ -12,10 +12,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +38,19 @@ public class XmlDeserializer implements Deserializer {
         );
     }
 
+    private static String trimXML(String input) {
+        BufferedReader reader = new BufferedReader(new StringReader(input));
+        StringBuilder result = new StringBuilder();
+        try {
+            String line;
+            while ((line = reader.readLine()) != null)
+                result.append(line.trim());
+            return result.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Object deserialize(InputStream inputStream) throws DeserializeException {
         Document document;
@@ -48,7 +59,8 @@ public class XmlDeserializer implements Deserializer {
             var length = dis.readInt();
             var xmlBytes = dis.readNBytes(length);
 
-            document = documentBuilder.parse(new ByteArrayInputStream(xmlBytes));
+
+            document = documentBuilder.parse(new ByteArrayInputStream(trimXML(new String(xmlBytes, StandardCharsets.UTF_8)).getBytes()));
         } catch (IOException e) {
             throw new DeserializeException("Error read from InputStream", e);
         } catch (SAXException e) {
@@ -73,10 +85,12 @@ public class XmlDeserializer implements Deserializer {
 
         switch (commandName) {
             case "login" -> {
+                System.out.println(nodeList.item(0).getTextContent());
+                System.out.println(nodeList.item(1).getTextContent());
                 var nameElm = (Element) nodeList.item(0);
-                builder.name(nameElm.getTextContent());
+                builder.name(nameElm.getTextContent().strip());
                 var typeElm = (Element) nodeList.item(1);
-                builder.type(typeElm.getTextContent());
+                builder.type(typeElm.getTextContent().strip());
             }
             case "list", "logout" -> {
                 var sessionElm = (Element) nodeList.item(0);
@@ -156,3 +170,4 @@ public class XmlDeserializer implements Deserializer {
         return builder.build();
     }
 }
+

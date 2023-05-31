@@ -96,7 +96,7 @@ public class Main {
                     }
                 }
                 case "list" -> {
-                    if (!command.getSession().equals(session)) {
+                    if (!command.getSession().strip().equals(session.strip())) {
                         clientSocket.send(new Error("Указана чужая или не существующая сессия"));
                     } else {
                         var success = Success.builder()
@@ -108,7 +108,7 @@ public class Main {
                     }
                 }
                 case "message" -> {
-                    if (!command.getSession().equals(session)) {
+                    if (!command.getSession().strip().equals(session.strip())) {
                         clientSocket.send(new Error("Указана чужая или не существующая сессия"));
                     } else {
                         if (lastMessages.size() == COUNT_MESSAGES) lastMessages.removeFirst();

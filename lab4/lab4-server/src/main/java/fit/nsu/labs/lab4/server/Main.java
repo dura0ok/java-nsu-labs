@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
-    private static final int DEFAULT_PORT = 7777;
+    private static final int DEFAULT_PORT = 8888;
     private static final int COUNT_MESSAGES = 10;
 
     public static void main(String[] args) throws InterruptedException {

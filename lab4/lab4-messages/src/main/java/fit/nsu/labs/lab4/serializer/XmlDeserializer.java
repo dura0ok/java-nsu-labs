@@ -85,8 +85,6 @@ public class XmlDeserializer implements Deserializer {
 
         switch (commandName) {
             case "login" -> {
-                System.out.println(nodeList.item(0).getTextContent());
-                System.out.println(nodeList.item(1).getTextContent());
                 var nameElm = (Element) nodeList.item(0);
                 builder.name(nameElm.getTextContent().strip());
                 var typeElm = (Element) nodeList.item(1);

@@ -22,10 +22,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         var connectionDialog = new ConnectionDialog();
         connectionDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        connectionDialog.setHost("127.0.0.1");
-//        connectionDialog.setHost("95.170.154.53");
-        connectionDialog.setPort(7777);
-//        connectionDialog.setPort(8888);
+        //connectionDialog.setHost("127.0.0.1");
+        connectionDialog.setHost("95.170.154.53");
+        //connectionDialog.setPort(7777);
+        connectionDialog.setPort(8888);
         connectionDialog.setUserName("Durachok");
         connectionDialog.setVisible(true);
 

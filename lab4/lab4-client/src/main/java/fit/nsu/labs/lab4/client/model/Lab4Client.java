@@ -8,6 +8,7 @@ import fit.nsu.labs.lab4.message.Command;
 import fit.nsu.labs.lab4.serializer.Deserializer;
 import fit.nsu.labs.lab4.serializer.Serializer;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -123,6 +124,9 @@ public class Lab4Client implements AutoCloseable, Observable {
                     System.out.printf("[WARN] No handler for '%s'\n", object.getClass());
                 }
 
+            } catch (EOFException ignored) {
+                System.err.println("EOF error");
+                return;
             } catch (IOException | DeserializeException e) {
                 //noinspection DuplicatedCode
                 if (e.getCause() instanceof SocketException se) {
